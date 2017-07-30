@@ -81,6 +81,29 @@ for (var i in range)
 >for ...of 与for...in 的区别
 >for...in循环会遍历一个object的所有可枚举属性。
 >for ...of 是为各种collection对象(Array,Map,Set,String,TypeArray,arguments)专门定制的，并不适用于所有的object。
+### spread (...的实现原理)
+
+```
+function f(x, ...y) {
+  // y is an Array
+  return x * y.length;
+}
+f(3, "hello", true) == 6
+//**原理** obj={hello:"hello",true:true}
+function _objectWithoutProperties(obj, keys) {
+  var target = {}; 
+  for (var i in obj) {
+    if (keys.indexOf(i) >= 0)
+    continue;
+    if (!Object.prototype.hasOwnProperty.call(obj, i))
+    continue;
+    target[i] = obj[i];
+    }
+    return target; 
+  
+}
+```
+
 ### String.prototype.includes()
 >可以直接扩展String.prototype的属性，来polyfill.
 >
