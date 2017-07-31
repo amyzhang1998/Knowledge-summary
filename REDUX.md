@@ -107,5 +107,184 @@ function todos(state = [], action) {
 
  ## Middleware
  >middleware 是指可以被嵌入在框架接收请求到产生响应过程之中的代码,middleware 最优秀的特性就是可以被链式组合,你可以在一个项目中使用多个独立的第三方 middleware。**它提供的是位于 action 被发起之后，到达 reducer 之前的扩展点。 你可以利用 Redux middleware 来进行日志记录、创建崩溃报告、调用异步接口或者路由等等。**
+ ### 理解middleware本质
+ >正因为 middleware 可以完成包括异步 API 调用在内的各种事情，了解它的演化过程是一件相当重要的事。我们将以记录日志和创建崩溃报告为例，引导你体会从分析问题到通过构建 middleware 解决问题的思维过程。
+
+ >``Monkeypatching 本质上是一种 hack。“将任意的方法替换成你想要的”``
+
+**第一步**
+>dispatch的monkeypatch
+ ```
+
+ let next = store.dispatch
+store.dispatch = function dispatchAndLog(action) {
+  console.log('dispatching', action)
+  let result = next(action)
+  console.log('next state', store.getState())
+  return result
+}
+ ```
+ **第二步**
+ > 隐藏monkeypatch
+
+ ```
+ function logger(store) {
+  let next = store.dispatch
+
+  // 我们之前的做法:
+  // store.dispatch = function dispatchAndLog(action) {
+
+  return function dispatchAndLog(action) {
+    console.log('dispatching', action)
+    let result = next(action)
+    console.log('next state', store.getState())
+    return result
+  }
+}
+//我们可以在 Redux 内部提供一个可以将实际的 monkeypatching 应用到 store.dispatch 中的辅助方法：
+function applyMiddlewareByMonkeypatching(store, middlewares) {
+  middlewares = middlewares.slice()
+  middlewares.reverse()
+
+  // 在每一个 middleware 中变换 dispatch 方法。
+  middlewares.forEach(middleware =>
+    store.dispatch = middleware(store)
+  )
+}
+//然后像这样应用多个 middleware：
+applyMiddlewareByMonkeypatching(store, [ logger, crashReporter ])
+ ```
+>尽管我们做了很多，实现方式依旧是 monkeypatching。
+>因为我们仅仅是将它隐藏在我们的框架内部，并没有改变这个事实。
+
+**第三步**：移除monkeypatching
+>为什么我们要替换原来的 dispatch 呢？当然，这样我们就可以在后面直接调用它，但是还有另一个原因：就是每一个 middleware 都可以操作（或者直接调用）前一个 middleware 包装过的 store.dispatch;将 middleware 串连起来的必要性是显而易见的。如果 applyMiddlewareByMonkeypatching 方法中没有在第一个 middleware 执行时立即替换掉 store.dispatch，那么 store.dispatch 将会一直指向原始的 dispatch 方法。也就是说，第二个 middleware 依旧会作用在原始的 dispatch 方法。但是，还有另一种方式来实现这种链式调用的效果。可以让 middleware 以方法参数的形式接收一个 next() 方法，而不是通过 store 的实例去获取。
+
+```
+//ES6箭头函数使其柯里化
+const logger = store => next => action => {
+  console.log('dispatching', action)
+  let result = next(action)
+  console.log('next state', store.getState())
+  return result
+}
+
+const crashReporter = store => next => action => {
+  try {
+    return next(action)
+  } catch (err) {
+    console.error('Caught an exception!', err)
+    Raven.captureException(err, {
+      extra: {
+        action,
+        state: store.getState()
+      }
+    })
+    throw err
+  }
+}
+```
+>这正是 Redux middleware 的样子。
+Middleware 接收了一个 next() 的 dispatch 函数，并返回一个 dispatch 函数，返回的函数会被作为下一个 middleware 的 next()，以此类推。由于 store 中类似 getState() 的方法依旧非常有用，我们将 store 作为顶层的参数，使得它可以在所有 middleware 中被使用。
+
+###'单纯'使用middleware
+>我们可以写一个 applyMiddleware() 方法替换掉原来的 applyMiddlewareByMonkeypatching()。在新的 applyMiddleware() 中，我们取得最终完整的被包装过的 dispatch() 函数，并返回一个 store 的副本：
+
+```
+function applyMiddleware(store, middlewares) {
+  middlewares = middlewares.slice()
+  middlewares.reverse()
+
+  let dispatch = store.dispatch
+  middlewares.forEach(middleware =>
+    dispatch = middleware(store)(dispatch)
+  )
+
+  return Object.assign({}, store, { dispatch })
+}
+```
+>这与 Redux 中 applyMiddleware() 的实现已经很接近了，但是有三个重要的不同之处：
+1. 它只暴露一个 store API 的子集给 middleware：dispatch(action) 和 getState()。
+
+2. 它用了一个非常巧妙的方式，以确保如果你在 middleware 中调用的是 store.dispatch(action) 而不是 next(action)，那么这个操作会再次遍历包含当前 middleware 在内的整个 middleware 链。这对异步的 middleware 非常有用，正如我们在之前的章节中提到的。
+
+3. 为了保证你只能应用 middleware 一次，它作用在 createStore() 上而不是 store 本身。因此它的签名不是 (store, middlewares) => store， 而是 (...middlewares) => (createStore) => createStore。
+由于在使用之前需要先应用方法到 createStore() 之上有些麻烦，createStore() 也接受将希望被应用的函数作为最后一个可选参数传入。
+
+```
+//这是redux applyMiddleware的实现方法
+export default function applyMiddleware(...middlewares) {
+  return createStore => (reducer, preloadedState, enhancer) => {
+    const store = createStore(reducer, preloadedState, enhancer);
+    let dispatch = store.dispatch;
+    let chain = [];
+
+    const middlewareAPI = {
+      getState: store.getState,
+      dispatch: action => dispatch(action)
+    };
+    chain = middlewares.map(middleware => middleware(middlewareAPI));
+    dispatch = compose(...chain)(store.dispatch);
+
+    return {
+      ...store,
+      dispatch
+    };
+  };
+}
+```
+## 技巧
+### 减少样板代码
+1. Action Creators生成器
+
+```
+function makeActionCreator(type, ...argNames) {
+  return function(...args) {
+    let action = { type }
+    argNames.forEach((arg, index) => {
+      action[argNames[index]] = args[index]
+    })
+    return action
+  }
+}
+```
+### 异步Action Creators
+>中间件 让你在每个 action 对象 dispatch 出去之前，注入一个自定义的逻辑来解释你的 action 对象。异步 action 是中间件的最常见用例。
+>中间件让我们能写表达更清晰的、潜在的异步 action creators。 它允许我们 dispatch 普通对象之外的东西，并且解释它们的值。比如，中间件能 “捕捉” 到已经 dispatch 的 Promises 并把他们变为一对请求和成功/失败的 action.
+>中间件最简单的例子是 redux-thunk. “Thunk” 中间件让你可以把 action creators 写成 “thunks”，也就是返回函数的函数。 这使得控制被反转了： 你会像一个参数一样取得 dispatch ，所以你也能写一个多次分发的 action creator 。
+
+```
+//thunk 函数
+function createThunkMiddleware(extraArgument) {
+  return ({ dispatch, getState }) => next => action => {
+    if (typeof action === 'function') {
+      return action(dispatch, getState, extraArgument);
+    }
+
+    return next(action);
+  };
+}
+
+const thunk = createThunkMiddleware();
+thunk.withExtraArgument = createThunkMiddleware;
+
+export default thunk;
+```
+### Reducer creator
+
+```
+function createReducer(initialState, handlers) {
+  return function reducer(state = initialState, action) {
+    if (handlers.hasOwnProperty(action.type)) {
+      return handlers[action.type](state, action);
+    } else {
+      return state;
+    }
+  }
+}
+```
+### 服务端渲染
+### 计算衍生数据
+### 实现撤销和重做
 
 
