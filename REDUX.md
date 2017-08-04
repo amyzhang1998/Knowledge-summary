@@ -284,7 +284,99 @@ function createReducer(initialState, handlers) {
 }
 ```
 ### 服务端渲染
+> 服务端渲染最关键的一步是在发送响应前渲染初始的 HTML。这就要使用 React.renderToString().
+1. 准备初始state
+> 因为客户端只是执行收到的代码，刚开始的初始 state 可能是空的，然后根据需要获取 state。在服务端，渲染是同步执行的而且我们只有一次渲染 view 的机会。在收到请求时，可能需要根据请求参数或者外部 state（如访问 API 或者数据库），计算后得到初始 state。
+2. 处理 Request 参数
+>服务端收到的唯一输入是来自浏览器的请求。在服务器启动时可能需要做一些配置（如运行在开发环境还是生产环境），但这些配置是静态的。
+3. 获取异步state
+>服务端渲染常用的场景是处理异步 state。因为服务端渲染天生是同步的，因此异步的数据获取操作对应到同步操作非常重要。
+
+>最简单的做法是往同步代码里传递一些回调函数。在这个回调函数里引用响应对象，把渲染后的 HTML 发给客户端。
+
+```
+function handleRender(req, res) {
+  // 异步请求模拟的 API
+  fetchCounter(apiResult => {
+    // 如果存在的话，从 request 读取 counter
+    const params = qs.parse(req.query)
+    const counter = parseInt(params.counter) || apiResult || 0
+
+    // 得到初始 state
+    let preloadedState = { counter }
+
+    // 创建新的 Redux store 实例
+    const store = createStore(counterApp, preloadedState)
+
+    // 把组件渲染成字符串
+    const html = renderToString(
+      <Provider store={store}>
+        <App />
+      </Provider>
+    )
+
+    // 从 Redux store 得到初始 state
+    const finalState = store.getState()
+
+    // 把渲染后的页面发给客户端
+    res.send(renderFullPage(html, finalState))
+  });
+}
+```
+>因为在回调中使用了 res.send()，服务器会保护连接打开并在回调函数执行前不发送任何数据。你会发现每个请求都有 500ms 的延时。更高级的用法会包括对 API 请求出错进行处理，比如错误的请求或者超时。
+4. 安全注意事项
+>因为我们代码中很多是基于用户生成内容（UGC）和输入的，不知不觉中，提高了应用可能受攻击区域。任何应用都应该对用户输入做安全处理以避免跨站脚本攻击（XSS）或者代码注入。
+
+>我们的示例中，只对安全做基本处理。当从请求中拿参数时，对 counter 参数使用 parseInt 把它转成数字。如果不这样做，当 request 中有 script 标签时，很容易在渲染的 HTML 中生成危险代码。就像这样的：?counter=</script><script>doSomethingBad();</script>
+
+>在我们极简的示例中，把输入转成数字已经比较安全。如果处理更复杂的输入，比如自定义格式的文本，你应该用安全函数处理输入，比如 validator.js。
+
+>此外，可能添加额外的安全层来对产生的 state 进行消毒。JSON.stringify 可能会造成 script 注入。鉴于此，你需要清洗 JSON 字符串中的 HTML 标签和其它危险的字符。可能通过字符串替换或者使用复杂的库如 serialize-javascript 处理。
 ### 计算衍生数据
+>Reselect 库可以创建可记忆的(Memoized)、可组合的 selector 函数。Reselect selectors 可以用来高效地计算 Redux store 里的衍生数据。
+1. 使用reselect的初衷
+>每当组件更新时都会重新计算 todos。如果 state tree 非常大，或者计算量非常大，每次更新都重新计算可能会带来性能问题。Reselect 能帮你省去这些没必要的重新计算。
+2. 创建可记忆的 Selector
+
+```
+
+const getVisibilityFilter = (state) => state.visibilityFilter
+const getTodos = (state) => state.todos
+
+export const getVisibleTodos = createSelector(
+  [ getVisibilityFilter, getTodos ],
+  (visibilityFilter, todos) => {
+    switch (visibilityFilter) {
+      case 'SHOW_ALL':
+        return todos
+      case 'SHOW_COMPLETED':
+        return todos.filter(t => t.completed)
+      case 'SHOW_ACTIVE':
+        return todos.filter(t => !t.completed)
+    }
+  }
+)
+```
+>在上例中，getVisibilityFilter 和 getTodos 是 input-selector。因为他们并不转换数据，所以被创建成普通的非记忆的 selector 函数。但是，getVisibleTodos 是一个可记忆的 selector。他接收 getVisibilityFilter 和 getTodos 为 input-selector，还有一个转换函数来计算过滤的 todos 列表。
+
+3. 使用带有多个 visibleTodoList 容器实例的 getVisibleTodos selector 不能使用函数记忆功能。
+> 为了跨越多个 VisibleTodoList 组件共享 selector，于此同时正确记忆。每个组件的实例需要有拷贝 selector 的私有版本。
+>我们还需要一种每个容器访问自己私有 selector 的方式。connect 的 mapStateToProps 函数可以帮助我们。
+>如果 connect 的 mapStateToProps 返回的不是一个对象而是一个函数，他将被用做为每个容器的实例创建一个单独的 mapStateToProps 函数。
+
+```
+const makeMapStateToProps = () => {
+  const getVisibleTodos = makeGetVisibleTodos()
+  const mapStateToProps = (state, props) => {
+    return {
+      todos: getVisibleTodos(state, props)
+    }
+  }
+  return mapStateToProps
+}
+```
+
+
 ### 实现撤销和重做
 
 
