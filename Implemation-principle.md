@@ -103,11 +103,37 @@ function _objectWithoutProperties(obj, keys) {
   
 }
 ```
+### 箭头函数
+>箭头函数表达式的语法比函数表达式短，并且不绑定自己的 this，arguments，super或 new.target。此外，箭头函数总是匿名的。这些函数表达式最适合非方法函数，它们不能用作构造函数。
+>在箭头函数出现之前，每个新定义的函数都有其自己的 this 值（例如，构造函数的 this 指向了一个新的对象；严格模式下的函数的 this 值为 undefined；如果函数是作为对象的方法被调用的，则其 this 指向了那个调用它的对象）。在面向对象风格的编程中，这被证明是非常恼人的事情。
+
+>箭头函数不会在其内部暴露出 arguments 对象： arguments.length, arguments[0], arguments[1] 等等，都不会指向箭头函数的 arguments，而是指向了箭头函数所在作用域的一个名为 arguments 的值（如果有的话，否则，就是 undefined。——译者注）。
+>箭头函数没有自己的 arguments 对象，不过在大多数情形下，rest参数可以给出一个解决方案：
+
+>箭头函数的引入有两个方面的影响：一是更简短的函数书写，二是对 this 的词法解析。
+
+```
+// 返回对象字面量时应当用圆括号将其包起来:
+params => ({foo: bar})
+// 支持 Rest parameters 和 default parameters:
+(param1, param2, ...rest) => { statements }
+(param1 = defaultValue1, param2, …, paramN = defaultValueN) => { statements }
+// 参数列表中的解构赋值也是被支持的
+var f = ([a, b] = [1, 2], {x: c} = {x: a + b}) => a + b + c;
+f();  // 6
+<!---->
+function foo() { 
+  var f = (...args) => args[0]; 
+  return f(2); 
+}
+foo(1); // 2
+```
+
 
 ### String.prototype.includes()
 >可以直接扩展String.prototype的属性，来polyfill.
->
->```
+
+```
 >if(!String.prototype.includes){
 >String.prototype.includes=function(search,start){
 >'use strict';
@@ -120,8 +146,7 @@ function _objectWithoutProperties(obj, keys) {
 > return this.indexOf(search,start)!==-1}
 >}
 >}
->
->```
+```
 ### Object
 >Object.assign(target,...sources)//复制自己的可枚举属性
 >Object.getOwnPropertyDescriptor(obj, prop)//ES6增强了功能。属性描述器
