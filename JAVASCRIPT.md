@@ -23,5 +23,5 @@
 > document.write()//赋值给document字符串流
 > document.domain()//主域名
 
-12. 
+
 

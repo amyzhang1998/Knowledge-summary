@@ -174,3 +174,40 @@ $.when(mission1, [mission2, mission3, ...])``类似promise（）的promise.all()
 
 可以接受多个任务。如：$.when(readfile1, readfile2).done(/* Your code */)
 
+### $(document).ready
+ ready 回调的写法
+
+ ```
+ $(document).ready(function($){
+    //回调,参数$为jQuery引用
+  });
+  $(function($){
+    //这是上边那种形式的快捷方式而已
+  });
+  $("#id").ready(function($){
+    //这种方式跟第一种本质是一样的，并不是代表#id这个节点ready的时候触发
+  })
+  ```
+  ready 也是借助$.Deferred()实例，异步回调。
+
+  ### jQ对象
+  > var dom = $("#id"); dom 就是jQ 对象；
+  为了防止每次拿到jquery对象实例的时候都要 new jquery();
+  jquery 使用init()方法作为jquery构造函数的返回值；同样为了让jq对象访问到，jquery的成员方法，将方法写在，jquery.fn=（jquery.prototype）上.
+
+## 类数组对象
+  $('#id')等等，jquery 取得的结果是一个数组，可以理解成jquery继承了 Array 这个类。所以doms可以像数组那样操作子元素。jQuery很灵活的一点就是，
+  同样一个接口，通过参数不同来区别它是GET还是SET方法。
+
+  ```
+  $(“#input”).val()是获取输入框的值，而$(“#input”).val(‘new input value’)是设置输入框里边的值
+$(“#test”).html()是获取节点的html内容，而$(“#test”).html(‘Hello World’)是设置节点的HTML内容为“Hello World”
+  ```
+  jquery的一个设计规则就是 Get first & set ALl
+  ### Sizzle 选择器引擎之词法分析。
+  把代码解析成Token的阶段在编译阶段里边称为词法分析。代码经过词法分析后就得到一个 Token 序列，紧接着拿token序列去做其他的事情。
+  对于sizzle来说，输入就是选择器字符串，输出就是一个dom对象。
+  
+
+
+
