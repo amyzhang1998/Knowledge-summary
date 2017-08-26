@@ -353,10 +353,23 @@ function obj(o){
 
 >//JavaScript 实际上执行的是：
 
->var o = new Object();
+>1,var o = new Object();
 
->o.[[Prototype]] = Foo.prototype;
->Foo.call(o);
+>2, o.[[Prototype]] = Foo.prototype;
+>3,Foo.call(o);
+>4, 如果函数没有返回其他对象，那么就返回这个新对象。
+new 过程：
+
+```
+var objectFunction = function(){
+    var obj = new Object(),
+    Constructor = [].shift.call(arguments);
+    obj._proto_ = Constructor.prototype;
+    var ret = Constructor.apply(obj,arguments);
+    return typeof ret ==='object'?ret:obj;
+}
+
+```
 
 ### promise实现。
 ## 面包屑 a标签
