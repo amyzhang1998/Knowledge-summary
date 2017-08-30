@@ -518,6 +518,266 @@ each([1,2,3,4,5],function(i,n){
 ## 发布-订阅模式（观察者模式）
 > 定义：它定义对象间的一种一对多的依赖关系，当一个对象的状态发生改变时，所有依赖它的对象都将得到通知。 在js中我们一般用事件模型来替代一般的
 发布订阅模式。
+优点：1. 可以广泛用于异步编程中，这是一种替代传递回调函数的方案。
+2. 可以取代对象之间硬编码的通知机制，一个对象不用再显示的调用另外一个对象的某个接口。
+时间上的解耦和对象之间的解耦
+缺点：创建订阅者本身要消耗一定的时间和内存。而且当你订阅一个消息后，也行此消息最后都没有发生，但这个订阅者会始终存在于内存中。
+### 8.3 DOM事件
+1.
+ document.body.addEventListener('click',function(){
+	console.log(be clicked)
+},false)
+### 8.4 自定义事件
+
+```
+var saleOffices = {};
+ saleOffices.clientList ={};
+ saleOffices.listen = function(key,fn){
+ 	if(!this.clientList[key]){
+ 		this.clientList[key] =[]
+ 	}
+ 	this.clientList[key].push(fn)
+ };
+ saleOffices.triggler = function(){
+ 	var key = Array.prototype.shift.call(arguments),
+ 	fns = this.clientList[key];
+
+ 	if(!fns || fns.length === 0){
+ 		return false
+ 	}
+ 	for(var i =0, fn;fn =fns[i++];){
+ 		fn.apply(this,arguments)
+ 	}
+ }
+ saleOffices.listen('key11',function(price){
+ 	console.log('price:'+ price);
+ });
+ saleOffices.triggler('key11',11)
+```
+### 发布订阅的通用实现
+
+```
+var event ={
+	clientList:[],
+	listen:function(key,fn){
+		if(!this.clientList[key]){
+			this.clientList[key] =[];
+		}
+		this.clientList[key].push(fn);
+	},
+	triggler:function(){
+		var key = Array.prototype.shift.call(arguments),
+		fns = this.clientList[key];
+
+		if(!fns || fns.length === 0){
+			return false;
+		}
+
+		for(var i =0,fn;fn = fns[i++];){
+			fn.apply(this,arguments);
+		}
+	},
+	remove:function(key,fn){
+		var fns = this.clientList[key];
+		if(!fns){
+			return false;
+		}
+		if(!fn){
+			fns && (fns.length =0);
+		}else{
+			for(var l  = fns.length -1;l>=0;l--){
+				var _fn = fns[l];
+				if(_fn ===  fn){
+					console.log('remove',fn)
+					fns.splice(l,1)
+				}
+			}
+		}
+
+	}
+};
+var installEvent = function(obj){
+	for(var i in event){
+		obj[i] = event[i];
+	}
+}
+
+
+var salesOffices = {};
+installEvent(salesOffices);
+
+salesOffices.listen('squMeter88',fn1=function (price){
+	console.log('price:' + price)
+})
+
+salesOffices.remove('squMeter88',fn1)
+salesOffices.triggler('squMeter88',20000000)
+```
+### 全局的发布订阅模式
+
+```
+var Event =(function(){
+	var clientList={},
+	listen,
+	triggle,
+	remove;
+
+	listen = function(key,fn){};
+	trigger = function(){};
+	remove=function(){};
+	return {
+		listen:listen,
+		trigger:trigger,
+		remove:remove
+	}
+})()
+
+Event.listen('dd,function(){})
+```
+### 必须先订阅，再发布吗？
+>为了实现先发布后订阅的能力。我们要建立一个存放离线事件的堆栈。当事件发布的时候，如果此时还没有订阅者来订阅。我们将发布事件的动作存储起来。
+
+### 全局事件的命名冲突
+
+```
+var Event = (function(){
+	var global = this,
+	Event,
+	_default = 'default';
+
+	Event = function(){
+		var _listen,
+		_triggle,
+		_remove,
+		_slice = Array.prototype.slice,
+		_shift = Array.prototype.shift,
+		_unshift = Array.prototype.unshift,
+		namespaceCache ={},
+		_create,
+		find,
+		each = function(ary,fn){
+			var ret ;
+			for(var i=0, l = ary.length;i<l;i++){
+				var n = ary[i];
+				ret = fn.call(n,i,n);
+			}
+			return ret;
+		};
+		_listen = function(key,fn,cache){
+			if(!cache[key]){
+				cache[key] =[];
+			}
+			cache[key].push(fn);
+		};
+		_remove= function(key,cache,fn){
+			if(cache[key]){
+				if(fn){
+					for (var i = cache[key].length;i>=0;i--){
+						if(cache[key][i] === fn){
+							cache[key].splice(i,1);
+						}
+					}
+				}else{
+					cache[key] =[];
+				}
+			}
+		};
+
+		_trigger = function(){
+			var cache = _shift.call(arguments),
+			key = _shift.call(arguments),
+			args = arguments,
+			_self = this,
+			ret,
+			stack = cache[key];
+
+			if(!stack || !stack.length){
+				return;
+			}
+			return each(stack,function(){
+				return this.apply(_self,args)
+			});
+		};
+		_create = function(namespace){
+			var namespace = namespace || _default;
+			var cache = {},
+			offlineStack =[],
+			ret = {
+				listen:function(key,fn,last){
+					_listen(key,fn,cache);
+					console.log(offlineStack)
+					if(offlineStack === null){
+						return ;
+					}
+					if(last === 'last'){
+						offlineStack.length && offlineStack.pop()();
+					}else{
+						each(offlineStack,function(){
+							this();
+						});
+					}
+					offlineStack =null;
+				},
+				one:function(key,fn,last){
+					_remove(key,cache);
+					this.listen(key,fn,last);
+				},
+				remove:function(key,fn){
+					_remove(key,cache,fn);
+				},
+				trigger:function(){
+					var fn,args,_self = this;
+
+					_unshift.call(arguments,cache);
+					args = arguments;
+					fn = function(){
+						return _trigger.apply(_self,args);
+					};
+					if(offlineStack){
+						return offlineStack.push(fn);
+					}
+					return fn();
+				}
+			};
+			return namespace? 
+			(namespaceCache[namespace]?namespaceCache[namespace]:namespaceCache[namespace] =ret):ret;
+		};
+		return {
+			create:_create,
+			one:function(key,fn,last){
+				var event = this.create();
+				event.one(key,fn,last);
+			},
+			remove:function(key,fn){
+				var event = this.create();
+				event.remove(key,fn);
+			},
+			listen:function(key,fn,last){
+				var event = this.create();
+				event.listen(key,fn,last)
+			},
+			trigger:function(){
+				var event = this.create();
+				event.trigger.apply(this,arguments);
+			}
+		};
+	}();
+	return Event;
+})();
+
+//先发布后订阅
+// Event.trigger('click',1);
+// Event.listen('click',function(a){
+// 	console.log(a)
+// })
+//使用命名空间
+Event.create('namespace1').listen('click',function(a){
+	console.log('namespace1',a)
+})
+Event.create('namespace1').trigger('click',2)
+```
+
+
 
 
 
