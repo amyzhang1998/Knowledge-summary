@@ -1,4 +1,6 @@
 # Jquery
+jquery的设计思想是什么？？？
+
 
 http://rapheal.sinaapp.com/2013/01/26/jquery-src-deferred/
 ## 工具方法
@@ -113,9 +115,12 @@ callbacks.locked()//判断是否锁住队列
 
 2. 异步函数读取结果的状态 用$.Callback()去确认需要获取多次实例，不够优雅。所以，jquey封装了一个方法$.Deferred().
 在实际的开发中，其实会经常遇到一些很耗时的操作，例如ajax请求数据，read读取文件，处理大数据等等。由于不能立即得到结果，所以我们需要一个延迟的回调。
-$.Deferred就是这样诞生的，jQuery里边的ready，ajax都是用了异步队列deferred。
+**$.Deferred**就是这样诞生的，jQuery里边的ready，ajax都是用了异步队列deferred。
 Deferred 中的成员方法；
-> 1,deferred.resolve/deferred.resolveWith([context],args);2,deferred.reject/deferred.rejectWith([context],args);3,deferred.notify/deferred.notifyWith([context],args); 这里三个方法 都等同于$.Callbacks().(fire/fireWith)
+> 1,deferred.resolve/deferred.resolveWith([context],args);
+2,deferred.reject/deferred.rejectWith([context],args);
+3,deferred.notify/deferred.notifyWith([context],args); 
+这里三个方法 都等同于$.Callbacks().(fire/fireWith)
 
 deferred.done()方法是调用callbacks.add() callback.fire(）方法将deferred.resolve()的值传出来。
 
@@ -127,6 +132,7 @@ $.Deferred()
 接受一个function参数，function里边可以使用this来调用当前的异步队列实例
 
 deferred.done(fn)
+**调用$.Callbacks().add**
 
 成功时触发的回调fn
 
@@ -140,25 +146,26 @@ deferred.progress(fn)
 
 deferred.resolve/resolveWith([context], args)
 
-这里等同$.Callbacks().(fire/fireWith)
+**这里等同$.Callbacks().(fire/fireWith)**
 
 在任务处理成功之后使用此方法触发成功事件，之前加入done队列的回调会被触发
 
 deferred.reject/rejectWith([context], args)
 
-这里等同$.Callbacks().(fire/fireWith)
+**这里等同$.Callbacks().(fire/fireWith)**
 
 在任务处理失败之后使用此方法触发失败事件，之前加入fail队列的回调会被触发
 
 deferred.notify/notifyWith([context], args)
 
-这里等同$.Callbacks().(fire/fireWith)
+**这里等同$.Callbacks().(fire/fireWith)**
+
 
 在任务处理中可以使用此方法触发正在处理事件，之前加入progress队列的回调会被触发
 
 deferred.promise()
 
-简单理解就是生成一个跟deferred一样的对象，但是无法在外部用resolve等去修改当前任务状态
+**简单理解就是生成一个跟deferred一样的对象，但是无法在外部用resolve等去修改当前任务状态**
 
 deferred.then(/* fnDone, fnFail, fnProgress */)
 
@@ -174,7 +181,46 @@ $.when(mission1, [mission2, mission3, ...])``类似promise（）的promise.all()
 
 可以接受多个任务。如：$.when(readfile1, readfile2).done(/* Your code */)
 
-### $(document).ready
+**为了确保每次都会拿到这个函数回调的结果，通过$.Callback().lock函数标志是否可以进行firing**
+
+
+---
+jquery中的deferred 类似promise；
+
+```
+var myCallback = function myCallback(){
+  return new Promise(function(resolve,reject){
+    console.log('i am a promise instance')
+    resolve('myname')
+  })
+}
+myCallback.then(function(name){
+  console.log(name)
+},function(){}).then()
+
+//$.Deferred()的例子
+function read(/*path*/){//这里暂时忽略掉path参数
+  var dfd = this;//在Deferred里边已经把上下文切换成它生成的一个异步队列实例
+  /* other code */
+  return dfd.promise();//通过promise方法把dfd里边一些状态设置的接口给隐藏掉，只暴露done|fail|progress三个接口。
+}
+$.Deferred(read)
+　　.done(function(content){ console.log(content);})
+　　.fail(function(){ console.log("出错！"); } )
+　　.progress(function(){ console.log("处理中！"); });
+
+```
+resolve()怎么将值传到then()函数？
+符合发布订阅模式，只能检测到自己resolve的值？
+怎么确保一定能确保拿到回调函数的值？
+
+
+----
+
+### $('document').ready(function(fn1){})
+**调用jQuery.fn.ready --> Defferred.then(fn)-->add三个事件（fullfiled,rejectd,progress)**
+**在loaded完成之后，调用jQuery.ready函数-->Defferred.resolveWith(document,[jQuery])-->**
+**$.Callbacks().fire()-->执行add进来的回调队列。将jquery当参数会传到回调函数fn1里**
  ready 回调的写法
 
  ```
@@ -190,10 +236,21 @@ $.when(mission1, [mission2, mission3, ...])``类似promise（）的promise.all()
   ```
   ready 也是借助$.Deferred()实例，异步回调。
 
+
+
   ### jQ对象
+  1. 在调用时，不用每次都实例化。
+  2. 为了访问到类方法/属性，用到原型链。
   > var dom = $("#id"); dom 就是jQ 对象；
   为了防止每次拿到jquery对象实例的时候都要 new jquery();
   jquery 使用init()方法作为jquery构造函数的返回值；同样为了让jq对象访问到，jquery的成员方法，将方法写在，jquery.fn=（jquery.prototype）上.
+
+  ```
+  jQuery = function(){
+    return new jQuery.fn.init();
+  }
+  jQuery.fn =jQuery.prototype;
+  ```
 
 ## 类数组对象
   $('#id')等等，jquery 取得的结果是一个数组，可以理解成jquery继承了 Array 这个类。所以doms可以像数组那样操作子元素。jQuery很灵活的一点就是，
