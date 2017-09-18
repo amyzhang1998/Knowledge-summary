@@ -710,6 +710,120 @@ http://www.live-share.com/files/300697/Cross_The_Site_Test_code.rar.html
 ## redux principle
 ## jquery 选择器 principle
 ## 定时器原理
+## for...in... 和for...of...
+## instance of 原理
+1. 常规用法
+
+```
+// 判断 foo 是否是 Foo 类的实例
+function Foo(){} 
+var foo = new Foo(); 
+console.log(foo instanceof Foo)//true
+```
+2. 继承用法
+
+```
+// 判断 foo 是否是 Foo 类的实例 , 并且是否是其父类型的实例
+function Aoo(){} 
+function Foo(){} 
+Foo.prototype = new Aoo();//JavaScript 原型继承
+ 
+var foo = new Foo(); 
+console.log(foo instanceof Foo)//true 
+console.log(foo instanceof Aoo)//true
+
+```
+3. 复杂用法
+
+```
+清单 4. instanceof 复杂用法
+console.log(Object instanceof Object);//true 
+console.log(Function instanceof Function);//true 
+console.log(Number instanceof Number);//false 
+console.log(String instanceof String);//false 
+ 
+console.log(Function instanceof Object);//true 
+ 
+console.log(Foo instanceof Function);//true 
+console.log(Foo instanceof Foo);//false
+
+```
+4. instance of 原理（代码）(不适用基本数据类型)
+
+```
+function instance_of(L, R) {//L 表示左表达式，R 表示右表达式
+ var O = R.prototype;// 取 R 的显示原型
+ L = L.__proto__;// 取 L 的隐式原型
+ while (true) { 
+   if (L === null) 
+     return false; 
+   if (O === L)// 这里重点：当 O 严格等于 L 时，返回 true 
+     return true; 
+   L = L.__proto__; 
+ } 
+}
+由其本文涉及显示原型和隐式原型，所以下面对这两个概念作一下简单说明。在 JavaScript 原型继承结构里面，规范中用 [[Prototype]] 表示对象隐式的原型，在 JavaScript 中用 __proto__ 表示，并且在 Firefox 和 Chrome 浏览器中是可以访问得到这个属性的，但是 IE 下不行。所有 JavaScript 对象都有 __proto__ 属性，但只有 Object.prototype.__proto__ 为 null，前提是没有在 Firefox 或者 Chrome 下修改过这个属性。这个属性指向它的原型对象。
+```
+原型链图
+https://www.ibm.com/developerworks/cn/web/1306_jiangjj_jsinstanceof/figure1.jpg
+5. 讲解复杂用法
+
+```
+7 Object instanceof Object
+
+// 为了方便表述，首先区分左侧表达式和右侧表达式
+ObjectL = Object, ObjectR = Object; 
+// 下面根据规范逐步推演
+O = ObjectR.prototype = Object.prototype 
+L = ObjectL.__proto__ = Function.prototype 
+// 第一次判断
+O != L 
+// 循环查找 L 是否还有 __proto__ 
+L = Function.prototype.__proto__ = Object.prototype 
+// 第二次判断
+O == L 
+// 返回 true
+清单 8. Function instanceof Function
+
+// 为了方便表述，首先区分左侧表达式和右侧表达式
+FunctionL = Function, FunctionR = Function; 
+// 下面根据规范逐步推演
+O = FunctionR.prototype = Function.prototype 
+L = FunctionL.__proto__ = Function.prototype 
+// 第一次判断
+O == L 
+// 返回 true
+清单 9. Foo instanceof Foo
+
+// 为了方便表述，首先区分左侧表达式和右侧表达式
+FooL = Foo, FooR = Foo; 
+// 下面根据规范逐步推演
+O = FooR.prototype = Foo.prototype 
+L = FooL.__proto__ = Function.prototype 
+// 第一次判断
+O != L 
+// 循环再次查找 L 是否还有 __proto__ 
+L = Function.prototype.__proto__ = Object.prototype 
+// 第二次判断
+O != L 
+// 再次循环查找 L 是否还有 __proto__ 
+L = Object.prototype.__proto__ = null 
+// 第三次判断
+L == null 
+// 返回 false
+```
+6. 
+
+```
+var a ='1'
+a instance of String
+String是一个构造函数对象，a的类型不是String，而是string，整个类型无法直接检测,a.__proto__会导致a被临时包装为一个object类型的对象,此时这个临时对象是由String构造函数创建的，所以a.__proto__===String.prototype成立，
+```
+
+
+
+
+
 
 
 
