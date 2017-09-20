@@ -43,5 +43,63 @@ box-shadow:0 0 0.6em #655;
 outline:.6em solid #655;
 注意：这个阴影半径要有一定的限制》比描边的宽度小，比(sqrt2 -1)r的值大。
 ## 条纹背景  线性渐变 background-size
+### 水平条纹
 
+```
+background:linear-gradient(#fb3 30%,#58a 0);
+background-size:100% 30px;
+//多色
+background:linear-gradient(#fb3 30%,#58a 0,#58a 60%,yellowgreen 0);
+background-size:100% 30px;
 
+```
+### 垂直条纹
+
+```
+background:linear-gradient(to right/* 或90deg*/,#fb3 30%,#58a 0);
+background-size:30px 100%;
+```
+### 斜向条纹
+
+```
+实现无缝连接 只有45deg可以
+background:linear-gradient(45deg,#fb3 25%,#58a 0，#68a 50%,#fb3 0,#fb3 75%,#58a 0);
+background-size:30px 30px;
+
+更好的斜向
+repeating-linear-gradient、repeating-radial-gradient:色标无限循环,可以随意指定角度，也可以直接指定渐变的长度，不需要使用background-size.
+background:repeating-linear-gradient(45deg,#fb3, #58a 30px)
+
+```
+### 灵活的同色系条纹
+
+```
+background:repeating-linear-gradient(30deg, #79b,#79b 15px,#58a 0,#58a 30px);
+如果需要改主色调，需要改三处地方
+//改进
+background:#58a;
+background-image:repeating-linear-gradient(30deg,hsla(0,0%,100%,.1),hsla(0,0%,100%,.1) 15px, transparent 0,transparent 30px);
+```
+## 复杂图案
+### 网格
+
+```
+background:#58a;
+background-image: linear-gradient(white 2px, transparent 0),
+                  linear-gradient(90deg ,white 2px, transparent 0),
+                  linear-gradient(hsla(0,0%,100%,.3) 1px, transparent 0),
+                  linear-gradient(90deg, hsla(0,0%,100%,.3) 1px, transparent 0),
+background-size:75px 75px,75px 75px,
+                15px 15px,15px,15px
+```
+### 波点 （径向渐变）
+
+```
+background:#58a;
+background-image: radial-gradient(tan 30%, transparent 0),
+                  radial-gradient(90deg ,tan 30%, transparent 0),
+background-size:30px 30px;
+background-position:0 0,15px 15px
+偏移量必须是贴片高度的一半。
+```
+### 棋盘
