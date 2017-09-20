@@ -103,3 +103,63 @@ background-position:0 0,15px 15px
 偏移量必须是贴片高度的一半。
 ```
 ### 棋盘
+## 伪随机图案；
+产生不重复规律
+
+```
+    background: hsl(20, 40%, 90%);
+            background-image: linear-gradient(90deg, #fb3 10px, transparent 0),
+            linear-gradient(90deg, #ab4 20px, transparent 0),
+            linear-gradient(90deg, #655 20px, transparent 0);
+            background-size: 80px 100%,60px 100%,40px 100;
+            颜色循环长度是background-size的最小公倍数，所以想让随机更真实，要使用质数，41px 61px 83px;
+            这个技巧称之为“蝉规则”；有很多应用之处，比如，让动画的规律更随机。。。
+```
+## 连续的图像边框 （border-image）
+1. 虚线
+
+```
+div {
+	border: 1em solid transparent;
+	background: linear-gradient(white, white) padding-box,
+	            url(http://csssecrets.io/images/stone-art.jpg) border-box  0 / cover;
+	
+	/* Styling & enable resize */
+	width: 21em;
+	padding: 1em;
+	overflow: hidden;
+	resize: both;
+	font: 100%/1.6 Baskerville, Palatino, serif;
+}
+```
+2. 蚂蚁线
+
+```
+@keyframes ants { to { background-position: 100% 100% } }
+
+div {
+	padding: 1em;
+	border: 1px solid transparent;
+	background: linear-gradient(white, white) padding-box,
+	            repeating-linear-gradient(-45deg, black 0, black 25%, transparent 0, transparent 50%) 0 / .6em .6em;
+	animation: ants 12s linear infinite;
+	
+	max-width: 20em;
+	font: 100%/1.6 Baskerville, Palatino, serif;
+}
+```
+3.头注
+
+```
+.footnote {
+	border-top: .15em solid transparent;
+	border-image: 100% 0 0 linear-gradient(90deg, currentColor 4em, transparent 0);
+	padding-top: .5em;
+	font: 220%/1.4 Baskerville, Palatino, serif;
+}
+```
+>>>>不能理解background-size,border-iamge,background-clip background-origin linear-gradient的原理？？？？？？
+# 形状
+# 视觉效果
+
+
