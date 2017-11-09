@@ -106,5 +106,7 @@ git branch -d dev
 fast-forward:换句话说，如果顺着一个分支走下去可以到达另一个分支的话，那么 Git 在合并两者时，只会简单地把指针右移，因为这种单线的历史分支不存在任何需要解决的分歧，所以这种合并过程可以称为快进（Fast forward）.还有更复杂的合并方式。
 6. 分支的衍合
 git rebase
-
+7. 删除远程分支
+git push [远程名] :[分支名]
+$ git push origin :serverfix
 

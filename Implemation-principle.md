@@ -819,7 +819,23 @@ var a ='1'
 a instance of String
 String是一个构造函数对象，a的类型不是String，而是string，整个类型无法直接检测,a.__proto__会导致a被临时包装为一个object类型的对象,此时这个临时对象是由String构造函数创建的，所以a.__proto__===String.prototype成立，
 ```
-
+## html 文档的doctype
+dtd信息就是doctype声明。
+1. 是什么？
+>DOCTYPE是document type的简写。主要用来说明你用的XHTML或者HTML是什么版本。浏览器根据你DOCTYPE定义的DTD(文档类型定义)来解释页面代码.
+2. 作用？
+> doctype声明指出阅读程序应该用什么规则集来解释文档中的标记。在web文档的情况下，“阅读程序”通常是浏览器或者校验器这样的一个程序，“规则”则是w3c所发布的一个文档类型定义（dtd）中包含的规则
+xhtml 1.0 strict：
+<!doctype html public "-/w3c/dtd xhtml 1.0 strict/en"
+"http://www.w3.org/tr/xhtml1/dtd/xhtml1-strict.dtd">
+xhtml 1.0 transitional：
+<!doctype html public "-/w3c/dtd xhtml 1.0 transitional/en"
+"http://www.w3.org/tr/xhtml1/dtd/xhtml1-transitional.dtd">
+xhtml 1.0 frameset：
+<!doctype html public "-/w3c/dtd xhtml 1.0 frameset/en"
+Transitional类型：是指一种过渡类型，使用这种类型浏览器对XHTML的解析比较宽松，允许使用HTML4.01中的标签，但必须符合XHTML的语法。这种是现在通用的方法，用dreamweaver创建网页时默认就是这种类型。
+Strict类型：严格类型，使用时浏览器将相对严格，不允许使用任何表现形式的标识和属性，如在元素中直接使用bgcolor背景色属性等。
+Frameset类型：框架页类型，如果网页使用了框架结构，就有必要使用这样的文档声明。
 
 
 
