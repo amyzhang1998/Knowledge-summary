@@ -1,37 +1,41 @@
-# JS属性
+# JS 属性
 
-1. JSON.Stringify()  转换成JSON字符串
-2. encodeURIComponent() 函数可把字符串作为 URI 组件进行编码 统一资源标识符（Uniform Resource Identifier，或URI)是一个用于标识某一互联网资源名称的字符串.
-3. FormData对象
- >通过FormData对象可以组装一组用 XMLHttpRequest发送请求的键/值对。它可以更灵活方便的发送表单数据，因为可以独立于表单使用。如果你把表单的编码类型设置为multipart/form-data ，则通过FormData传输的数据格式和表单通过submit() 方法传输的数据格式相同。
- 
-4. Blob对象
- >一个 Blob对象表示一个不可变的, 原始数据的类似文件对象。Blob表示的数据不一定是一个JavaScript原生格式。 File 接口基于Blob，继承 blob功能并将其扩展为支持用户系统上的文件。
- 
-5. MIME类型
- >互联网媒体类型，是给互联网上传输的内容赋予的分类类型。
-6. XMLHttpRequest对象
-7. FileReader对象
-8. iframe标签
-9. Object对象
-> Object(this):创建成对象 
+1. JSON.Stringify() 转换成 JSON 字符串
+2. encodeURIComponent() 函数可把字符串作为 URI 组件进行编码 统一资源标识符（Uniform Resource Identifier，或 URI)是一个用于标识某一互联网资源名称的字符串.
+3. FormData 对象
 
-10. XMLHttpRequest对象
-11. document对象
-> document.open()//打开一个document 编辑
-> doocument.close()
-> document.write()//赋值给document字符串流
-> document.domain()//主域名
+   > 通过 FormData 对象可以组装一组用 XMLHttpRequest 发送请求的键/值对。它可以更灵活方便的发送表单数据，因为可以独立于表单使用。如果你把表单的编码类型设置为 multipart/form-data ，则通过 FormData 传输的数据格式和表单通过 submit() 方法传输的数据格式相同。
+
+4. Blob 对象
+
+   > 一个 Blob 对象表示一个不可变的, 原始数据的类似文件对象。Blob 表示的数据不一定是一个 JavaScript 原生格式。 File 接口基于 Blob，继承 blob 功能并将其扩展为支持用户系统上的文件。
+
+5. MIME 类型
+   > 互联网媒体类型，是给互联网上传输的内容赋予的分类类型。
+6. XMLHttpRequest 对象
+7. FileReader 对象
+8. iframe 标签
+9. Object 对象
+
+   > Object(this):创建成对象
+
+10. XMLHttpRequest 对象
+11. document 对象
+
+    > document.open()//打开一个 document 编辑
+    > doocument.close()
+    > document.write()//赋值给 document 字符串流
+    > document.domain()//主域名
 
 12. 无符号位移（>>>/<<<）有符号位移（>>/<<）
-15和-15的二进制转换  补码 = 反码 +1；
+    15 和-15 的二进制转换 补码 = 反码 +1；
 
 ```
 15的二进制 ：00000000 00000000 00000000 00001111
 
--15的二进制：11111111 11111111 11111111 11110001 
+-15的二进制：11111111 11111111 11111111 11110001
 
-计算过程：补码（负数的二进制）=反码+1 
+计算过程：补码（负数的二进制）=反码+1
 
 反码：11111111 11111111 11111111 11110000
 
@@ -60,7 +64,7 @@
 
 -15>>>2
 
--15的二进制：11111111 11111111 11111111 11110001 
+-15的二进制：11111111 11111111 11111111 11110001
 
 移动之后：00111111 11111111 11111111 11111100 （01舍弃）
 
@@ -76,7 +80,7 @@
 -15的二进制：11111111 11111111 11111111 11110001
 
 移动之后：11111111 11111111 11111111 11111100 （01舍弃）
-补码（负数的二进制）=反码+1 
+补码（负数的二进制）=反码+1
 先减1：11111111 11111111 11111111 11111011
 反码：00000000 00000000 00000000 00000100 （此结果为4）
 计算结果：-4
@@ -88,15 +92,16 @@
 -15>>2=-4
 当需要移位的数为正数时，有符号位移（>>）和无符号位移（>>>）是相同的。
 当需要移位的数为负数时，有符号位移（>>）的结果 还为负数，无符号位移（>>>）的结果为正数。
-
-
 ```
 
 # HTML5 Drag & Drap
+
 # Event loops
+
 # process.nextTick > promise.then > setTimeout > setImmediate
+
 # js 获取页面元素位置
 
+# DOM
 
-
-
+## Nodes
