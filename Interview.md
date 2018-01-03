@@ -472,46 +472,57 @@ console.log(myCounter.get());   // 返回 105
 > 虽然提到 js 的事件委托通常都会联系到冒泡，但是就算当初没有设计冒泡和捕获，事件委托还是事件委托，它依赖的是 event 对象传递到监听函数里面了，和其他无关。
 
 ### cookie localStorage, sessionStorage
+
 ### 基本数据类型
+
 Undefined、Null、Boolean、Number、String
 
 > null
-（1） 作为函数的参数，表示该函数的参数不是对象。
-（2） 作为对象原型链的终点。
-> undefined表示"缺少值"，就是此处应该有一个值，但是还没有定义。典型用法是：
-(1)变量被声明了，但没有赋值时，就等于undefined。
-（2) 调用函数时，应该提供的参数没有提供，该参数等于undefined。
-（3）对象没有赋值的属性，该属性的值为undefined。
-（4）函数没有返回值时，默认返回undefined。
-### js中检测数据类型的方法
+> （1） 作为函数的参数，表示该函数的参数不是对象。（2） 作为对象原型链的终点。
+> undefined 表示"缺少值"，就是此处应该有一个值，但是还没有定义。典型用法是：
+> (1)变量被声明了，但没有赋值时，就等于 undefined。（2) 调用函数时，应该提供的参数没有提供，该参数等于 undefined。（3）对象没有赋值的属性，该属性的值为 undefined。（4）函数没有返回值时，默认返回 undefined。
+
+### js 中检测数据类型的方法
+
 1. typeof 2.Object.prototype.toStringg()3. instanceof 4 constructor
-### js 伪数组，如何转化为真正数组
- var arr = Array.prototype.slice.call(obj);其实我们也可以通过[].slice.call这种形式实现同样的效果，但是通过prototype的形式执行程序效率更高，同样代码也更加优美。 
+   ### js 伪数组，如何转化为真正数组
+   var arr = Array.prototype.slice.call(obj);其实我们也可以通过[].slice.call 这种形式实现同样的效果，但是通过 prototype 的形式执行程序效率更高，同样代码也更加优美。
 
- ```
- function slice(obj) {
-    var arr =[];
-    var len = obj.length; // length 正好对应伪数组中的length属性
-    for(var i = 0;i < len;i++){
-        arr.push[i] = obj[i]; // i 正好对应伪数组中的索引值
-    }
-    return arr;
+
+```
+function slice(obj) {
+   var arr =[];
+   var len = obj.length; // length 正好对应伪数组中的length属性
+   for(var i = 0;i < len;i++){
+       arr.push[i] = obj[i]; // i 正好对应伪数组中的索引值
+   }
+   return arr;
 }
- ```
+```
 
- ### 讲讲mvc /mvp/mvvm区别
- > 1. m:model层 数据保存
- 2. v：view 用户界面
- 3. c:controller :业务逻辑
- View 传送指令到 Controller
-Controller 完成业务逻辑后，要求 Model 改变状态
-Model 将新的数据发送到 View，用户得到反馈
- >MVP 模式将 Controller 改名为 Presenter，同时改变了通信方向。
- 1. 各部分之间的通信，都是双向的。
-2. View 与 Model 不发生联系，都通过 Presenter 传递。
-3. View 非常薄，不部署任何业务逻辑，称为"被动视图"（Passive View），即没有任何主动性，而 Presenter非常厚，所有逻辑都部署在那里。
->MVVM 模式将 Presenter 改名为 ViewModel，基本上与 MVP 模式完全一致。
-唯一的区别是，它采用双向绑定（data-binding）：View的变动，自动反映在 ViewModel，反之亦然。Angular 和 Ember 都采用这种模式。
+### 讲讲 mvc /mvp/mvvm 区别
+
+> 1. m:model 层 数据保存
+
+2. v：view 用户界面
+3. c:controller :业务逻辑
+   View 传送指令到 Controller
+   Controller 完成业务逻辑后，要求 Model 改变状态
+   Model 将新的数据发送到 View，用户得到反馈
+   > MVP 模式将 Controller 改名为 Presenter，同时改变了通信方向。
+4. 各部分之间的通信，都是双向的。
+5. View 与 Model 不发生联系，都通过 Presenter 传递。
+6. View 非常薄，不部署任何业务逻辑，称为"被动视图"（Passive View），即没有任何主动性，而 Presenter 非常厚，所有逻辑都部署在那里。
+   > MVVM 模式将 Presenter 改名为 ViewModel，基本上与 MVP 模式完全一致。唯一的区别是，它采用双向绑定（data-binding）：View 的变动，自动反映在 ViewModel，反之亦然。Angular 和 Ember 都采用这种模式。
 
 ### js 如何使用继承特性；
 
+js 是动态的，只有一种结构：对象。每个对象都有一个私有属性：[[protptype]],它持有一个连接到另一个称为其 prototype 对象（原型对象）的链接
+
+#### 原型链继承（对象间的继承）
+
+从 ECMAScript 6 开始，[[Prototype]] 可以用 Object.getPrototypeOf()和 Object.setPrototypeOf()访问器来访问。这个等同于 JavaScript 的非标准但许多浏览器实现的属性 **proto**。它不应该与函数(function)的 func.prototype 属性相混淆，func.prototype 的作用是使用 new func() 创建的对象的实例的 [[Prototype]]。Object.prototype 属性表示 Object 的原型对象。
+
+#### 类式继承（构造函数间的继承）
+
+### object/array 的各种方法哪个是返回新值，哪个是就地更改

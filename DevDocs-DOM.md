@@ -450,10 +450,87 @@ result
 <font color='#e3e75e'> **document.releaseCapture()**</font>:<br/>
 <font color='#e3e75e'> **document.write(markup)**</font>:<br/>
 <font color='#e3e75e'> **document.writeln(ln)**</font>:<br/>
+## Element
+
+    EventTarget<--Node <-- Element
+
+>  是从 Document 接口 继承来的最普通的基类。它含有对所有不同类型的元素最基本的属性和方法。更多指定的类继承自 Element。比如：HTMLElement 是 HTML 元素的基本接口，SVGElement 接口是所有 SVG 元素的基本。
+
+### Properties
+
+<font color='#d64444'> **Element.assignedSlot**</font>:<br/>
+<font color='#d64444'> **Element.attributes**</font>:<br/>
+<font color='#d64444'> **Element.classList**</font>:<br/>
+<font color='#d64444'> **Element.className**</font>:<br/>
+<font color='#d64444'> **Element.clientHeight**</font>:<br/>
+<font color='#d64444'> **Element.computedName**</font>:<br/>
+<font color='#d64444'> **Element.computedRole**</font>:<br/>
+<font color='#d64444'> **Element.id**</font>:<br/>
+<font color='#d64444'> **Element.innerHTML**</font>:<br/>
+<font color='#d64444'> **Element.localName**</font>:<br/>
+<font color='#d64444'> **Element.namespceURI**</font>:<br/>
+<font color='#d64444'> **Element.outerHTML**</font>:<br/>
+<font color='#d64444'> **Element. **</font>:<br/>
+<font color='#d64444'> **Element.scrollHeight**</font>:<br/>
+<font color='#d64444'> **Element.scrollLeftMax**</font>:<br/>
+<font color='#d64444'> **Element.shadowRoot**</font>:<br/>
+<font color='#d64444'> **Element.slot**</font>:<br/>
+<font color='#d64444'> **Element.tabStop**</font>:<br/>
+<font color='#d64444'> **Element.tagName**</font>:<br/>
+<font color='#d64444'> **Element.undoMannager**</font>:<br/>
+<font color='#d64444'> **Element.undoScope**</font>:<br/>
+
+### Event Handler
+
+<font color='#d64444'> **Element.ongotpointercapture**</font>:<br/>
+<font color='#d64444'> **Element.onlostpointercapture**</font>:<br/>
+<font color='#d64444'> **Element.onwheel**</font>:<br/>
+
+### Methods
+
+<font color='#d64444'> **Element.addEventListener()**</font>:<br/>
+<font color='#d64444'> **Element.attachShadow()**</font>:<br/>
+<font color='#d64444'> **Element.animate()**</font>:<br/>
+<font color='#d64444'> **Element.closet()**</font>:<br/>
+<font color='#d64444'> **Element.createShadowRoot()**</font>:<br/>
+<font color='#d64444'> **Element.dispatchEvent()**</font>:<br/>
+<font color='#d64444'> **Element.getAnimations()**</font>:<br/>
+<font color='#d64444'> **Element.getAttribute()**</font>:<br/>
+<font color='#d64444'> **Element.getAttributeNames()**</font>:<br/>
+<font color='#d64444'> **Element.getAttributeNS()**</font>:<br/>
+<font color='#d64444'> **Element.getAttributeNode()**</font>:<br/>
+<font color='#d64444'> **Element.getAttributeNodeNS()**</font>:<br/>
+<font color='#d64444'> **Element.getBoundingClientRect()**</font>:<br/>
+<font color='#d64444'> **Element.getClientRects()**</font>:<br/>
+<font color='#d64444'> **Element.getElementsByClassName()**</font>:<br/>
+<font color='#d64444'> **Element.getElementsByTagName()**</font>:<br/>
+<font color='#d64444'> **Element.getElementsByTagNameNS()**</font>:<br/>
+<font color='#d64444'> **Element.hasAttribute()**</font>:<br/>
+<font color='#d64444'> **Element.hasAttributeNS()**</font>:<br/>
+<font color='#d64444'> **Element.hasAttributes()**</font>:<br/>
+<font color='#d64444'> **Element.insetAdjacentElement()**</font>:<br/>
+<font color='#d64444'> **Element.insetAdjacentHTML()**</font>:<br/>
+<font color='#d64444'> **Element.insetAdjacentText()**</font>:<br/>
+<font color='#d64444'> **Element.matches()**</font>:<br/>
+<font color='#d64444'> **Element.querySelector()**</font>:<br/>
+<font color='#d64444'> **Element.querySelectorAll()**</font>:<br/>
+<font color='#d64444'> **Element.releasePointerCapture()**</font>:<br/>
+<font color='#d64444'> **ChildNode.remove()**</font>:<br/>
+<font color='#d64444'> **Element.removeAttribute()**</font>:<br/>
+<font color='#d64444'> **Element.removeAttributeNS()**</font>:<br/>
+<font color='#d64444'> **Element.removeAttributeNode()**</font>:<br/>
+<font color='#d64444'> **Element.removeEventListener()**</font>:<br/>
+<font color='#d64444'> **Element.requestFullscreen()**</font>:<br/>
+<font color='#d64444'> **Element.requestPointerLock()**</font>:<br/>
+<font color='#d64444'> **Element.scrollIntoVIew()**</font>:<br/>
+<font color='#d64444'> **Element.setAttribute()**</font>:<br/>
+<font color='#d64444'> **Element.setAttributeNS()**</font>:<br/>
+<font color='#d64444'> **Element.setAttributeNode()**</font>:<br/>
+<font color='#d64444'> **Element.setAttributeNodeNS()**</font>:<br/>
+<font color='#d64444'> **Element.setCapture()**</font>:<br/>
+<font color='#d64444'> **Element.setPointerCapture()**</font>:<br/>
 
 ## DocumentFragment
-
-## Element
 
 ## Event
 
@@ -462,6 +539,280 @@ result
 ## XMLHTTPRequest
 
 ## SVG
+
+### SVGFilterPrimitiveStandardAttributes
+
+defines the set of DOM attributes that are common across the filter primitive interfaces.
+
+#### Properties
+
+<font color='#44e7bb'> **SVGFilterPrimitiveStandardAttributes.x**</font><br/>
+<font color='#44e7bb'> **SVGFilterPrimitiveStandardAttributes.y**</font><br/>
+<font color='#44e7bb'> **SVGFilterPrimitiveStandardAttributes.width**</font><br/>
+<font color='#44e7bb'> **SVGFilterPrimitiveStandardAttributes.height**</font><br/>
+<font color='#44e7bb'> **SVGFilterPrimitiveStandardAttributes.result**</font><br/>
+
+### SVGElement
+
+    EventTarget<--Node <-- Element <--SVGElement
+
+> 所有的 SVG DOM 接口 （SVG 里的所有元素） 都起源于 SVGElement 接口。
+
+#### Properties
+
+<font color='#44e7bb'> **SVGElement.dataset**</font><br/>
+<font color='#44e7bb'> **SVGElement.id**</font><br/>
+<font color='#44e7bb'> **SVGElement.xmlbase**</font><br/>
+<font color='#44e7bb'> **SVGElement.ownerSVGElement**</font><br/>
+<font color='#44e7bb'> **SVGElement.viewportElement**</font><br/>
+
+#### Methods
+
+The SVGElement interface doesn't provide any additional methods, but inherits methods from its parent, Element.
+
+### SVGAnimationElement
+
+    EventTarget<--Node <-- Element <--SVGElement  <--  SVGAnimationElement
+
+> is the base interface for all of the animation element interfaces: SVGAnimateElement, SVGSetElement, SVGAnimateColorElement, SVGAnimateMotionElement and SVGAnimateTransformElement.
+
+#### Properties
+
+<font color='#44e7bb'> **SVGAnimationElement.targetElement**</font><br/>
+
+#### Event Handler
+
+<font color='#44e7bb'> **SVGAnimationElement.onbegin**</font><br/>
+<font color='#44e7bb'> **SVGAnimationElement.onend**</font><br/>
+<font color='#44e7bb'> **SVGAnimationElement.onrepeat**</font><br/>
+
+#### Methods
+
+<font color='#44e7bb'> **SVGAnimationElement.getStartTime()**</font><br/>
+<font color='#44e7bb'> **SVGAnimationElement.getCurrentTime()**</font><br/>
+<font color='#44e7bb'> **SVGAnimationElement.getSimpleDuration()**</font><br/>
+<font color='#44e7bb'> **SVGAnimationElement.beginElement()**</font><br/>
+<font color='#44e7bb'> **SVGAnimationElement.beginElementAt()**</font><br/>
+<font color='#44e7bb'> **SVGAnimationElement.endElement()**</font><br/>
+<font color='#44e7bb'> **SVGAnimationElement.endElementAt()**</font><br/>
+
+### SVGAnimateElement
+
+    EventTarget<--Node <-- Element <--SVGElement  <--  SVGAnimationElement <--SVGAnimateElement
+
+> This interface has no properties and methods but inherits properties from its parent, SVGAnimationElement.
+
+### SVGSetElement
+
+    EventTarget<--Node <-- Element <--SVGElement  <--  SVGAnimationElement <--SVGSetElement
+
+> This interface doesn't implement any specific properties, but inherits properties from its parent interface, SVGAnimationElement.
+
+### SVGAnimateMotionElement
+
+    EventTarget<--Node <-- Element <--SVGElement  <--  SVGAnimationElement <--SVGAnimateMotionElement
+
+> This interface has no properties but inherits properties from its parent, SVGAnimationElement.
+
+### SVGAnimateTransformElement
+
+    EventTarget<--Node <-- Element <--SVGElement  <--  SVGAnimationElement <--SVGAnimateTransformElement
+
+> This interface has no properties but inherits properties from its parent, SVGAnimationElement.
+
+### SVGFilterElement :==filter
+
+    EventTarget<--Node <-- Element <--SVGElement  <--  SVGFilterElement
+
+#### Properties
+
+<font color='#44e7bb'> **SVGFilterElement.filterUnits**</font><br/>
+<font color='#44e7bb'> **SVGFilterElement.primitiveUnits**</font><br/>
+<font color='#44e7bb'> **SVGFilterElement.x**</font><br/>
+<font color='#44e7bb'> **SVGFilterElement.y**</font><br/>
+<font color='#44e7bb'> **SVGFilterElement.width**</font><br/>
+<font color='#44e7bb'> **SVGFilterElement.height**</font><br/>
+<font color='#44e7bb'> **SVGFilterElement.filterResX**</font><br/>
+<font color='#44e7bb'> **SVGFilterElement.filterResY**</font><br/>
+
+#### Methods
+
+<font color='#44e7bb'> **SVGFilterElement.setFilterRes()**</font><br/>
+
+### SVGFEOffsetElement:==feOffset 元素
+
+    EventTarget<--Node <-- Element <--SVGElement  <--  SVGFEOffsetElement
+
+This interface also inherits properties from its parent interface, SVGElement, and also implements properties of SVGFilterPrimitiveStandardAttributes.
+
+#### Properties
+
+<font color='#44e7bb'> **SVGFEOffsetElement.in1**</font><br/>
+<font color='#44e7bb'> **SVGFEOffsetElement.dx**</font><br/>
+<font color='#44e7bb'> **SVGFEOffsetElement.dy**</font><br/>
+
+### SVGGraphicsElement
+
+    EventTarget<--Node <-- Element <--SVGElement  <--  SVGGraphicsElement
+
+> 展现那些主要目的是直接渲染图片到一个组中的元素。
+
+#### Properties
+
+<font color='#44e7bb'> **SVGGraphicsElement.transform**</font><br/>
+
+#### Methods
+
+<font color='#44e7bb'> **SVGGraphicsElement.getBBox()**</font><br/>
+<font color='#44e7bb'> **SVGGraphicsElement.getCTM()**</font><br/>
+<font color='#44e7bb'> **SVGGraphicsElement.getScrrenCTM()**</font><br/>
+
+### SVGTextContentElement
+
+    EventTarget<--Node <-- Element <--SVGElement  <--  SVGGraphicsElement <--SVGTextContentElement
+
+> The SVGTextContentElement interface is implemented by elements that support rendering child text content. It is inherited by various text-related interfaces, such as SVGTextElement, SVGTSpanElement, SVGTRefElement, SVGAltGlyphElement and SVGTextPathElement.
+
+### SVGUseElement:==use
+
+    EventTarget<--Node <-- Element <--SVGElement  <--  SVGGraphicsElement <--SVGUseElement
+
+#### Properties
+
+<font color='#44e7bb'> **SVGUseElement.x**</font><br/>
+<font color='#44e7bb'> **SVGUseElement.y**</font><br/>
+<font color='#44e7bb'> **SVGUseElement.width**</font><br/>
+<font color='#44e7bb'> **SVGUseElement.height**</font><br/>
+<font color='#44e7bb'> **SVGUseElement.instanceRoot**</font><br/>
+<font color='#44e7bb'> **SVGUseElement.animatedInstanceRoot**</font><br/>
+
+### SVGGElement :==g
+
+    EventTarget<--Node <-- Element <--SVGElement  <--  SVGGraphicsElement <--SVGGElement
+
+> This interface doesn't implement any specific methods, but inherits methods from its parent interface, SVGGraphicsElement.
+
+### SVGGeometryElement
+
+    EventTarget<--Node <-- Element <--SVGElement  <--  SVGGraphicsElement <-- SVGGeometryElement
+
+> 展示通过几何学定义的元素，这些元素可以被填充和描边。包括路径和基本图形。
+
+#### Properties
+
+<font color='#44e7bb'> **SVGGeometryElement.pathLength**</font><br/>
+
+#### Methods
+
+<font color='#44e7bb'> **SVGGeometryElement.isPointInFill()**</font><br/>
+<font color='#44e7bb'> **SVGGeometryElement.isPointInStroke()**</font><br/>
+<font color='#44e7bb'> **SVGGeometryElement.getTotalLength()**</font><br/>
+<font color='#44e7bb'> **SVGGeometryElement.getPointAtlength()**</font><br/>
+
+### SVGPathElement
+
+    EventTarget<--Node <-- Element <--SVGElement <-- SVGGraphicsElement <-- SVGGeometryElement <--SVGPathElement
+
+#### Properties
+
+<font color='#44e7bb'> **SVGPathElement.pathLength**</font><br/>
+
+#### Methods
+
+<font color='#44e7bb'> **SVGPathElement.getTotalLength()**</font><br/>
+<font color='#44e7bb'> **SVGPathElement.getPointAtLength()**</font><br/>
+<font color='#44e7bb'> **SVGPathElement.getPathSegAtLength()**</font><br/>
+<font color='#44e7bb'> **SVGPathElement.createSVGPathSegClosePath()**</font><br/>
+<font color='#44e7bb'> **SVGPathElement.createSVGPathSegMovetoAbs()**</font><br/>
+<font color='#44e7bb'> **SVGPathElement.createSVGPathSegLinetoRel()**</font><br/>
+<font color='#44e7bb'> **SVGPathElement.createSVGPathSegCurvetoCubicAbs()**</font><br/>
+<font color='#44e7bb'> **SVGPathElement.createSVGPathSegCurvetoQuadraticRel()**</font><br/>
+<font color='#44e7bb'> **SVGPathElement.createSVGPathSegArcAbs()**</font><br/>
+<font color='#44e7bb'> **SVGPathElement.createSVGPathSegArcRel()**</font><br/>
+<font color='#44e7bb'> **SVGPathElement.createSVGPathSegLinetoHorizontalAbs()**</font><br/>
+<font color='#44e7bb'> **SVGPathElement.createSVGPathSegLinetoHorizontalRel()**</font><br/>
+<font color='#44e7bb'> **SVGPathElement.createSVGPathSegLinetoVerticalAbs ()**</font><br/>
+<font color='#44e7bb'> **SVGPathElement.createSVGPathSegLinetoVerticalRel()**</font><br/>
+<font color='#44e7bb'> **SVGPathElement.createSVGPathSegCurvetoCubicSmoothAbs()**</font><br/>
+<font color='#44e7bb'> **SVGPathElement.createSVGPathSegCurvetoCubicSmoothRel()**</font><br/>
+<font color='#44e7bb'> **SVGPathElement.createSVGPathSegLinetoRel()**</font><br/>
+<font color='#44e7bb'> **SVGPathElement.createSVGPathSegLinetoRel()**</font><br/>
+
+### SVGPolygonElement:== polygon
+
+    EventTarget<--Node <-- Element <--SVGElement <-- SVGGraphicsElement <-- SVGGeometryElement <--SVGPolygonElement
+
+> This interface doesn't implement any specific properties, but inherits properties from its parent, SVGGeometryElement and also implements properties from SVGAnimatedPoints.
+
+### SVGPolylineElement:== polyline
+
+EventTarget<--Node <-- Element <--SVGElement <-- SVGGraphicsElement <-- SVGGeometryElement <--SVGPolylineElement
+
+> This interface doesn't implement any specific properties, but inherits properties from its parent, SVGGeometryElement and also implements properties from SVGAnimatedPoints.
+
+### SVGLineElement:==line
+
+    EventTarget<--Node <-- Element <--SVGElement  <--  SVGGraphicsElement <-- SVGGeometryElement <--SVGLineElement
+
+#### Properties
+
+<font color='#44e7bb'> **SVGLineElement.x1**</font><br/>
+<font color='#44e7bb'> **SVGLineElement.y1**</font><br/>
+<font color='#44e7bb'> **SVGLineElement.x2**</font><br/>
+<font color='#44e7bb'> **SVGLineElement.y2**</font><br/>
+
+### SVGCircleElement
+
+    EventTarget<--Node <-- Element <--SVGElement  <--  SVGGraphicsElement <-- SVGGeometryElement <--SVGCircleElement
+
+#### Properties
+
+<font color='#44e7bb'> **SVGCircleElement.cx**</font><br/>
+<font color='#44e7bb'> **SVGCircleElement.cy**</font><br/>
+<font color='#44e7bb'> **SVGCircleElement.r**</font><br/>
+
+#### Methods
+
+This interface has no methods but inherits methods from its parent, SVGGeometryElement.
+
+### SVGLength
+
+#### Methods
+
+1. void newValueSpecifiedUnits(in unsigned short unitType, in float valueInSpecifiedUnits)
+2. void convertToSpecifiedUnits(in unsigned short unitType)
+
+#### Constants
+
+1. SVG_LENGTHTYPE_UNKNOWN = 0
+2. SVG_LENGTHTYPE_NUMBER = 1
+3. SVG_LENGTHTYPE_PERCENTAGE = 2
+4. SVG_LENGTHTYPE_EMS = 3
+5. SVG_LENGTHTYPE_EXS = 4
+6. SVG_LENGTHTYPE_PX = 5
+7. SVG_LENGTHTYPE_CM = 6
+8. SVG_LENGTHTYPE_MM = 7
+9. SVG_LENGTHTYPE_IN = 8
+10. SVG_LENGTHTYPE_PT = 9
+11. SVG_LENGTHTYPE_PC = 10
+
+```
+ var rect = document.getElementById("myRect");
+  var val  = rect.x.baseVal;
+   val.newValueSpecifiedUnits(SVGLength.SVG_LENGTHTYPE_PT, 20);
+```
+
+### SVGLengthList
+
+#### Methods
+
+1. void clear()
+2. SVGLength initialize(in SVGLength newItem)
+3. SVGLength getItem(in unsigned long index)
+4. SVGLength insertItemBefore(in SVGLength newItem, in unsigned long index)
+5. SVGLength replaceItem(in SVGLength newItem, in unsigned long index)
+6. SVGLength removeItem(in unsigned long index)
+7. SVGLength appendItem(in SVGLength newItem)
 
 ## History
 
