@@ -260,11 +260,12 @@ BFC 的使用场景他的很常用的一个应用场景就是解决边距重叠�
 
 > 对于 setInterval(fn,ms) 来说，我们已经知道不是每过 ms 秒会执行一次 fn，而是每过 ms 秒，会有 fn 进入 Event Queue
 
-### promise 和 promise.nextTick()( 类似 node 的 setTimeOut)
+### promise 和 process.nextTick()( 类似 node 的 setTimeOut)
 
 > 我们进入正题，除了广义的同步任务和异步任务，我们对任务有更精细的定义：
 
-macro-task( 宏任务 )：包括整体代码 script，setTimeout ， setInterval micro-task(
+macro-task( 宏任务 )：包括整体代码 script，setTimeout ， setInterval
+micro-task(
 微任务 )：Promise ， process.nextTick
 
 不同类型的任务会进入对应的 Event Queue，比如 setTimeout 和 setInterval 会进入相同的 Event Queue。事件循环的顺序，决定 js 代码的执行顺序。进入整体代码 ( 宏任务
@@ -488,7 +489,6 @@ Undefined、Null、Boolean、Number、String
    ### js 伪数组，如何转化为真正数组
    var arr = Array.prototype.slice.call(obj);其实我们也可以通过[].slice.call 这种形式实现同样的效果，但是通过 prototype 的形式执行程序效率更高，同样代码也更加优美。
 
-
 ```
 function slice(obj) {
    var arr =[];
@@ -526,3 +526,30 @@ js 是动态的，只有一种结构：对象。每个对象都有一个私有�
 #### 类式继承（构造函数间的继承）
 
 ### object/array 的各种方法哪个是返回新值，哪个是就地更改
+
+### js 解析器
+
+在编程语言中，基本都是使用分号（;）将语句分隔开，这可以增加代码的可读性和整洁性。而在 JS 中，如若语句各占独立一行，通常可以省略语句间的分号（;），JS 解析器会根据能否正常编译来决定是否自动填充分号：，但是对于 return 、break、continue 等语句，如果后面紧跟换行，解析器一定会自动在后面填充分号(;)，
+
+### js 运行机制
+
+> 一段 js 代码（里面可能包含一些 setTimeout、鼠标点击、ajax 等事件），从上到下开始执行，遇到 setTimeout、鼠标点击等事件，异步执行它们，此时并不会影响代码主体继续往下执行(当线程中没有执行任何同步代码的前提下才会执行异步代码)，一旦异步事件执行完，回调函数返回，将它们按次序加到执行队列中，这时要注意了，如果主体代码没有执行完的话，是永远也不会触发 callback 的
+
+### setTimeout setInterval()
+
+当使用 setInterval()时，仅当没有该定时器的任何其他**代码**实例时，才能将定时器代码添加到代码队列中。但是这条规则同样也带来了两个问题：
+
+1. 某些间隔会被跳过
+2. 多个定时器的代码执行之间的间隔可能会比预期的小所以在使用 setInterval 做动画时要注意两个问题：
+
+3. 不能使用固定步长作为做动画，一定要使用百分比: 开始值 + (目标值 - 开始值) \* （Date.now() - 开始时间）/ 时间区间
+4. 如果主进程运行时间过长，会出现跳帧的现象　　为了避免 setInterval 的两个缺点，可以使用链式 setTimeout（）：
+
+```
+setTimeout(function(){
+    //其他处理
+    setTimeout(arguments.callee, interval);
+}, interval);
+```
+
+process.nextTick 方法可以在当前"执行栈"的尾部----下一次 Event Loop（主线程读取"任务队列"）之前----触发回调函数。也就是说，它指定的任务总是发生在所有异步任务之前。setImmediate 方法则是在当前"任务队列"的尾部添加事件，也就是说，它指定的任务总是在下一次 Event Loop 时执行
