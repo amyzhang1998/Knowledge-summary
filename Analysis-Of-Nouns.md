@@ -193,11 +193,12 @@ function addOne(a){
 
 ## reducer 和 transducer
 
-## Macro 宏
-
 ## REPL:(READ - Eval - Print - Loop)读-求值-打印-循环
 
 ## 时间旅行、记录/回放或热加载
+
+react 热加载：尽管 React 应用没有使用 Redux 来管理 state, 在调试时我们依然可以实现热重载, 只是可以执行热重载的部分有所限制: 在 view 和 action creator 中可以执行热重载, 而在 store 中则不行. 因为 store 扮演着两种角色: 1.根据 action 改变 state; 2.存储 state 各个版本并保持其更新. 如果重载了改变 state 的代码, 就会失去 store 当前所存储的 state.Redux 给予应用热重载 state 变化逻辑的能力, 它是这样实现的: 将任务分离, 让两个部分负责, 这两个部分分别是 store 和 reducer, 其中 store 负责保存 state, 而 state 改变的逻辑由另一个对象 reducer 负责. 这样我们就可以热重载 state 变化的逻辑(reducer)而不丢失 store 中所存储的 state 信息.
+rudux 可以实现时间旅行调试
 
 ## 什么是纯函数（为什么 Data.now()和 Math.random()不是纯函数）
 
