@@ -218,7 +218,37 @@ for (let x of obj) {
 
 ## Object
 
-> ### ES6 扩展
+### methods
+
+### 返回新值
+
+1. Object.assign(target,...source)
+   2. Object.create()
+   3. Object.entries()：返回 array 类型的[key,value]
+   4. Object.keys()
+   5. Object.values()
+   6. Object.getOwnPropertyDescriptor()
+   7. Object.getOwnPropertyDescriptors()
+   8. Object.getOwnPropertyNames();返回 array 类型的属性名，包括不可枚举的属性
+   9. Object.getOwnPropertySymbols()
+   10. Object.getPrototypeOf()
+   11. Object.setPrototypeOf()
+   12. Object.isPrototypeOf()
+   13. Object.hasOwnProperty()
+   14. Object.is()
+   15. Object.isExtensible()
+   16. Object.preventExtensions()
+   17. Object.isFrozen()
+   18. Object.isSealed()
+   19. Object.seal()
+
+### 就地更改数据
+
+22. Object.defineProperty()
+23. Object.defineProperties()
+24. Object.freeze():
+
+### ES6 扩展
 
 ## Map > ES6
 
