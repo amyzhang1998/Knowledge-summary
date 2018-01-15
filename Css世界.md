@@ -408,11 +408,150 @@ h1{
 
 ## 六：流的破坏与保护
 
+### float
+
+1. 特性和本质
+   > 浮动的本质就是为了实现文字环绕效果。特性：
+   > 1）.包裹性。由包裹和自适应性组成。3.21
+   > 2）. 块级并格式化上下文。
+   > 3）. 破坏文档流 --精髓；
+   > 4）. 没有任何 margin 合并。特性表现---让父元素的高度塌陷
+2. 作用机制文字环绕效果需要两个特性：一是：父级高度塌陷；二是：行框盒子区域限制。什么是行框盒子？每行内联元素所在的那个盒子。浮动元素显示在哪里？、
+   1）. 浮动锚点：是浮动元素所在流中的一个点，类似于一个内联元素。
+   2）. 浮动参考：指的是浮动元素对齐参考的实体。
+   css2 中浮动参考的实体是‘行框盒子’。
+3. 浮动克星---clear
+   clear 属性是让自身不能跟前面的浮动元素相邻。所以对后面的浮动元素不闻不问。
+   clear 属性只有块级元素才有效。
+   > 缺陷
+   > 1). 如果 clear:both 元素前面的元素就是 float 元素。而 margin-top 负值设置无效。
+4. clear:both 后面的元素依旧会形成环绕。
+
+### BFC--css 世界的结界。
+
+BFC 元素不可能发生 margin 重叠。自带清除浮动功能。
+
+5. > 触发 BFC 的条件。
+
+1). html 根元素
+2).float 的值不为 none;
+3). overflow 的值为 auto,scroll,或 hidden.
+5). display:的值为 table-cell table-caption,和 inline-block 中任意一个
+4). position 的值不为 relative 或 static.
+
+#### BFC 与流体布局。
+
+#### 最佳结界 overflow
+
+overflow 的裁剪区域是 border-box
+
+7. overflow-x 和 overflow-y
+   如果一个设置为 visible，另一个设置成 auto,hidden,或 scroll,则前一个 visible 表现就会成为 auto.
+8. overflow 与滚动条
+   html 中有两个标签可以默认产生滚动条，html 和 textarea
+   1）. pc 端默认滚动条都来自 html 节点。
+   2）. 滚动条会占用容器的可用高度或宽度。
+9. 依赖 overflow 的样式表现
+   1）. 单行文字溢出
+
+```
+overflow:hidden;
+text-overflow:ellipsis;
+white-space:nowrap;
+```
+
+10. overflow 与锚点定位
+    1). 使用 a 标签以及 name 属性。
+    2). 使用标签的 id 属性。锚点定位是基于什么条件触发的？
+    1).url 地址中的锚链与锚点元素对应并有交互行为。--》让元素定位在浏览器窗体的上边缘、
+    <a href="#"> 返回顶部</a>
+    2).可 focus 的锚点元素处于 focus 状态。--》 让元素在浏览器窗体范围内显示即可，不一定是在边缘上，
+
+锚点定位作用的发生本质上是什么在起作用？本质是通过改变**容器滚动高度**或者宽度来实现的。锚点定位也可以发生在普通元素上，但锚点的触发是‘从内到外’的。本质是改变 scrollTop 或者是 scrollLeft 值。
+
+> 核心
+> overflow:hidden;元素也是可以滚动的，只是看不到滚动条。可以通过锚点定位。
+
+#### position:absolute
+
+11. absolute 的自适应性最大宽度往往不是由父元素决定的。本质上说，这个差异是由‘包含块’差异决定的。
+    1).根元素被称为初始包含快
+    2).其他元素，如果该元素的 position 是 relative 或 static。则包含块由其最近的快容器祖先盒的 content box 边界决定。
+    3).如果元素 postion:fixed;则包含快是初始快
+    4).如果元素 position:absolute;则包含快由最近的 position 不为 static 的祖先元素建立。
+
+    > 如果祖先元素是纯 inline 元素，则规则如下（1）:内联元素可以作为包含快所在的元素（1）:边界是 padding-box 而不是 content-box;
+    > 内联元素包含块是由生成的前后内联元素影响的。
+
+12. 绝对定位元素的包裹性中自适应性是相对于包含块来决定的。
+13. 具有相对特性的无依赖 absolute 绝对定位---》 原来的位置在哪里 现在就在哪里。
+
+    > 不设置 left/top/right/bottom 的绝对定位，称为‘无依赖绝对定位’，**具有‘相对定位特性’。**，不占据 css 流的尺寸空间。通过与 margin 合作 完成定位。
+
+14. absolute 和 text-align(控制内联元素)
+    原本是内联元素绝对定位后会受 text-align 影响
+15. absolute 和 overflow
+    原理:绝对定位元素不总被父级的 overflow 属性剪裁，尤其当 overflow 在绝对定位元素及其包含块之间的时候。换句话说，如果 overflow 不是定位元素，同时绝对定位元素和 overflow 容器之间也没有定位元素，则 overflow 无法对 absolute 元素剪裁。
+    fixed 元素 overflow 无法剪裁
+16. tansform 属性可以改变 overflow 的属性。
+17. absolute 和 clip
+    clip 属性想生效，元素必须是 absolute 或 fixed
+    clip:rect(top,right,bottom,left)
+18. fixed 固定定位的剪裁
+
+```
+.fixed-clip{
+    position:fixed;
+    clip:rect(30px 200px 200px 10px)
+}
+```
+
+19. 最佳可访问性隐藏
+    cilp:rect(0,0,0,0)
+20. 深入理解 clip 的渲染使用 clip 剪裁的元素其 clientHeight 和 clientWidth 包括样式计算的宽高都还是原来的大小。
+    ### absolute 的流体特性
+21. 当 absolute 元素碰到 top/left/right/bottom 的时候才真正变成定位元素。如果只设置一个方向的定位，则另一个方向就还是具有相对特性。只有对立方向同时定位的时候，才有流体特性。
+22. absolute 的 margin:auto 居中
+
+```
+.element{
+    width:300px;
+    height:300px;
+    position:absolute;
+    left:0;right:0;top:0;
+    bottom:0;
+    margin:auto;
+}
+```
+
+### position:relative 是大哥
+
+1）. 是相对自身进行偏移定位 2）. 无侵入（移动后不会影响其他元素的位置）原则：relative 最小化原则
+1）.尽量不使用 relative2). 一定要使用的话，要让 ralative 最小化。避免不必要的层叠关系
+
 ## 七：CSS 的层叠规则
 
-## 八：文本处理
+z-index:只有和定位元素在一起的时候才有作用.
+层叠顺序 :正 z-index > z-index:auto 或看成 z-index:0 或 不依赖 z-index 的层叠上下文 > inline 水平盒子> float 浮动盒子> block 块状水平盒子> 负 index> 层叠上下文 background/border
+层叠上下文的创建：
 
-## 九：元素装饰喝美化
+1. 根层叠上下文，html
+2. z-index 为数值的定位元素，
+   3.css3 属性。flex 布局元素，transform 不是 none , opacity 不是 1，。。。。
+   ### z-index 负值深入理解：负值渲染的过程就是一个寻找第一个层叠上下文元素的过程。然后层叠顺序止步于这个层叠上下文元素。
+
+## 八：强大的文本处理
+
+#### font-size 和 ex em 和 rem 关系
+
+ex 是字符 x 的高度。
+em：1em 等于当前的字体尺寸，font-size:2em;则 1em 就是 32px;
+rem:root 的 em（css3 属性）
+font-size:0 可以将元素隐藏。
+
+#### font-family
+
+## 九：元素装饰和美化
 
 ## 十：元素显示隐藏
 
