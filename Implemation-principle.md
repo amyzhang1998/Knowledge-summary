@@ -869,7 +869,7 @@ dtd 信息就是 doctype 声明。
 2. 作用？
    > doctype 声明指出阅读程序应该用什么规则集来解释文档中的标记。在 web 文档的情况下，“阅读程序”通常是浏览器或者校验器这样的一个程序，“规则”则是 w3c 所发布的一个文档类型定义（dtd）中包含的规则
    > xhtml 1.0 strict：
-                                                                                                                  <!doctype html public "-/w3c/dtd xhtml 1.0 strict/en"
+                                                                                                                        <!doctype html public "-/w3c/dtd xhtml 1.0 strict/en"
    "http://www.w3.org/tr/xhtml1/dtd/xhtml1-strict.dtd">
    xhtml 1.0 transitional：
       <!doctype html public "-/w3c/dtd xhtml 1.0 transitional/en"
@@ -1010,3 +1010,18 @@ a.js
 bar
 上面代码中，由于a.js的第一行是加载b.js，所以先执行的是b.js。而b.js的第一行又是加载a.js，这时由于a.js已经开始执行了，所以不会重复执行，而是继续往下执行b.js，所以第一行输出的是b.js。接着，b.js要打印变量foo，这时a.js还没执行完，取不到foo的值，导致打印出来undifined。b.js执行完，开始执行a.js，这时就一切正常了。
 ```
+
+## react 中元素和组件的区别
+
+React 元素（React element），它是 React 中最小基本单位，我们可以使用 JSX 语法轻松地创建一个 React 元素。React 元素不是真实的 DOM 元素，它仅仅是 js 的普通对象（plain objects）JSX 语法就是用 React.createElement()来构建 React 元素的。React.cloneElement()与 React.createElement()相似，不同的是它传入的第一个参数是一个 React 元素。
+React 中有三种构建组件的方式。React.createClass()、ES6 class 和无状态函数。组件是由元素构成的。元素数据结构是普通对象，而组件数据结构是类或纯函数
+
+## vue 双向数据绑定原理
+
+## 浅谈 react angular vue 区别
+
+## react 虚拟 dom 为什么性能高
+
+## promise 原理 使用 优点
+
+## touch 事件与 click 事件区别
