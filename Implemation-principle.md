@@ -522,9 +522,35 @@ export default class Modal extends Component {
 })(this);
 ```
 
-## 模块化和组件话
+## node 中 require 实现原理
 
-## require.js 实现原理
+1. require 语句的内部逻辑。 require(X)
+   1）. 如果 X 是内部模块，a.返回该模块.b. 不再继续执行。
+   2）如果 X 以 "./" 或者 "/" 或者 "../" 开头
+
+   > a. 根据 X 所在的父模块，确定 X 的绝对路径。
+   > b. 将 X 当成文件，依次查找下面文件，只要其中有一个存在，就返回该文件，不再继续执行。
+   > X
+   > X.js
+   > X.json
+   > X.node
+   > 　 c. 将 X 当成目录，依次查找下面文件，只要其中有一个存在，就返回该文件，不再继续执行。
+   > X/package.json（main 字段）
+   > X/index.js
+   > X/index.json
+   > X/index.node
+
+   3）.（3）如果 X 不带路径
+
+   > a. 根据 X 所在的父模块，确定 X 可能的安装目录。　　 b. 依次在每个目录中，将 X 当成文件名或目录名加载。
+   > 4）. 抛出 "not found"
+
+2. 源码解读
+   > a. node 定义了一个构造函数 module。所有模块都是 module 的实例。每个实例都有自己的属性，id,parent,exports,loaded,filename
+   > b. 每个模块实例有一个 require 方法。这是每个模块的内部方法。
+   > c. require 内部调用 Module.\_load 方法。步骤是：（1）确定模块的绝对路径（2）如果有缓存，取出缓存（3）是否为内置模块（4）生成模块实例，存入缓存（5）加载模块。关键步骤是：1，4
+   > d. 模块的绝对路径：1）如果是内置模块，不含路径返回。2）确定所有可能路径 3）确定哪一个路径是真
+   > e.加载模块。确定模块的后缀名，然后根据不同的后缀名进行加载。模块加载的实质就是，注入 exports，require,module 三个全局变量，然后执行模块的源码，然后将模块的 exports 变量的值输出。
 
 ## react-router 的实现原理
 
@@ -843,13 +869,13 @@ dtd 信息就是 doctype 声明。
 2. 作用？
    > doctype 声明指出阅读程序应该用什么规则集来解释文档中的标记。在 web 文档的情况下，“阅读程序”通常是浏览器或者校验器这样的一个程序，“规则”则是 w3c 所发布的一个文档类型定义（dtd）中包含的规则
    > xhtml 1.0 strict：
-                                             <!doctype html public "-/w3c/dtd xhtml 1.0 strict/en"
+                                                                                                                  <!doctype html public "-/w3c/dtd xhtml 1.0 strict/en"
    "http://www.w3.org/tr/xhtml1/dtd/xhtml1-strict.dtd">
    xhtml 1.0 transitional：
-   <!doctype html public "-/w3c/dtd xhtml 1.0 transitional/en"
+      <!doctype html public "-/w3c/dtd xhtml 1.0 transitional/en"
 "http://www.w3.org/tr/xhtml1/dtd/xhtml1-transitional.dtd">
    xhtml 1.0 frameset：
-   <!doctype html public "-/w3c/dtd xhtml 1.0 frameset/en"
+      <!doctype html public "-/w3c/dtd xhtml 1.0 frameset/en"
    Transitional 类型：是指一种过渡类型，使用这种类型浏览器对 XHTML 的解析比较宽松，允许使用 HTML4.01 中的标签，但必须符合 XHTML 的语法。这种是现在通用的方法，用 dreamweaver 创建网页时默认就是这种类型。
    Strict 类型：严格类型，使用时浏览器将相对严格，不允许使用任何表现形式的标识和属性，如在元素中直接使用 bgcolor 背景色属性等。
    Frameset 类型：框架页类型，如果网页使用了框架结构，就有必要使用这样的文档声明。
