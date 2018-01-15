@@ -262,11 +262,10 @@ BFC 的使用场景他的很常用的一个应用场景就是解决边距重叠�
 
 ### promise 和 process.nextTick()( 类似 node 的 setTimeOut)
 
-> 我们进入正题，除了广义的同步任务和异步任务，我们对任务有更精细的定义：
-
-macro-task( 宏任务 )：包括整体代码 script，setTimeout ， setInterval
-micro-task(
-微任务 )：Promise ， process.nextTick
+> 我们进入正题，除了广义的同步任务和异步任务，我们对任务有更精细的定义：首先在宏任务中取出第一个任务，执行完后再取出微任务的所有任务执行，循环，指导两个队列都执行完。
+> macro-task( 宏任务 )：包括整体代码 script，setTimeout ， setInterval
+> micro-task(
+> 微任务 )：Promise ， process.nextTick
 
 不同类型的任务会进入对应的 Event Queue，比如 setTimeout 和 setInterval 会进入相同的 Event Queue。事件循环的顺序，决定 js 代码的执行顺序。进入整体代码 ( 宏任务
 ) 后，开始第一次循环。接着执行所有的微任务。然后再次从宏任务开始，找到其中一个任务队列执行完毕，再执行所有的微任务
