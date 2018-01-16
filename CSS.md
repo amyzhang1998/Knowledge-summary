@@ -1284,14 +1284,11 @@ p{margin: 0;}
 ## 总结
 
 > 三列布局类似于大号的两列布局。无论是什么布局方式，无外乎需要应用 float、inline-block、table、absolute 和 flex 这五种布局属性，然后再配合负 margin、calc()函数、bfc、增加结构等来实现布局
-
 > 自适应包括两种情况：一种是宽度由内容撑开，一种是宽度自动撑满父元素剩余宽度
-
 > 可实现宽度由内容撑开的属性有： float、inline、inline-block、table、table-cell、absolute、fixed 和 flex
-
 > 可实现宽度自动撑满父元素剩余宽度的属性有： overflow(配合 float)、table、flex
 
-# flex 布局
+## flex 的布局
 
 就是可以自动调整，计算元素在容器空间中的大小。属性
 
@@ -1299,7 +1296,7 @@ p{margin: 0;}
 
 flex-direction || flex-wrap || flex-flow || justify-content || align-items || align-content
 
-```
+```javascript
 flex-direction:row|| column|| row-reverse|| column-reverse;
 flex-wrap:wrap|| nowrap|| wrap-reverse
 flex-flow:是flex-direction和flex-wrap两个属性的速记属性；
@@ -1309,10 +1306,11 @@ align-items:flex-start||flex-end||center||stretch||baseline
 align-content:flex-start||flex-end||center||stretch;多行flex项目的排列方式；
 ```
 
-###flex 项目属性
+### flex 项目属性
+
 order || flex-grow || flex-shrink || flex-basis
 
-```
+```(javascript)
 order:number;Flex项目在一个Flex容器中重新排序。
 flex-grow：0 和 flex-shrink：1属性控制Flex项目在容器有多余的空间如何放大（扩展），在没有额外空间又如何缩小。
 他们可能接受0或者大于0的任何正数。0 || positive number。
@@ -1338,13 +1336,15 @@ flex:1 //flex:1 1 0;绝对项目绝对 Flex 项目的宽度只基于 flex 属性
 
 ### FFC
 
-1. Flexbox 布局 和 Block 布局是有细微区别的
-2. Flexbox 不支持 ::first-line 和 ::first-letter 这两种伪元素
+1; Flexbox 布局 和 Block 布局是有细微区别的
+2; Flexbox 不支持 ::first-line 和 ::first-letter 这两种伪元素
 3. vertical-align 对 Flexbox 中的子元素 是没有效果的
 4. float 和 clear 属性对 Flexbox 中的子元素是没有效果的，也不会使子元素脱离文档流(但是对 Flexbox 是有效果的！)
 5. 多栏布局（column-\*） 在 Flexbox 中也是失效的，就是说我们不能使用多栏布局在 Flexbox 排列其下的子元素（鱼和熊掌不可得兼嘛）
 6. Flexbox 下的子元素不会继承父级容器的宽
-   ### flex 子元素
+
+### flex 子元素
+
    > 规范中把这种盒子 称为 flex item，而子元素中包括了 标签节点 以及 文本节点。标签节点很容易理解，需要注意的是文本节点。默认情况下，flex 会将 连续的文本节点 装进 flex-item 之中，使文本可以和标签节点一起排序和定位。值得注意的是，空格也是文本节点，所以 white-space 会影响 Flexbox 中的布局：
 
 ### flex-item-size 计算
@@ -1380,6 +1380,6 @@ flex-shrink
 (3)超出值：flex-size - item-size 总和
 (4)缩后值：item-size - 超出值\* shrink 比例
 
-2. 换行:由于在一行内 如果 item-size 累加超过了 Flexbox 的尺寸就会另起一行进行排列，所以在这种情况下，不会存在 shrink 的情况，而只有 grow 的情况。
+2; 换行:由于在一行内 如果 item-size 累加超过了 Flexbox 的尺寸就会另起一行进行排列，所以在这种情况下，不会存在 shrink 的情况，而只有 grow 的情况。
 3. max-width[height] 情况下 flex-grow 的计算流程由于可能存在某一个或多个 item 设置了有 max-width[height]。所以，CSS 引擎会先进行一次分配，分配后，统计那些有 max-width[height]的 items, 分配后是否有超出的剩余空间，然后对这些剩余空间再分配给那些没有设置 max-width[height]的 item
 4. min-width[height] 情况下 flex-shrink 的计算流程.由于可能存在某一个或多个 item 设置了有 min-width[height]。所以，CSS 引擎会先进行一次 shrink， shrink 后，统计那些有 min-width[height]的 items, shrink 后是否有的剩余的未 shrink 空间，然后对这些剩余空间再分配给那些没有设置 min-width[height]的 item。
