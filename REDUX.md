@@ -379,4 +379,84 @@ const makeMapStateToProps = () => {
 
 ### 实现撤销和重做
 
+# 总结
+Redux提供createStore（）方法
+Store : getState() subscribe() dispatcher()
+```
+const createStore = (reducer) => {
+  let state;
+  let listeners = [];
+
+  const getState = () => state;
+
+  const dispatch = (action) => {
+    state = reducer(state, action);
+    listeners.forEach(listener => listener());
+  };
+
+  const subscribe = (listener) => {
+    listeners.push(listener);
+    return () => {
+      listeners = listeners.filter(l => l !== listener);
+    }
+  };
+
+  dispatch({});
+
+  return { getState, dispatch, subscribe };
+};
+```
+Reducer:
+createrReducer()
+
+```
+const combineReducers= reducers=>{
+  return (state={},action)=>{
+    return Object.keys(reducers).reduce(
+      (nextState,key)=>{
+        nextState[key]= reducers[key](state[key],action)
+      }
+    )
+  }
+}
+```
+首先，用户发出 Action。然后，Store 自动调用 Reducer，并且传入两个参数：当前 State 和收到的 Action。 Reducer 会返回新的 State 。
+
+State 一旦有变化，Store 就会调用监听函数。listener可以通过store.getState()得到当前状态。如果使用的是 React，这时可以触发重新渲染 View。
+异步操作
+中间件
+中间件就是一个函数，对store.dispatch方法进行了改造，在发出 Action 和执行 Reducer 这两步之间，添加了其他功能。
+
+const store = createStore(
+  reducer,
+  initial_state,
+  applyMiddleware(logger)
+);
+
+```
+
+export default function applyMiddleware(...middlewares) {
+  return (createStore) => (reducer, preloadedState, enhancer) => {
+    var store = createStore(reducer, preloadedState, enhancer);
+    var dispatch = store.dispatch;
+    var chain = [];
+
+    var middlewareAPI = {
+      getState: store.getState,
+      dispatch: (action) => dispatch(action)
+    };
+    chain = middlewares.map(middleware => middleware(middlewareAPI));
+    dispatch = compose(...chain)(store.dispatch);
+
+    return {...store, dispatch}
+  }
+}
+
+```
+上面代码中，所有中间件被放进了一个数组chain，然后嵌套执行，最后执行store.dispatch。可以看到，中间件内部（middlewareAPI）可以拿到getState和dispatch这两个方法。
+
+
+
+
+
 

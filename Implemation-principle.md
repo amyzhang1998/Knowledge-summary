@@ -416,7 +416,6 @@ var objectFunction = function(){
 
 ## 深入理解 Http 里的参数（写一个前后台交互的组件，譬如上传，表单提交）
 
-## http 和 https 区别
 
 ## nodejs 写一个前后断交互。
 
@@ -1025,3 +1024,4 @@ React 中有三种构建组件的方式。React.createClass()、ES6 class 和无
 ## promise 原理 使用 优点
 
 ## touch 事件与 click 事件区别
+## http 和 https 区别
