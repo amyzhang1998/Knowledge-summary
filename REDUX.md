@@ -454,9 +454,93 @@ export default function applyMiddleware(...middlewares) {
 
 ```
 上面代码中，所有中间件被放进了一个数组chain，然后嵌套执行，最后执行store.dispatch。可以看到，中间件内部（middlewareAPI）可以拿到getState和dispatch这两个方法。
+## redux-thank中间件:上面代码使用redux-thunk中间件，改造store.dispatch，使得后者可以接受函数作为参数。而store.dispatch方法正常情况下，参数只能是对象，不能是函数。
+异步操作至少要送出两个 Action：用户触发第一个 Action，这个跟同步操作一样，没有问题；如何才能在操作结束时，系统自动送出第二个 Action 呢？奥妙就在 Action Creator 之中。
 
+  dispatch(fetchPosts(selectedPost))   fetchPosts就是action creator
 
+const fetchPosts = postTitle => (dispatch, getState) => {
+  dispatch(requestPosts(postTitle));
+  return fetch(`/some/API/${postTitle}.json`)
+    .then(response => response.json())
+    .then(json => dispatch(receivePosts(postTitle, json)));
+  };
+};
 
+// 使用方法一
+store.dispatch(fetchPosts('reactjs'));
+// 使用方法二
+store.dispatch(fetchPosts('reactjs')).then(() =>
+  console.log(store.getState())
+);
+（1）fetchPosts返回了一个函数，而普通的 Action Creator 默认返回一个对象。
 
+（2）返回的函数的参数是dispatch和getState这两个 Redux 方法，普通的 Action Creator 的参数是 Action 的内容。
 
+因此，异步操作的第一种解决方案就是，写出一个返回函数的 Action Creator，然后使用redux-thunk中间件改造store.dispatch。
 
+。另一种异步操作的解决方案，就是让 Action Creator 返回一个 Promise 对象。
+# redux-promise 中间件
+这个中间件使得store.dispatch方法可以接受 Promise 对象作为参数。这时，Action Creator 有两种写法。写法一，返回值是一个 Promise 对象。
+const fetchPosts = 
+  (dispatch, postTitle) => new Promise(function (resolve, reject) {
+     dispatch(requestPosts(postTitle));
+     return fetch(`/some/API/${postTitle}.json`)
+       .then(response => {
+         type: 'FETCH_POSTS',
+         payload: response.json()
+       });
+});
+写法二，Action 对象的payload属性是一个 Promise 对象。这需要从redux-actions模块引入createAction方法，import { createAction } from 'redux-actions';
+
+class AsyncApp extends Component {
+  componentDidMount() {
+    const { dispatch, selectedPost } = this.props
+    // 发出同步 Action
+    dispatch(requestPosts(selectedPost));
+    // 发出异步 Action
+    dispatch(createAction(
+      'FETCH_POSTS', 
+      fetch(`/some/API/${postTitle}.json`)
+        .then(response => response.json())
+    ));
+  }
+## 使用
+React-Redux 将所有组件分成两大类：UI 组件（presentational component）和容器组件（container component）。
+### connect() 用于从 UI 组件生成容器组件
+import { connect } from 'react-redux'
+
+const VisibleTodoList = connect(
+  mapStateToProps,（输入）
+  mapDispatchToProps（输出）
+)(TodoList)
+connect方法可以省略mapStateToProps参数，那样的话，UI 组件就不会订阅Store，就是说 Store 的更新不会引起 UI 组件的更新。
+## Provider
+connect方法生成容器组件以后，需要让容器组件拿到state对象，才能生成 UI 组件的参数。
+
+一种解决方法是将state对象作为参数，传入容器组件。但是，这样做比较麻烦，尤其是容器组件可能在很深的层级，一级级将state传下去就很麻烦。
+
+React-Redux 提供Provider组件，可以让容器组件拿到state。
+import { Provider } from 'react-redux'
+import { createStore } from 'redux'
+import todoApp from './reducers'
+import App from './components/App'
+
+let store = createStore(todoApp);
+
+render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById('root')
+)
+App的所有子组件就默认都可以拿到state了.它的原理是React组件的context属性，请看源码。
+## React-Router 路由库
+使用React-Router的项目，与其他项目没有不同之处，也是使用Provider在Router外面包一层，毕竟Provider的唯一功能就是传入store对象。
+const Root = ({ store }) => (
+  <Provider store={store}>
+    <Router>
+      <Route path="/" component={App} />
+    </Router>
+  </Provider>
+);
