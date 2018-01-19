@@ -670,6 +670,13 @@ http://www.alloyteam.com/2012/03/web-cache-2-browser-cache/
 减少对Cookie的依赖
 过多的使用Cookie会大大增加HTTP请求的负担，每次GET或POST请求，都会把Cookie都带上，增加网络传输流量，导致增长交互时间；同时Cache是很难被缓存的，应该尽量少使用，或者这在动态页面上使用。
 
+### 状态码
+1	1xx消息
+2	2xx成功
+3	3xx重定向
+4	4xx客户端错误
+5	5xx服务器错误
+
 
 ## react 原理 redux原理
 ## promise
@@ -678,4 +685,4 @@ http://www.alloyteam.com/2012/03/web-cache-2-browser-cache/
 ## tcp 三次握手 七层模型 
 ## js中this是如何工作的
 ## 浏览器特性检测，特性推断，和浏览器ua字符串嗅探的区别
-
+## svg transform 和css transform
