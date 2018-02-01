@@ -686,3 +686,10 @@ http://www.alloyteam.com/2012/03/web-cache-2-browser-cache/
 ## js中this是如何工作的
 ## 浏览器特性检测，特性推断，和浏览器ua字符串嗅探的区别
 ## svg transform 和css transform
+## css动画与 svg与 canvas
+Canvas是使用JavaScript程序绘图(动态生成)，SVG是使用XML文档描述来绘图。     从这点来看：SVG更适合用来做动态交互，而且SVG绘图很容易编辑，只需要增加或移除相应的元素就可以了。       同时SVG是基于矢量的，所有它能够很好的处理图形大小的改变。Canvas是基于位图的图像，它不能够改变大小，只能缩放显示；所以说Canvas更适合用来实现类似于Flash能做的事情(当然现在Canvas与Flash相比还有一些不够完善的地方)。
+Canvas适用场景
+Canvas提供的功能更原始，适合像素处理，动态渲染和大数据量绘制
+
+SVG适用场景
+SVG功能更完善，适合静态图片展示，高保真文档查看和打印的应用场景
