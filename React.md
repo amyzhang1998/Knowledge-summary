@@ -242,6 +242,43 @@ class MyConponent extends Component{
 >容易与原生对象混淆（使用特定的变量名命名避免，比如$$,使用Immutable.fromJS而不是Immutable.map（）来创建对象）
 ### react 动画
 ### 解读react源码
+## Higher Order Components(HOC)
+
+```
+const loaderHOC = (propName)=>(WrappedComponent)=>{
+  return class loaderHOC extends Component {
+    empty(prop){
+      return (
+        prop === null|| prop === undefiend||
+        (prop.hasOwnProperty('length')&&prop.length === 0)||
+        (props.constructor === object&& Object,keys(prop).length ===0)
+      )
+    }
+
+    render(){
+      const myProps={}
+      return this.empty(this.props.proName)?<div className='loader'> </div>:<WrappedComponent {...this.props}{..myProps}/>
+    }
+  }
+}
+export default loaderHOC
+```
+## Functions as Child Component 
+## React 16 大致有以下改变：
+新的 Fiber render 引擎：以支持许多原来做不到的关于 render 的特性
+支持非阻塞式渲染
+render 支持 fragments (数组) 与字符串类型
+支持 Error 边界捕获
+添加 ReactDOM.createPortal 方法来进行组件 DOM 节点之外的渲染，这个特性使得模态框、popover、tooltip 之类的渲染变得更加方便。BTW, 这个本来是另一个开源库的思路： tajo/react-portal
+支持 stream 的 server side render
+减少的体积：大致减少了 30% 的文件体积
+### 可能需要关注的 Breaking Changes:
+unstable_renderIntoContainer, unstable_handleError 等之前的内部特性有改变，如果有依赖库用到了的话可能需要注意
+生命周期的顺序更加稳定，尤其是子节点的 componentWillMount 总会发生在父节点的 componentWillUnmount 之前
+componentDidUpdate 方法不再能够获取 prevContext 参数
+Shallow Renderer 不再调用 componentDidUpdate 方法，并且不再提供 unstable_batchedUpdates 方法（这个似乎会影响到一些之前的测试代码）
+不再有 react-with-addons.js 这个库。目测这个之后会有开源库来提供类似功能，但 React 官方提倡的是分别引用不同的 npm 库来做 addons 的事情
+
 
 
 
