@@ -597,7 +597,12 @@ https://github.com/jakesgordon/javascript-state-machine
 ## http  状态吗 304 
 304 （from cache）是http 重定向里返回的状态吗，页面没有更改，利用缓存
 ## 浏览器缓存   缓存原理  缓存机制  相关字段  cookie  服务端cookie
+> javascript cookie 是由 document.cookie=''设置；
+注意：一旦 cookie 通过 JavaScript 设置后便不能提取它的选项，所以你将不能知道 domain，path，expires 日期或 secure 标记。
+Web 服务器通过发送一个称为 Set-Cookie 的 HTTP 消息头来创建一个 cookie，Set-Cookie 消息头是一个字符串，其格式如下（中括号中的部分是可选的）：
+
 为什么不断刷新页面浏览器静态资源都是返回200？？？而不是304
+
 ### 47种http报文首部与Cache有关的
 1. 通用
 cache-control:控制缓存的行为:max-age=0；:max-age=2628000
