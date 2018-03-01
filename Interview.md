@@ -120,9 +120,25 @@ Restful API 一些具体实践：
 
 什么是同源策略？限制从一个源加载的文档或脚本如何与来自另一个源的资源进行交互。一个源指的是主机名、协议和端口号的组合，必须相同
 
-跨域通信的几种方式 JSONP Hash postMessage WebSocket CORS
+跨域通信的几种方式 JSONP postMessage document.domain CORS
 
-JSONP 原理基本原理：利用 script 标签的异步加载特性实现给服务端传一个回调函数，服务器返回一个传递过去的回调函数名称的 JS 代码
+1. JSONP 原理基本原理：利用 script 标签的异步加载特性实现给服务端传一个回调函数，服务器返回一个传递过去的回调函数名称的 JS 代码
+   JSONP 的优点是：它不像 XMLHttpRequest 对象实现的 Ajax 请求那样受到同源策略的限制；它的兼容性更好，在更加古老的浏览器中都可以运行，不需要 XMLHttpRequest 或 ActiveX 的支持；并且在请求完毕后可以通过调用 callback 的方式回传结果。
+
+2. JSONP 的缺点则是：它只支持 GET 请求而不支持 POST 等其它类型的 HTTP 请求；它只支持跨域 HTTP 请求这种情况，不能解决不同域的两个页面之间如何进行 JavaScript 调用的问题。
+   CORS（Cross-Origin Resource Sharing）跨域资源共享，定义了必须在访问跨域资源时，浏览器与服务器应该如何沟通。CORS 背后的基本思想就是使用自定义的 HTTP 头部让浏览器与服务器进行沟通，从而决定请求或响应是应该成功还是失败。服务器端对于 CORS 的支持，主要就是通过设置 Access-Control-Allow-Origin 来进行的。如果浏览器检测到相应的设置，就可以允许 Ajax 进行跨域的访问。
+
+CORS 与 JSONP 相比，无疑更为先进、方便和可靠。
+
+    1、 JSONP只能实现GET请求，而CORS支持所有类型的HTTP请求。
+
+    2、 使用CORS，开发者可以使用普通的XMLHttpRequest发起请求和获得数据，比起JSONP有更好的错误处理。
+
+    3、 JSONP主要被老的浏览器支持，它们往往不支持CORS，而绝大多数现代浏览器都已经支持了CORS）。
+
+3 通过修改 document.domain 来跨子域。修改 document.domain 的方法只适用于不同子域的框架间的交互。不同的框架之间是可以获取 window 对象的，但却无法获取相应的属性和方法。
+
+4. 使用 HTML5 的 window.postMessage 方法跨域
 
 更多请查看：《前后端通信类知识》
 
@@ -143,7 +159,7 @@ JSONP 原理基本原理：利用 script 标签的异步加载特性实现给服
 
 函数套函数就是闭包吗？不是！，当一个内部函数被其外部函数之外的变量引用时，才会形成了一个闭包。
 
-17. 如何进行错误监控前端错误的分类即时运行错误（代码错误）资源加载错误
+17. 如何进行错误监控,前端错误的分类即时运行错误（代码错误）资源加载错误
 
 错误的捕获方式即时运行错误的捕获方式： 1 、 try...catch 2、window.onerror
 
