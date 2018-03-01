@@ -2,6 +2,7 @@
 
 ## 实现
 
+Promise 是一种对异步操作的封装，可以通过独立的接口添加在异步操作执行成功、失败时执行的方法
 promise 里面的 then 函数仅仅是注册了后续需要执行的代码，真正的执行是在 resolve 方法里面执行的，理清了这层，再来分析源码会省力的多。现在回顾下 Promise 的实现过程，其主要使用了设计模式中的观察者模式：
 
 1. 通过 Promise.prototype.then 和 Promise.prototype.catch 方法将观察者方法注册到被观察者 Promise 对象中，同时返回一个新的 Promise 对象，以便可以链式调用。

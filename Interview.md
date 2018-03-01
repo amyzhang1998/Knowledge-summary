@@ -71,10 +71,26 @@ function Child3(){ Parent3.call(this); this.type = "child3"; } Child3.prototype
 
 11. 浏览器渲染原理
 
-首先来看一张图：
-
 HTML 被解析成 DOM Tree，CSS 被解析成 CSS Rule Tree 把 DOM Tree 和 CSS Rule Tree
-经过整合生成 Render Tree（布局阶段）元素按照算出来的规则，把元素放到它该出现的位置，通过显卡画到屏幕上
+经过整合生成 Render Tree（布局阶段）元素按照算出来的规则，把元素放到它该出现的位置，通过显卡画到屏幕上解析--> 渲染--> repaint/reflow
+
+> reflow 的情况
+
+1. 增加、删除、或改变 DOM 节点
+2. 增加、删除 ‘class’ 属性值
+3. 元素尺寸改变
+4. 文本内容改变
+5. 浏览器窗口改变大小或拖动
+6. 动画效果进行计算和改变 CSS 属性值
+7. 伪类激活（:hover）
+
+> 优化
+> 1、创建有效的 HTML 和 CSS ，不要忘记指定文档编码，比如<meta charset="utf-8">。
+> 2、CSS 样式应该包含在 <head>中， Javascript 脚本出现在 <body>末尾。
+> 3、减少 CSS 嵌套层级和选择适当的选择器，可参考 如何提升 CSS 选择器性能。
+> 4、不要通过 JS 逐条修改 DOM 的样式，提前定义好 CSS 的 Class 进行操作。
+> 5、尽量减少将 DOM 节点属性值放在循环当中，会导致大量读写此属性值。
+> 6、尽可能的为产生动画的 HTML 元素使用 fixed 或 absolute 的 position ，那么修改他们的 CSS 是不会 Reflow 的。
 
 12. 前端路由的原理什么是路由？简单的说，路由是根据不同的 url 地址展示不同的内容或页面
 
@@ -594,7 +610,6 @@ https://github.com/jakesgordon/javascript-state-machine
 　　　　}
 
 　　};
-
 ```
 
 ## http 状态吗 304
@@ -700,8 +715,6 @@ http://www.alloyteam.com/2012/03/web-cache-2-browser-cache/
 3 3xx 重定向
 4 4xx 客户端错误
 5 5xx 服务器错误
-
-## react 原理 redux 原理
 
 ## promise
 

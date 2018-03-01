@@ -713,7 +713,7 @@ window.URL.revokeObjectURL(url);
 ## 跨域问题
 
 > 1.什么引起了 ajax 跨域不能的问题
-> ajax 本身实际上是通过 XMLHttpRequest 对象来进行数据的交互，而浏览器出于安全考虑，不允许 js 代码进行跨域操作，所以会警告。
+> jsonp 本身实际上是通过 XMLHttpRequest 对象来进行数据的交互，而浏览器出于安全考虑，不允许 js 代码进行跨域操作，所以会警告。
 
 2.有什么完美的解决方案么？没有。解决方案有不少，但是只能是根据自己的实际情况来选择。
 
@@ -1024,6 +1024,8 @@ React 中有三种构建组件的方式。React.createClass()、ES6 class 和无
 
 ## promise 原理 使用 优点
 
+> 一个 Promise 对象代表一个目前还不可用，但是在未来的某个时间点可以被解析的值。它允许你以一种同步的方式编写异步代码。
+
 ## touch 事件与 click 事件区别
 
 ## http 和 https 区别
@@ -1067,9 +1069,17 @@ https://juejin.im/post/5a102e656fb9a044fd1158c6
 2. JavaScript 是一门基于原型的语言: 没有类和对象是通过克隆来创建的。同时 JavaScript 也是一门动态语言，这意味着在实例化之后也能够方便的从对象中添加或者删除属性。
 3. 由于采用字典的方式去内存中查找对象属性的位置效率很低，因此 V8 就采用了一种不一样的方法：隐藏类。
     ### 内联缓存 (Inline caching)
-    ### 编译成机器代码
-    ### 垃圾回收
-    ### 如何写出优化的 JavaScript
+
+### 编译成机器代码、
+
+### 垃圾回收、
+
+### 如何写出优化的 JavaScript
+
     https://blog.sessionstack.com/how-javascript-works-deep-dive-into-websockets-and-http-2-with-sse-how-to-pick-the-right-path-584e6b8e3bf7
-    ## 内存管理以及四种常见的内存泄漏的解决方法
-    ## 事件循环和异步编程的崛起以及 5 个如何更好的使用 async/await 编码的技巧
+
+## 内存管理以及四种常见的内存泄漏的解决方法
+
+## 事件循环和异步编程的崛起以及 5 个如何更好的使用 async/await 编码的技巧
+
+## 原生 js 封装 ajax
