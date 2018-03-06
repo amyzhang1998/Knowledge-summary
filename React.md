@@ -283,6 +283,8 @@ export default loaderHOC
 
 ### setState 机制 是通过状态队列机制实现异步更新
 
+为什么 SetState 要设计成异步的？利用 javascript 的异步线程，合并 setState 次数。
+
 ## React 16 大致有以下改变：
 
 新的 Fiber render 引擎：以支持许多原来做不到的关于 render 的特性支持非阻塞式渲染
@@ -295,3 +297,7 @@ render 支持 fragments (数组) 与字符串类型支持 Error 边界捕获添�
 unstable_renderIntoContainer, unstable_handleError 等之前的内部特性有改变，如果有依赖库用到了的话可能需要注意生命周期的顺序更加稳定，尤其是子节点的 componentWillMount 总会发生在父节点的 componentWillUnmount 之前
 componentDidUpdate 方法不再能够获取 prevContext 参数
 Shallow Renderer 不再调用 componentDidUpdate 方法，并且不再提供 unstable_batchedUpdates 方法（这个似乎会影响到一些之前的测试代码）不再有 react-with-addons.js 这个库。目测这个之后会有开源库来提供类似功能，但 React 官方提倡的是分别引用不同的 npm 库来做 addons 的事情
+
+总结：
+React 通过三种状态：MOUNTING、RECEIVE_PROPS、UNMOUNTING，管理整个生命周期的执行顺序；
+setState 会先进行 \_pendingState 更新队列的合并操作，不会立刻 reRender，因此是异步操作，且通过判断状态（MOUNTING、RECEIVE_PROPS）来控制 reRender 的时机；

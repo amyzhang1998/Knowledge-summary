@@ -865,13 +865,13 @@ dtd 信息就是 doctype 声明。
 1. 是什么？
     > DOCTYPE 是 document type 的简写。主要用来说明你用的 XHTML 或者 HTML 是什么版本。浏览器根据你 DOCTYPE 定义的 DTD(文档类型定义)来解释页面代码.
 2. 作用？ > doctype 声明指出阅读程序应该用什么规则集来解释文档中的标记。在 web 文档的情况下，“阅读程序”通常是浏览器或者校验器这样的一个程序，“规则”则是 w3c 所发布的一个文档类型定义（dtd）中包含的规则 > xhtml 1.0 strict：
-   <!doctype html public "-/w3c/dtd xhtml 1.0 strict/en"
+       <!doctype html public "-/w3c/dtd xhtml 1.0 strict/en"
     "http://www.w3.org/tr/xhtml1/dtd/xhtml1-strict.dtd">
-   xhtml 1.0 transitional：
-   <!doctype html public "-/w3c/dtd xhtml 1.0 transitional/en"
+    xhtml 1.0 transitional：
+       <!doctype html public "-/w3c/dtd xhtml 1.0 transitional/en"
 "http://www.w3.org/tr/xhtml1/dtd/xhtml1-transitional.dtd">
-   xhtml 1.0 frameset：
-   <!doctype html public "-/w3c/dtd xhtml 1.0 frameset/en"
+    xhtml 1.0 frameset：
+       <!doctype html public "-/w3c/dtd xhtml 1.0 frameset/en"
    Transitional 类型：是指一种过渡类型，使用这种类型浏览器对 XHTML 的解析比较宽松，允许使用 HTML4.01 中的标签，但必须符合 XHTML 的语法。这种是现在通用的方法，用 dreamweaver 创建网页时默认就是这种类型。
    Strict 类型：严格类型，使用时浏览器将相对严格，不允许使用任何表现形式的标识和属性，如在元素中直接使用 bgcolor 背景色属性等。
    Frameset 类型：框架页类型，如果网页使用了框架结构，就有必要使用这样的文档声明。
@@ -1083,3 +1083,58 @@ https://juejin.im/post/5a102e656fb9a044fd1158c6
 ## 事件循环和异步编程的崛起以及 5 个如何更好的使用 async/await 编码的技巧
 
 ## 原生 js 封装 ajax
+
+    function Ajax(type, url, data, success, failed){
+    // 创建ajax对象
+    var xhr = null;
+    if(window.XMLHttpRequest){
+        xhr = new XMLHttpRequest();
+    } else {
+        xhr = new ActiveXObject('Microsoft.XMLHTTP')
+    }
+
+    var type = type.toUpperCase();
+    // 用于清除缓存
+    var random = Math.random();
+
+    if(typeof data == 'object'){
+        var str = '';
+        for(var key in data){
+            str += key+'='+data[key]+'&';
+        }
+        data = str.replace(/&$/, '');
+    }
+
+    if(type == 'GET'){
+        if(data){
+            xhr.open('GET', url + '?' + data, true);
+        } else {
+            xhr.open('GET', url + '?t=' + random, true);
+        }
+        xhr.send();
+
+    } else if(type == 'POST'){
+        xhr.open('POST', url, true);
+        // 如果需要像 html 表单那样 POST 数据，请使用 setRequestHeader() 来添加 http 头。
+        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhr.send(data);
+    }
+
+    // 处理返回数据
+    xhr.onreadystatechange = function(){
+        if(xhr.readyState == 4){
+            if(xhr.status == 200){
+                success(xhr.responseText);
+            } else {
+                if(failed){
+                    failed(xhr.status);
+                }
+            }
+        }
+    }
+
+}
+
+## react-router Link 标签和 a 标签 和 location.href 区别
+
+react-router 继承了 react 的优点（利用虚拟 dom 和 diff 算法完成按需更新），不会像 a 标签一样重新渲染页面，可以按需渲染，<Link>组件帮助我们实现了这个愿望，反观<a>标签，每次跳转都重渲染了导航组件和 Tab 组件。

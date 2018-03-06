@@ -138,7 +138,7 @@ CORS 与 JSONP 相比，无疑更为先进、方便和可靠。
 
 3 通过修改 document.domain 来跨子域。修改 document.domain 的方法只适用于不同子域的框架间的交互。不同的框架之间是可以获取 window 对象的，但却无法获取相应的属性和方法。
 
-4. 使用 HTML5 的 window.postMessage 方法跨域
+4. 使用 HTML5 的 window.postMessage（message, targetOrigin, [transfer]） 方法跨域
 
 更多请查看：《前后端通信类知识》
 
@@ -172,8 +172,45 @@ error 1. 在 script 标签增加 crossorigin 属性
 2. 设置 js 资源响应头 Access-Control-Allow-Orgin:\* 上报错误的基本原理采用 Ajax
    通信方式上报利用 Image 对象上报
 
-    18.DOM 事件类 DOM 事件的级别 DOM0，element.onclick = function(){} DOM2 ，
-    element.addEventListener('click', function(){}, false);
+## 如何使用事件？以及 IE 和标准 DOM 事件模型之间存在的差别？
+
+    （1）：1.关于事件流；
+    1.1 IE 的事件流：事件冒泡
+    由事件的目标(event.srcElement)接受事件，然后逐级向上（例：下一个为包含 event.srcElement 的节点传递事件,直到文档节点 document;
+    1.2 其他浏览器支持的另一种事件流：事件捕获
+    与事件冒泡正好相反，文档节点 document 先监听到事件，然后把事件逐级向下传递事件，直到目标节点 event.target；
+    1.3 DOM 事件流
+    DOM2 级事件规范的事件流综合了以上两种，把事件流分为了以下三个阶段：
+    1.3.1 事件捕获阶段
+    不涉及事件目标，或者说这个阶段在目标之前就结束了；
+    1.3.2 处于目标阶段
+    被看作冒泡阶段的一部分，所以可以在冒泡阶段在目标事件上操作事件；
+    1.3.3 事件冒泡阶段
+    1.4 规范和浏览器实现的差别
+    DOM2 级事件规范的捕获阶段，事件从文档节点 document 开始传播，现代浏览器大多数都是从 window 对象开始传播事件的；
+    DOM2 级事件规范捕获阶段不涉及事件目标，现代浏览器大多数都在这个阶段包含事件目标。
+
+2.如何使用事件？以下是几种用来响应事件的事件处理程序
+HTML 事件处理程序|DOM0 级事件处理程序|DOM2 级事件处理程序|IE 的事件处理程序(IE11 以下)
+dom2 和 ie 的 attachEvent()缺点：不能删除匿名函数。
+
+3. IE 和标准 DOM 事件模型之间存在的差别
+   3.1 这里的 IE 是 IE11 以下;
+   3.2 参数的差别: attachEvent()的第一个参数比 addEventListener()的事件名多一个"on"，且没有第三个参数，因为 IE 事件模型只支持冒泡事件流;
+   3.3 事件处理函数作用域的区别: IE 中事件处理程序处于全局作用域，其内的 this 会指向 window;
+   而用 DOM（0 或 2）级事件的事件处理程序的作用域是元素作用域，其内的 this 指向其所属的元素例: document.addEventListener("click", function(){
+   if(this == document){
+   alert("此时 this 指向 document");
+   }
+   }, false);
+   3.4 事件对象 event 的属性方法的差别
+   IE DOM
+   cancelBubble = true stopPropagation() //停止冒泡
+   returnValue = false preventDefault() //阻止元素默认事件
+   srcEelement target //事件目标
+
+4. DOM 事件类 DOM 事件的级别 DOM0，element.onclick = function(){} DOM2 ，
+   element.addEventListener('click', function(){}, false);
 
 DOM 事件模型是什么：指的是冒泡和捕获 DOM 事件流是什么：捕获阶段 -> 目标阶段 ->
 冒泡阶段描述 DOM 事件捕获的具体流程 window --> document --> documentElement(html
@@ -754,3 +791,44 @@ Canvas 提供的功能更原始，适合像素处理，动态渲染和大数据�
 
 SVG 适用场景
 SVG 功能更完善，适合静态图片展示，高保真文档查看和打印的应用场景
+
+## Dom 结构
+
+### 两个节点间可能存在什么哪些关系以为如何在节点之间任意移动？
+
+关系：父子关系，兄弟关系 ；
+node.parentNode, node.parentElement,获取子节点：childNodes(以 NodeList 对象存在的子节点集合),firstChild,lastChild;
+1.3 同辈（兄弟节点）
+nextSibling，previousSibling
+DOM level 3 引入的 compareDocumentPosition()，确定节点之间的关系.
+
+### DOM 操作——怎样添加、移除、移动、复制、创建和查找节点。
+
+（1）创建新节点
+
+      createDocumentFragment()    //创建一个DOM片段
+
+      createElement()   //创建一个具体的元素
+
+      createTextNode()   //创建一个文本节点
+
+（2）添加、移除、替换、插入
+
+      appendChild()
+
+      removeChild()
+
+      replaceChild()
+
+      insertBefore()
+
+（3）查找
+
+      getElementsByTagName()    //通过标签名称
+
+      getElementsByName()    //通过元素的Name属性的值
+
+      getElementById()    //通过元素Id，唯一性
+
+(4) 克隆
+cloneNode()深克隆；
