@@ -231,3 +231,13 @@ sessionStorage:5M,当前会话有效。
 localStorage 提供了几个方法: 1.存储:localStorage.setItem(key,value)如果 key 存在时，更新 value 2.获取 localStorage.getItem(key)如果 key 不存在返回 null 3.删除 localStorage.removeItem(key)一旦删除，key 对应的数据将会全部删除 4.全部清除 localStorage.clear() 使用 removeItem 逐个删除太麻烦，可以使用 clear,
 
 需要注意的是，不是什么数据都适合放在 Cookie、localStorage 和 sessionStorage 中的。使用它们的时候，需要时刻注意是否有代码存在 XSS 注入的风险。因为只要打开控制台，你就随意修改它们的值，也就是说如果你的网站中有 XSS 的风险，它们就能对你的 localStorage 肆意妄为。所以千万不要用它们存储你系统中的敏感数据。
+
+### object.create(prop),object.assign(target,props)
+
+1. Object.assign(target, ...sources) 1.不算是深拷贝，对嵌套对象不能做到深拷贝。
+2. 因为 assign 复制的事属性名，所以会产生覆盖和数据合并。可以复制 Symbol 类型数据,null，undefiend 会被忽略
+3. 继承属性和不可枚举属性是不能拷贝的
+
+### object.create(proptype)；
+
+第一个属性是继承属性
