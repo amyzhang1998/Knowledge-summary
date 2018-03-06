@@ -203,3 +203,31 @@ NPM 是随同 NodeJS 一起安装的包管理工具，能解决 NodeJS 代码部
 a、允许用户从 NPM 服务器下载别人编写的第三方包到本地使用。
 b、允许用户从 NPM 服务器下载并安装别人编写的命令行程序到本地使用。
 c、允许用户将自己编写的包或命令行程序上传到 NPM 服务器供别人使用。
+
+### react 防 XSS 攻击。
+
+1. 所有的用户输入都需要经过 HTML 实体编码，这里 React 已经帮我们做了很多，它会在运行时动态创建 DOM 节点然后填入文本内容（你也可以强制设置 HTML 内容，不过这样比较危险）
+
+2. 当你打算序列化某些状态并且传给客户端的时候，你同样需要进行 HTML 实体编码
+
+（1）. 防范 XSS 攻击； 1.还是将前端输出数据都进行转义最为稳妥（2），保护 cookie 设置 http-only
+(3),CSRF 攻击，跨站伪造攻击。主要是针对 post 提交，我们平时开发要注意些什么？
+
+1. 开发时要提防用户产生的内容，要对用户输入的信息进行层层检测
+
+2. 要注意对用户的输出内容进行过滤(进行转义等)
+
+3. 重要的内容记得要加密传输(无论是利用 https 也好，自己加密也好)
+
+4. get 请求与 post 请求，要严格遵守规范，不要混用，不要将一些危险的提交使用 jsonp 完成。
+
+5. 对于 URL 上携带的信息，要谨慎使用。
+
+### 4.浏览器本地存储中 cookie 和 localStorage 有什么区别？ localStorage 如何存储删除数据。
+
+cookie :最大 4k,过期时间之前有效。在服务端与客户端来回传递，
+localStorage:5M，持久数据。不传到服务端，
+sessionStorage:5M,当前会话有效。
+localStorage 提供了几个方法: 1.存储:localStorage.setItem(key,value)如果 key 存在时，更新 value 2.获取 localStorage.getItem(key)如果 key 不存在返回 null 3.删除 localStorage.removeItem(key)一旦删除，key 对应的数据将会全部删除 4.全部清除 localStorage.clear() 使用 removeItem 逐个删除太麻烦，可以使用 clear,
+
+需要注意的是，不是什么数据都适合放在 Cookie、localStorage 和 sessionStorage 中的。使用它们的时候，需要时刻注意是否有代码存在 XSS 注入的风险。因为只要打开控制台，你就随意修改它们的值，也就是说如果你的网站中有 XSS 的风险，它们就能对你的 localStorage 肆意妄为。所以千万不要用它们存储你系统中的敏感数据。
