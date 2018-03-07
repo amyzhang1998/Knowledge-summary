@@ -241,3 +241,132 @@ localStorage 提供了几个方法: 1.存储:localStorage.setItem(key,value)如�
 ### object.create(proptype)；
 
 第一个属性是继承属性
+
+### 防抖 节流
+
+针对多次触发 resize 和 scroll 事件执行函数
+
+1. 防抖：防抖技术即是可以把多个顺序地调用合并成一次，也就是在一定时间内，规定事件被触发的次数。
+
+```
+function debounce(func, wait, immediate) {
+    // 定时器变量
+    var timeout;
+    return function() {
+        // 每次触发 scroll handler 时先清除定时器
+        clearTimeout(timeout);
+        // 指定 xx ms 后触发真正想进行的操作 handler
+        timeout = setTimeout(func, wait);
+    };
+};
+
+// 实际想绑定在 scroll 事件上的 handler
+function realFunc(){
+    console.log("Success");
+}
+
+// 采用了防抖动
+window.addEventListener('scroll',debounce(realFunc,500));
+// 没采用防抖动
+window.addEventListener('scroll',realFunc);
+```
+
+2. 节流：与防抖相比，节流函数最主要的不同在于它保证在 X 毫秒内至少执行一次我们希望触发的事件 handler
+
+```
+function throttle(func, wait, mustRun) {
+    var timeout,
+        startTime = new Date();
+
+    return function() {
+        var context = this,
+            args = arguments,
+            curTime = new Date();
+
+        clearTimeout(timeout);
+        // 如果达到了规定的触发时间间隔，触发 handler
+        if(curTime - startTime >= mustRun){
+            func.apply(context,args);
+            startTime = curTime;
+        // 没达到触发间隔，重新设定定时器
+        }else{
+            timeout = setTimeout(func, wait);
+        }
+    };
+};
+// 实际想绑定在 scroll 事件上的 handler
+function realFunc(){
+    console.log("Success");
+}
+// 采用了节流函数
+window.addEventListener('scroll',throttle(realFunc,500,1000));
+```
+
+### 懒加载
+
+当访问一个页面时，先把 img 元素或者其他元素的路径换成一个大小为 1px 的占位图片。只有图片出现在可是区域后，才设置图片真正的路径。
+
+1. 原理懒加载的原理就是先在页面中把所有的图片统一使用一张占位图进行占位，把正真的路径存在元素的“data-url”（自定义属性）属性里，当图片出现在可视区域内时，就取出来，再设置；
+
+```
+function isVisible($node){
+    var winH = $(window).height(),
+        scrollTop = $(window).scrollTop(),
+        offSetTop = $(window).offSet().top;
+    if (offSetTop < winH + scrollTop) {
+        return true;
+    } else {
+        return false;
+    }
+}
+```
+
+### 预加载
+
+提前加载图片，当用户需要查看时可直接从**本地缓存**中渲染
+
+#### 实现
+
+1.方法一：用 CSS 和 JavaScript 实现预加载
+background:url(./png)
+
+2. 方法二：用 javascript 实现
+   image = new Image()
+   image.src='./aaa'
+3. 用 ajax
+   var xhr = new XMLHttpRequest();  
+    xhr.open('GET', 'http://domain.tld/preload.js');  
+    xhr.send('');
+
+2)区别：两种技术的本质：两者的行为是相反的，一个是提前加载，一个是迟缓甚至不加载。懒加载对服务器前端有一定的缓解压力作用，预加载则会增加服务器前端压力。 3)懒加载的意义及实现方式有：意义：懒加载的主要目的是作为服务器前端的优化，减少请求数或延迟请求数。实现方式： 1.第一种是纯粹的延迟加载，使用 setTimeOut 或 setInterval 进行加载延迟. 2.第二种是条件加载，符合某些条件，或触发了某些事件才开始异步下载。 3.第三种是可视区加载，即仅加载用户可以看到的区域，这个主要由监控滚动条来实现，一般会在距用户看到某图片前一定距离遍开始加载，这样能保证用户拉下时正好能看到图片。
+
+4)预加载的意义及实现方式有：意义:
+预加载可以说是牺牲服务器前端性能，换取更好的用户体验，这样可以使用户的操作得到最快的反映。实现方式：实现预载的方法非常多，比如：用 CSS 和 JavaScript 实现预加载；仅使用 JavaScript 实现预加载；使用 Ajax 实现预加载。常用的是 new Image();设置其 src 来实现预载，再使用 onload 方法回调预载完成事件。只要浏览器把图片下载到本地，同样的 src 就会使用缓存，这是最基本也是最实用的预载方法。当 Image 下载完图片头后，会得到宽和高，因此可以在预载前得到图片的大小(方法是用记时器轮循宽高变化)。
+
+### 瀑布流布局
+
+1. 固定列宽的多列布局。
+   float:left
+2. css3 多列布局
+   column-count column-gap
+3. 绝对定位方式
+4. 流体布局
+    ### 12 行内元素有哪些？块级元素有哪些？ 空(void)元素有那些？
+
+答案解析：
+
+行内元素：a  b i br sub sup  span  img  input  select  strong button, input, label, select, textarea
+
+块级元素：div  ul  ol  li    dt  dd  h1  h2  h3  h4  p form pre video 等
+
+空元素：<br>  <hr>  <img>  <link> <meta>
+
+### 简述一下 src 与 href 的区别
+
+答案解析：
+
+href 是指向网络资源所在位置，建立和当前元素（锚点）或当前文档（链接）之间的链接，用于超链接。
+
+src 是指向外部资源的位置，指向的内容将会嵌入到文档中当前标签所在位置；在请求 src 资源时会将其指向的资源下载并应用到文档内，例如 js 脚本，img 图片和 frame 等元素。
+
+当浏览器解析到该元素时，会暂停其他资源的下载和处理，直到将该资源加载、编译、执行完毕，图片和框架等元素也如此，类似于将所指向资源嵌入当前标签内。这也是为什么将 js 脚本放在底部而不是头部。
