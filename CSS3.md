@@ -51,10 +51,6 @@ column-count:
 column-gap:
 column-rule:width|style|color
 
-### 过度 transition
-
-transtion: property | duration| timing-function|delay
-
 ### background
 
 background-size;background-origin
@@ -81,7 +77,7 @@ font-stretch:
 
 }
 
-### 2d 转换
+## 2d 转换
 
 transform
 translate()
@@ -97,6 +93,14 @@ transform: rotate(30deg);
 -o-transform: rotate(30deg); /_ Opera _/
 -moz-transform: rotate(30deg); /_ Firefox _/
 }
+
+#### transform:translate（tx,ty）将一个元素显示位置平移 tx,ty.坐标是相对于当前元素而言的，默认是元素的中心点变换，我们可以通过 transform-origin 属性改变变换的中心点。
+
+http://www.zhangxinxu.com/wordpress/2015/10/understand-svg-transform/
+
+## 过度 transition
+
+transtion: property | duration| timing-function|delay
 
 ### 3d 转换
 

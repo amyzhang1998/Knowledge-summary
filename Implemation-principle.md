@@ -355,8 +355,70 @@ function obj(o){
 > 通过修改该类(实际上是函数)的 prototype 来完成的。但是我们的实例属性还是通过构造函数方式来完成的。
 
 > `extends`的原理就是 Object.create()继承组合式继承
+> ES5 的继承，实质是先创造子类的实例对象 this，然后再将父类的方法添加到 this 上面（Parent.apply(this)）。ES6 的继承机制完全不同，实质是先创造父类的实例对象 this（所以必须先调用 super 方法），然后再用子类的构造函数修改 this。另一个需要注意的地方是，在子类的构造函数中，只有调用 super 之后，才可以使用 this 关键字，否则会报错。这是因为子类实例的构建，是基于对父类实例加工，只有 super 方法才能返回父类实例。
 
 > `super`原理：在调用自方法的时候通过原型链先去父类中找，父类中没有在往上一层层寻找。有就返回值，没有就是 undefined; 原理是 Object.getPropertyOf()
+
+```
+//class
+var _createClass = function () {
+    // 给对象添加属性
+    function defineProperties(target, props) {
+     for (var i = 0; i < props.length; i++) {
+         var descriptor = props[i];
+         descriptor.enumerable = descriptor.enumerable || false; //默认不可枚举
+         descriptor.configurable = true;//可配置修改属性
+         if ("value" in descriptor) descriptor.writable = true;
+         Object.defineProperty(target, descriptor.key, descriptor);//给target添加属性
+      }
+    }
+    // 返回函数
+    return function (Constructor, protoProps, staticProps) {
+        if (protoProps) defineProperties(Constructor.prototype, protoProps);
+        if (staticProps) defineProperties(Constructor, staticProps);
+        return Constructor;
+    };
+}();//立即执行
+
+//extends
+可以看出extend背后是通过js的原型链实现的。
+其中在class b extends a中要将a传入b中。
+function _inherits(subClass, superClass) {
+    // 确保superClass为function
+    if (typeof superClass !== "function" && superClass !== null) {
+        throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
+    }
+    // subClass.prototype的[[prototype]]关联到superClass superClass.prototype
+    // 给subClass添加constructor这个属性
+    subClass.prototype = Object.create(superClass && superClass.prototype, {
+        constructor: {
+            value: subClass,
+            enumerable: false,
+            writable: true,
+            configurable: true
+        }
+    });
+    // 设置subclass的内置[[prototype]]与superClass相关联
+    if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+}
+//super
+function b(m, n) {
+    _classCallCheck(this, b);
+
+    var _this = _possibleConstructorReturn(this, (b.__proto__ || Object.getPrototypeOf(b)).call(this));
+
+    _this.m = m;
+    _this.n = n;
+    return _this;
+  }
+  function _possibleConstructorReturn(self, call) {
+  if (!self) {
+      throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }
+  //显示绑定b的内置[[prototype]]到this，即在b中执行b原型链上关联的属性。
+  return call && (typeof call === "object" || typeof call === "function") ? call : self;
+}
+```
 
 ### new 函数的过程
 
@@ -865,13 +927,13 @@ dtd 信息就是 doctype 声明。
 1. 是什么？
     > DOCTYPE 是 document type 的简写。主要用来说明你用的 XHTML 或者 HTML 是什么版本。浏览器根据你 DOCTYPE 定义的 DTD(文档类型定义)来解释页面代码.
 2. 作用？ > doctype 声明指出阅读程序应该用什么规则集来解释文档中的标记。在 web 文档的情况下，“阅读程序”通常是浏览器或者校验器这样的一个程序，“规则”则是 w3c 所发布的一个文档类型定义（dtd）中包含的规则 > xhtml 1.0 strict：
-       <!doctype html public "-/w3c/dtd xhtml 1.0 strict/en"
+   <!doctype html public "-/w3c/dtd xhtml 1.0 strict/en"
     "http://www.w3.org/tr/xhtml1/dtd/xhtml1-strict.dtd">
-    xhtml 1.0 transitional：
-       <!doctype html public "-/w3c/dtd xhtml 1.0 transitional/en"
+   xhtml 1.0 transitional：
+   <!doctype html public "-/w3c/dtd xhtml 1.0 transitional/en"
 "http://www.w3.org/tr/xhtml1/dtd/xhtml1-transitional.dtd">
-    xhtml 1.0 frameset：
-       <!doctype html public "-/w3c/dtd xhtml 1.0 frameset/en"
+   xhtml 1.0 frameset：
+   <!doctype html public "-/w3c/dtd xhtml 1.0 frameset/en"
    Transitional 类型：是指一种过渡类型，使用这种类型浏览器对 XHTML 的解析比较宽松，允许使用 HTML4.01 中的标签，但必须符合 XHTML 的语法。这种是现在通用的方法，用 dreamweaver 创建网页时默认就是这种类型。
    Strict 类型：严格类型，使用时浏览器将相对严格，不允许使用任何表现形式的标识和属性，如在元素中直接使用 bgcolor 背景色属性等。
    Frameset 类型：框架页类型，如果网页使用了框架结构，就有必要使用这样的文档声明。
