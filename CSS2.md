@@ -47,3 +47,12 @@ currentStyle：
     padding：共有4个，可以单独指定，也可以一起指定。该值是指元素border距元素内可用区域之间的距离。
 
     margin：共有4个，可以单独指定，也可以一起指定。该值是指距相邻/周围元素之间的距离。当元素position为relative时，其4个值分别等同于top、right、bottom和left
+
+### css 中哪些元素可以继承
+
+1. 不可继承的：display、margin、border、padding、background、height、min-height、max-height、width、min-width、max-width、overflow、position、left、right、top、bottom、z-index、float、clear、table-layout、vertical-align、page-break-after、page-bread-before 和 unicode-bidi。
+2. 所有元素可继承：visibility 和 cursor。
+3. 内联元素可继承：letter-spacing、word-spacing、white-space、line-height、color、font、font-family、font-size、font-style、font-variant、font-weight、text-decoration、text-transform、direction。
+4. 终端块状元素可继承：text-indent 和 text-align。
+5. 列表元素可继承：list-style、list-style-type、list-style-position、list-style-image。
+6. 表格元素可继承：border-collapse。
