@@ -440,6 +440,9 @@ float overflow padding position resize width text-align
 
 ## 继承
 ES5 的继承，实质是先创造子类的实例对象this，然后再将父类的方法添加到this上面（Parent.apply(this)）。ES6 的继承机制完全不同，实质是先创造父类的实例对象this（所以必须先调用super方法），然后再用子类的构造函数修改this。
+## this 
+js中 this 是什么？
+this 是一个关键字，指向当前函数的运行环境，运行环境是动态的。
 
 
 
