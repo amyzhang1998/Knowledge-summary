@@ -33,7 +33,12 @@ string.lastIndexOf(searchValue[,fromIndex])
 
 ## Array.reduce(callback[, initialValue])
 
-callback(accumulator,currentValue,currentIndex[Optional]){}
+1.  如果 initialValue 没有初始设置，则函数将会从下标 1 开始执行数组，accumulator 等于数组第一个值，如果有初始值，从下标 0 开始执行。
+2.  如果传入的数组是空，也没有设置初始值，会抛出 TypeError.
+3.  如果数组只有一个值不管位置在哪，没有设置初始值，这唯一的值将会返回。
+4.  如果初始值提供，但是数组是空。将会返回初始值。
+
+> callback(accumulator,currentValue,currentIndex[Optional]){}
 
 ## Array.filter(callback[, thisArg]):
 
@@ -63,16 +68,16 @@ parseInt(基数) 可以指定基数。
 
 ### Number 函数转换规则：
 
-1. Number(null)//0
-2. Number(undefined) //0
-3. Number(" ") // 0
-4. Number(false) //0
-5. Number(true) //1
-   对于字符串：
-6. 会忽略最前面的 0； Number('011')//11;6
-7. Number('0xf')//16 进制 转成 十进制
-8. Number('1.2')//1.2
-9. 如果是对象，先调用 valueof(),然后调用之前规则，如果是 NaN ，则调用 toString() 方法，然后调用之上规则。
+1.  Number(null)//0
+2.  Number(undefined) //0
+3.  Number(" ") // 0
+4.  Number(false) //0
+5.  Number(true) //1
+    对于字符串：
+6.  会忽略最前面的 0； Number('011')//11;6
+7.  Number('0xf')//16 进制 转成 十进制
+8.  Number('1.2')//1.2
+9.  如果是对象，先调用 valueof(),然后调用之前规则，如果是 NaN ，则调用 toString() 方法，然后调用之上规则。
 10. Number('22dd')//NaN
     ### ParseInt()规则
 11. 忽略字符串前面的空格,如果第一个自负不是数字或负号，就反回 NaN.parseInt 会解析到非数字字符，然后把之前的数字返回。
