@@ -27,6 +27,8 @@ string.lastIndexOf(searchValue[,fromIndex])
 
 ## String.replace(regexp|substr, newSubstr|function)
 
+## String.incluedes(searchElement[,fromIndex])如果有符合的元素就返回 true,否则返回 false;
+
 # Array
 
 ## Array.slice([begin[, end])
@@ -52,6 +54,10 @@ callback(element,index)
 ## Array.findIndex(callback[,thisArg])返回第一个符合元素的下标，没有符合的就返回-1
 
 ## Array.find(callback[,thisArg])返回第一个符合的元素，没有则返回 undefined;
+
+## Array.some(callback[,thisArg]) 如果有符合的元素就返回 true,否则返回 false;
+
+## Array.incluedes(searchElement[,fromIndex])如果有符合的元素就返回 true,否则返回 false;
 
 # in 操作符
 

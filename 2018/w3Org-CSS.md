@@ -108,7 +108,7 @@ inline-block inline-table inline-grid inline-flex
 1.  flex:0 1 auto|[flex-grow flex-shrink?flex-basis]|none（0 0 auto）
     flex-grow:项目的放大比例
     flex-shrink:项目的缩小比例
-    flex-basis:再分配多余空间之前，项目占据的主轴空间。auto(项目的本来大小)，width(具体大小),如果没有写 flex-basis,默认是 0;
+    flex-basis:在分配多余空间之前，项目占据的主轴空间。auto(项目的本来大小)，width(具体大小),如果没有写 flex-basis,默认是 0;
 
 #### 绝对定位的 items.
 
