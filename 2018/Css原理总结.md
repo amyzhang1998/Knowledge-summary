@@ -35,6 +35,13 @@ margin 可以影响元素的内部尺寸和外部尺寸。外部尺寸主要用�
 ## margin 和相对偏移量的异同？
 
 > margin-top 和 position:relative.都是**以自身作为参照物**进行偏移的。而 absolute 偏移是相对于包含块，并且其偏移值是从包含快的 padding 区域开始计算。意思很明白，margin 是用来增加自身与它人之间的空白，而 top, right, bottom, left 是用来对自身进行排版，作用完全不同。也就是说 margin 是互动的，因为它要**影响**它人；而 top, right, bottom, left 是孤独的，它只是自己一个人玩，不**影响**它人。
+## display：none和 visibility:hidden 的区别？
+1. 是否占据空间
+2. 回流与渲染：display:none 隐藏产生reflow和repaint。 而 visibility:hidden 没有这个影响前端性能的问题
+3. 珠连性。display:none,隐藏元素，其后代元素都会被隐藏掉。而visibility:hidden 。 有可能产生隐藏失效的情况。
+> 子元素设置了 visibility:visible.
+## overflow:hidden 失效
+overflow可以剪裁超出块状元素之外的元素。除非超出元素的包含块是整个视区或是该overflow元素的祖先元素。然后绝对定位元素的包含块应该就是含有position:relative/absolute/fixed的祖先元素。
 
 # 布局
 
