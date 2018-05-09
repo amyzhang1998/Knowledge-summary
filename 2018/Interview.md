@@ -11,7 +11,7 @@ CSRF：跨站请求伪造其实就是网站中的一些提交行为，被黑客�
 1 、检测 http referer 是否是同域名 2、避免登录的 session 长时间存储在客户端中
 3、关键请求使用验证码或者 token 机制其他的一些攻击方法还有 HTTP 劫持、界面操作劫持
 
-1. 使用箭头函数需要注意的地方当要求动态上下文的时候，你就不能使用箭头函数，比如：定义方法，用构造器创建对象，处理时间时用 this 获取目标。
+1.  使用箭头函数需要注意的地方当要求动态上下文的时候，你就不能使用箭头函数，比如：定义方法，用构造器创建对象，处理时间时用 this 获取目标。
 
 2.webpack.load 的原理 loaders 是你用在 app 源码上的转换元件。他们是用 node.js 运行的，把源文件作为参数，返回新的资源的函数。
 
@@ -35,14 +35,14 @@ box-sizing 属性可以为三个值之一：
 1 、 content-box，默认值，border 和 padding 不计算入 width 之内 2、padding-box
 ， padding 计算入 width 内 3、border-box ， border 和 padding 计算入 width 之内
 
-5. 说说 HTML5 中有趣的标签（新标签及语义化）如果代码写的语义化，有利于 SEO。搜索引擎就会很容易的读懂该网页要表达的意思。例如文本模块要有大标题，合理利用
-   h1-h6，列表形式的代码使用 ul 或 ol，重要的文字使用 strong 等等。总之就是要充分利用各种 HTML 标签完成他们本职的工作
+5.  说说 HTML5 中有趣的标签（新标签及语义化）如果代码写的语义化，有利于 SEO。搜索引擎就会很容易的读懂该网页要表达的意思。例如文本模块要有大标题，合理利用
+    h1-h6，列表形式的代码使用 ul 或 ol，重要的文字使用 strong 等等。总之就是要充分利用各种 HTML 标签完成他们本职的工作
 
 6.git 命令，如何批量删除分支 git branch |grep 'branchName' |xargs git branch -D,
 从分支列表中匹配到指定分支，然后一个一个 ( 分成小块 ) 传递给删除分支的命令，最后进行删除。( 参考这里 )
 
-7. 创建对象的三种方法第一种方式，字面量 var o1 = {name: "o1"} var o2 = new
-   Object({name: "o2"})
+7.  创建对象的三种方法第一种方式，字面量 var o1 = {name: "o1"} var o2 = new
+    Object({name: "o2"})
 
 第二种方式，通过构造函数 var M = function(name){ this.name = name } var o3 = new
 M("o3")
@@ -65,7 +65,7 @@ Parent2(); 缺点：原型对象的属性是共享的
 function Child3(){ Parent3.call(this); this.type = "child3"; } Child3.prototype
 = Object.create(Parent3.prototype); Child3.prototype.constructor = Child3;
 
-9. 当 new Foo() 时发生了什么 1. 创建了一个新对象 2. 将 this 指向这个新对象 3. 执行构造函数里面的代码 4. 返回新对象（this ）参考《JS 高程》6.6.2
+9.  当 new Foo() 时发生了什么 1. 创建了一个新对象 2. 将 this 指向这个新对象 3. 执行构造函数里面的代码 4. 返回新对象（this ）参考《JS 高程》6.6.2
 
 10. 你做过哪些性能优化雪碧图，移动端响应式图片，静态资源 CDN，减少 Dom 操作（事件代理、fragment ），压缩 JS 和 CSS、HTML 等，DNS 预解析
 
@@ -76,13 +76,13 @@ HTML 被解析成 DOM Tree，CSS 被解析成 CSS Rule Tree 把 DOM Tree 和 CSS
 
 > reflow 的情况
 
-1. 增加、删除、或改变 DOM 节点
-2. 增加、删除 ‘class’ 属性值
-3. 元素尺寸改变
-4. 文本内容改变
-5. 浏览器窗口改变大小或拖动
-6. 动画效果进行计算和改变 CSS 属性值
-7. 伪类激活（:hover）
+1.  增加、删除、或改变 DOM 节点
+2.  增加、删除 ‘class’ 属性值
+3.  元素尺寸改变
+4.  文本内容改变
+5.  浏览器窗口改变大小或拖动
+6.  动画效果进行计算和改变 CSS 属性值
+7.  伪类激活（:hover）
 
 > 优化
 > 1、创建有效的 HTML 和 CSS ，不要忘记指定文档编码，比如<meta charset="utf-8">。
@@ -122,12 +122,11 @@ Restful API 一些具体实践：
 
 跨域通信的几种方式 JSONP postMessage document.domain CORS
 
-1. JSONP 原理基本原理：利用 script 标签的异步加载特性实现给服务端传一个回调函数，服务器返回一个传递过去的回调函数名称的 JS 代码
-   JSONP 的优点是：它不像 XMLHttpRequest 对象实现的 Ajax 请求那样受到同源策略的限制；它的兼容性更好，在更加古老的浏览器中都可以运行，不需要 XMLHttpRequest 或 ActiveX 的支持；并且在请求完毕后可以通过调用 callback 的方式回传结果。
+1.  JSONP 原理基本原理：利用 script 标签的异步加载特性实现给服务端传一个回调函数，服务器返回一个传递过去的回调函数名称的 JS 代码
+    JSONP 的优点是：它不像 XMLHttpRequest 对象实现的 Ajax 请求那样受到同源策略的限制；它的兼容性更好，在更加古老的浏览器中都可以运行，不需要 XMLHttpRequest 或 ActiveX 的支持；并且在请求完毕后可以通过调用 callback 的方式回传结果。
 
-2. JSONP 的缺点则是：它只支持 GET 请求而不支持 POST 等其它类型的 HTTP 请求；它只支持跨域 HTTP 请求这种情况，不能解决不同域的两个页面之间如何进行 JavaScript 调用的问题。
-
- CORS（Cross-Origin Resource Sharing）跨域资源共享，定义了必须在访问跨域资源时，浏览器与服务器应该如何沟通。CORS 背后的基本思想就是使用自定义的 HTTP 头部让浏览器与服务器进行沟通，从而决定请求或响应是应该成功还是失败。服务器端对于 CORS 的支持，主要就是通过设置 Access-Control-Allow-Origin 来进行的。如果浏览器检测到相应的设置，就可以允许 Ajax 进行跨域的访问。
+2.  JSONP 的缺点则是：它只支持 GET 请求而不支持 POST 等其它类型的 HTTP 请求；它只支持跨域 HTTP 请求这种情况，不能解决不同域的两个页面之间如何进行 JavaScript 调用的问题。
+    CORS（Cross-Origin Resource Sharing）跨域资源共享，定义了必须在访问跨域资源时，浏览器与服务器应该如何沟通。CORS 背后的基本思想就是使用自定义的 HTTP 头部让浏览器与服务器进行沟通，从而决定请求或响应是应该成功还是失败。服务器端对于 CORS 的支持，主要就是通过设置 Access-Control-Allow-Origin 来进行的。如果浏览器检测到相应的设置，就可以允许 Ajax 进行跨域的访问。
 
 CORS 与 JSONP 相比，无疑更为先进、方便和可靠。
 
@@ -139,7 +138,7 @@ CORS 与 JSONP 相比，无疑更为先进、方便和可靠。
 
 3 通过修改 document.domain 来跨子域。修改 document.domain 的方法只适用于不同子域的框架间的交互。不同的框架之间是可以获取 window 对象的，但却无法获取相应的属性和方法。
 
-4. 使用 HTML5 的 window.postMessage（message, targetOrigin, [transfer]） 方法跨域
+4.  使用 HTML5 的 window.postMessage（message, targetOrigin, [transfer]） 方法跨域
 
 更多请查看：《前后端通信类知识》
 
@@ -170,8 +169,8 @@ performance.getEntries() 3、Error 事件捕获
 延伸：跨域的 js 运行错误可以捕获吗，错误提示什么，应该怎么处理？可以。 Script
 error 1. 在 script 标签增加 crossorigin 属性
 
-2. 设置 js 资源响应头 Access-Control-Allow-Orgin:\* 上报错误的基本原理采用 Ajax
-   通信方式上报利用 Image 对象上报
+2.  设置 js 资源响应头 Access-Control-Allow-Orgin:\* 上报错误的基本原理采用 Ajax
+    通信方式上报利用 Image 对象上报
 
 ## 如何使用事件？以及 IE 和标准 DOM 事件模型之间存在的差别？
 
@@ -195,23 +194,23 @@ error 1. 在 script 标签增加 crossorigin 属性
 HTML 事件处理程序|DOM0 级事件处理程序|DOM2 级事件处理程序|IE 的事件处理程序(IE11 以下)
 dom2 和 ie 的 attachEvent()缺点：不能删除匿名函数。
 
-3. IE 和标准 DOM 事件模型之间存在的差别
-   3.1 这里的 IE 是 IE11 以下;
-   3.2 参数的差别: attachEvent()的第一个参数比 addEventListener()的事件名多一个"on"，且没有第三个参数，因为 IE 事件模型只支持冒泡事件流;
-   3.3 事件处理函数作用域的区别: IE 中事件处理程序处于全局作用域，其内的 this 会指向 window;
-   而用 DOM（0 或 2）级事件的事件处理程序的作用域是元素作用域，其内的 this 指向其所属的元素例: document.addEventListener("click", function(){
-   if(this == document){
-   alert("此时 this 指向 document");
-   }
-   }, false);
-   3.4 事件对象 event 的属性方法的差别
-   IE DOM
-   cancelBubble = true stopPropagation() //停止冒泡
-   returnValue = false preventDefault() //阻止元素默认事件
-   srcEelement target //事件目标
+3.  IE 和标准 DOM 事件模型之间存在的差别
+    3.1 这里的 IE 是 IE11 以下;
+    3.2 参数的差别: attachEvent()的第一个参数比 addEventListener()的事件名多一个"on"，且没有第三个参数，因为 IE 事件模型只支持冒泡事件流;
+    3.3 事件处理函数作用域的区别: IE 中事件处理程序处于全局作用域，其内的 this 会指向 window;
+    而用 DOM（0 或 2）级事件的事件处理程序的作用域是元素作用域，其内的 this 指向其所属的元素例: document.addEventListener("click", function(){
+    if(this == document){
+    alert("此时 this 指向 document");
+    }
+    }, false);
+    3.4 事件对象 event 的属性方法的差别
+    IE DOM
+    cancelBubble = true stopPropagation() //停止冒泡
+    returnValue = false preventDefault() //阻止元素默认事件
+    srcEelement target //事件目标
 
-4. DOM 事件类 DOM 事件的级别 DOM0，element.onclick = function(){} DOM2 ，
-   element.addEventListener('click', function(){}, false);
+4.  DOM 事件类 DOM 事件的级别 DOM0，element.onclick = function(){} DOM2 ，
+    element.addEventListener('click', function(){}, false);
 
 DOM 事件模型是什么：指的是冒泡和捕获 DOM 事件流是什么：捕获阶段 -> 目标阶段 ->
 冒泡阶段描述 DOM 事件捕获的具体流程 window --> document --> documentElement(html
@@ -318,11 +317,11 @@ BFC 的使用场景他的很常用的一个应用场景就是解决边距重叠�
 
 同步和异步不同的执行过程
 
-> 1. 同步和异步任务分别进入不同的执行 " 场所 "，同步的进入主线程，异步的进入
->    Event Table 并注册函数。
-> 2. 当指定的事情完成时，Event Table 会将这个函数移入 Event Queue。
-> 3. **主线程内的任务执行完毕为空**，会去 Event Queue 读取对应的函数，进入主线程执行
-> 4. 上述过程会不断重复，也就是常说的 Event Loop( 事件循环 ),
+> 1.  同步和异步任务分别进入不同的执行 " 场所 "，同步的进入主线程，异步的进入
+>     Event Table 并注册函数。
+> 2.  当指定的事情完成时，Event Table 会将这个函数移入 Event Queue。
+> 3.  **主线程内的任务执行完毕为空**，会去 Event Queue 读取对应的函数，进入主线程执行
+> 4.  上述过程会不断重复，也就是常说的 Event Loop( 事件循环 ),
 
 ### 怎么判断主线程为空？
 
@@ -452,8 +451,8 @@ if(!Function.proptotype.bind){
 }
 ```
 
-> 5. 箭头函数 this
->    箭头函数表达式的语法比函数表达式短，并且不绑定自己的 this，arguments，super 或 new.target。此外，箭头函数总是匿名的。这些函数表达式最适合非方法函数，它们不能用作构造函数。在箭头函数出现之前，每个新定义的函数都有其自己的 this 值（例如，构造函数的 this 指向了一个新的对象；严格模式下的函数的 this 值为 undefined；如果函数是作为对象的方法被调用的，则其 this 指向了那个调用它的对象）。在面向对象风格的编程中，这被证明是非常恼人的事情。
+> 5.  箭头函数 this
+>     箭头函数表达式的语法比函数表达式短，并且不绑定自己的 this，arguments，super 或 new.target。此外，箭头函数总是匿名的。这些函数表达式最适合非方法函数，它们不能用作构造函数。在箭头函数出现之前，每个新定义的函数都有其自己的 this 值（例如，构造函数的 this 指向了一个新的对象；严格模式下的函数的 this 值为 undefined；如果函数是作为对象的方法被调用的，则其 this 指向了那个调用它的对象）。在面向对象风格的编程中，这被证明是非常恼人的事情。
 
 > 箭头函数不会在其内部暴露出 arguments 对象： arguments.length, arguments[0], arguments[1] 等等，都不会指向箭头函数的 arguments，而是指向了箭头函数所在作用域的一个名为 arguments 的值（如果有的话，否则，就是 undefined。——译者注）。箭头函数没有自己的 arguments 对象，不过在大多数情形下，rest 参数可以给出一个解决方案：
 
@@ -478,8 +477,8 @@ foo(1); // 2
 
 2.前端跨域怎么解决？ 参考 implemation-principle.md
 
-3. 闭包问题？由闭包引起的作用域链，以及闭包的优缺点
-   https://github.com/dwqs/blog/issues/18
+3.  闭包问题？由闭包引起的作用域链，以及闭包的优缺点
+    https://github.com/dwqs/blog/issues/18
     > 闭包是指有权访问另外一个函数作用域中的变量的函数
 
 ```
@@ -530,10 +529,10 @@ console.log(myCounter.get());   // 返回 105
 
 > 事件委托是一种由其它元素而非事件目标元素来响应事件产生的行为的思想，事件委托是利用了冒泡机制，得益于冒泡机制使用事件委托来管理事件流有很多优点，其中最大的优点是改善性能.元素绑定的每一个监听器都会占用一些内存.这种方法的缺点是,父容器的侦听器可能需要检查事件来选择正确的操作，而元素本身不会是一个监听器
 
-1. 管理较少的函数
-2. 更少的内存消耗，
-3. 降低代码和 dom 之间的关联
-4. a 修改 dom 的时候不用考虑删除事件。
+1.  管理较少的函数
+2.  更少的内存消耗，
+3.  降低代码和 dom 之间的关联
+4.  a 修改 dom 的时候不用考虑删除事件。
     ### 事件绑定
     false：冒泡阶段。true:捕获阶段
     > 佐证了先前说道的 w3c 规范下的先执行捕获再执行冒泡的行为。总结： 当一个页面元素包含子元素节点的时候，他在处理在其身上的绑定事件的时候，采用先执行捕获阶段的事件，再执行冒泡阶段的事件。而事件处于哪个阶段是由 addevnetlistener 的第三个参数决定的。
@@ -557,7 +556,7 @@ Undefined、Null、Boolean、Number、String
 
 ### js 中检测数据类型的方法
 
-1. typeof 2.Object.prototype.toStringg()3. instanceof 4 constructor
+1.  typeof 2.Object.prototype.toStringg()3. instanceof 4 constructor
     ### js 伪数组，如何转化为真正数组
     var arr = Array.prototype.slice.call(obj);其实我们也可以通过[].slice.call 这种形式实现同样的效果，但是通过 prototype 的形式执行程序效率更高，同样代码也更加优美。
 
@@ -574,17 +573,17 @@ function slice(obj) {
 
 ### 讲讲 mvc /mvp/mvvm 区别
 
-> 1. m:model 层 数据保存
+> 1.  m:model 层 数据保存
 
-2. v：view 用户界面
-3. c:controller :业务逻辑
-   View 传送指令到 Controller
-   Controller 完成业务逻辑后，要求 Model 改变状态
-   Model 将新的数据发送到 View，用户得到反馈
+2.  v：view 用户界面
+3.  c:controller :业务逻辑
+    View 传送指令到 Controller
+    Controller 完成业务逻辑后，要求 Model 改变状态
+    Model 将新的数据发送到 View，用户得到反馈
     > MVP 模式将 Controller 改名为 Presenter，同时改变了通信方向。
-4. 各部分之间的通信，都是双向的。
-5. View 与 Model 不发生联系，都通过 Presenter 传递。
-6. View 非常薄，不部署任何业务逻辑，称为"被动视图"（Passive View），即没有任何主动性，而 Presenter 非常厚，所有逻辑都部署在那里。
+4.  各部分之间的通信，都是双向的。
+5.  View 与 Model 不发生联系，都通过 Presenter 传递。
+6.  View 非常薄，不部署任何业务逻辑，称为"被动视图"（Passive View），即没有任何主动性，而 Presenter 非常厚，所有逻辑都部署在那里。
     > MVVM 模式将 Presenter 改名为 ViewModel，基本上与 MVP 模式完全一致。唯一的区别是，它采用双向绑定（data-binding）：View 的变动，自动反映在 ViewModel，反之亦然。Angular 和 Ember 都采用这种模式。
 
 ### js 如何使用继承特性；
@@ -611,11 +610,11 @@ js 是动态的，只有一种结构：对象。每个对象都有一个私有�
 
 当使用 setInterval()时，仅当没有该定时器的任何其他**代码**实例时，才能将定时器代码添加到代码队列中。但是这条规则同样也带来了两个问题：
 
-1. 某些间隔会被跳过
-2. 多个定时器的代码执行之间的间隔可能会比预期的小所以在使用 setInterval 做动画时要注意两个问题：
+1.  某些间隔会被跳过
+2.  多个定时器的代码执行之间的间隔可能会比预期的小所以在使用 setInterval 做动画时要注意两个问题：
 
-3. 不能使用固定步长作为做动画，一定要使用百分比: 开始值 + (目标值 - 开始值) \* （Date.now() - 开始时间）/ 时间区间
-4. 如果主进程运行时间过长，会出现跳帧的现象　　为了避免 setInterval 的两个缺点，可以使用链式 setTimeout（）：
+3.  不能使用固定步长作为做动画，一定要使用百分比: 开始值 + (目标值 - 开始值) \* （Date.now() - 开始时间）/ 时间区间
+4.  如果主进程运行时间过长，会出现跳帧的现象　　为了避免 setInterval 的两个缺点，可以使用链式 setTimeout（）：
 
 ```
 setTimeout(function(){
@@ -631,9 +630,9 @@ process.nextTick 方法可以在当前"执行栈"的尾部----下一次 Event Lo
 https://github.com/jakesgordon/javascript-state-machine
 有限状态机三个特征：
 
-1. 状态总数有限。
-2. 任意时刻 只处在一个状态中。
-3. 某种条件下会从一种状态装换成另一种状态。它对 JavaScript 的意义在于，很多对象可以写成有限状态机。举例来说，网页上有一个菜单元素。鼠标悬停的时候，菜单显示；鼠标移开的时候，菜单隐藏。如果使用有限状态机描述，就是这个菜单只有两种状态（显示和隐藏），鼠标会引发状态转变。
+1.  状态总数有限。
+2.  任意时刻 只处在一个状态中。
+3.  某种条件下会从一种状态装换成另一种状态。它对 JavaScript 的意义在于，很多对象可以写成有限状态机。举例来说，网页上有一个菜单元素。鼠标悬停的时候，菜单显示；鼠标移开的时候，菜单隐藏。如果使用有限状态机描述，就是这个菜单只有两种状态（显示和隐藏），鼠标会引发状态转变。
 
 ```
 　var menu = {
@@ -673,6 +672,7 @@ https://github.com/jakesgordon/javascript-state-machine
 
 ## 浏览器缓存 缓存原理 缓存机制 相关字段 cookie 服务端 cookie
 
+
 > javascript cookie 是由 document.cookie=''设置；注意：一旦 cookie 通过 JavaScript 设置后便不能提取它的选项，所以你将不能知道 domain，path，expires 日期或 secure 标记。
 > Web 服务器通过发送一个称为 Set-Cookie 的 HTTP 消息头来创建一个 cookie，Set-Cookie 消息头是一个字符串，其格式如下（中括号中的部分是可选的）：
 
@@ -680,21 +680,21 @@ https://github.com/jakesgordon/javascript-state-machine
 
 ### 47 种 http 报文首部与 Cache 有关的
 
-1. 通用
-   cache-control:控制缓存的行为:max-age=0；:max-age=2628000
+1.  通用
+    cache-control:控制缓存的行为:max-age=0；:max-age=2628000
 
 pragma：禁止缓存的行为
 
-2. 实体首部
-   expires:实体主体过期时间，相对于服务器。
-   last-modified:
-3. 请求首部
-   if-match：比较 ETag 是否一致
-   if-none-match：比较 ETag 是否不一致
-   if-modified-last:比较资源最后更新时间是否一致
-   if-unmodified-last:比较资源最后更新时间是否不一致
-4. 响应首部
-   ETag:资源的匹配信息
+2.  实体首部
+    expires:实体主体过期时间，相对于服务器。
+    last-modified:
+3.  请求首部
+    if-match：比较 ETag 是否一致
+    if-none-match：比较 ETag 是否不一致
+    if-modified-last:比较资源最后更新时间是否一致
+    if-unmodified-last:比较资源最后更新时间是否不一致
+4.  响应首部
+    ETag:资源的匹配信息
 
 cache-control 优先级大于 pragma 和 expires 同时设置，pragma 优先级高
 
@@ -708,26 +708,26 @@ Cache-Control: no-cache, no-store
 
 为了让客户端与服务器之间能实现缓存文件是否更新的验证、提升缓存的复用率，Http1.1 新增了几个首部字段来做这件事情。
 
-1. Last-Modified：客户端会为资源标记上该信息，下次再次请求时，会把该信息附带在请求报文中一并带给服务器去做检查，若传递的时间值与服务器上该资源最终修改时间是一致的，则说明该资源没有被修改过，直接返回 304 状态码即
-   ⑴ If-Modified-Since: Last-Modified-value：该请求首部告诉服务器如果客户端传来的最后修改时间与服务器上的一致，则直接回送 304 和响应报头即可。
-   ⑵ If-Unmodified-Since: Last-Modified-value
-   告诉服务器，若 Last-Modified 没有匹配上（资源在服务端的最后更新时间改变了），则应当返回 412(Precondition Failed) 状态码给客户端。
-   Last-Modified 说好却也不是特别好，因为如果在服务器上，一个资源被修改了，但其实际内容根本没发生改变，会因为 Last-Modified 时间匹配不上而返回了整个实体给客户端（即使客户端缓存里有个一模一样的资源）
-2. ETag
-   为了解决上述 Last-Modified 可能存在的不准确的问题，Http1.1 还推出了 ETag 实体首部字段。
-   ⑴ If-None-Match: ETag-value
-   告诉服务端如果 ETag 没匹配上需要重发资源数据，否则直接回送 304 和响应报头即可
-   ⑵ If-Match: ETag-value
+1.  Last-Modified：客户端会为资源标记上该信息，下次再次请求时，会把该信息附带在请求报文中一并带给服务器去做检查，若传递的时间值与服务器上该资源最终修改时间是一致的，则说明该资源没有被修改过，直接返回 304 状态码即
+    ⑴ If-Modified-Since: Last-Modified-value：该请求首部告诉服务器如果客户端传来的最后修改时间与服务器上的一致，则直接回送 304 和响应报头即可。
+    ⑵ If-Unmodified-Since: Last-Modified-value
+    告诉服务器，若 Last-Modified 没有匹配上（资源在服务端的最后更新时间改变了），则应当返回 412(Precondition Failed) 状态码给客户端。
+    Last-Modified 说好却也不是特别好，因为如果在服务器上，一个资源被修改了，但其实际内容根本没发生改变，会因为 Last-Modified 时间匹配不上而返回了整个实体给客户端（即使客户端缓存里有个一模一样的资源）
+2.  ETag
+    为了解决上述 Last-Modified 可能存在的不准确的问题，Http1.1 还推出了 ETag 实体首部字段。
+    ⑴ If-None-Match: ETag-value
+    告诉服务端如果 ETag 没匹配上需要重发资源数据，否则直接回送 304 和响应报头即可
+    ⑵ If-Match: ETag-value
 
 告诉服务器如果没有匹配到 ETag，或者收到了“\*”值而当前并没有该资源实体，则应当返回 412(Precondition Failed) 状态码给客户端。否则服务器直接忽略该字段。
 If-Match 的一个应用场景是，客户端走 PUT 方法向服务端请求上传/更替资源，这时候可以通过 If-Match 传递资源的 ETag。如果 Last-Modified 和 ETag 同时被使用，则要求它们的验证都必须通过才会返回 304，若其中某个验证没通过，则服务器会按常规返回资源实体及 200 状态码。当我们在一个项目上做 http 缓存的应用时，我们还是会把上述提及的大多数首部字段均使用上，例如使用 Expires 来兼容旧的浏览器，使用 Cache-Control 来更精准地利用缓存，然后开启 ETag 跟 Last-Modified 功能进一步复用缓存减少流量。
 
-1. Vary
-   “vary”本身是“变化”的意思，而在 http 报文中更趋于是“vary from”（与。。。不同）的含义，它表示服务端会以什么基准字段来区分、筛选缓存版本。
-   Vary: User-Agent 便能知会代理服务器需要以 User-Agent 这个请求首部字段来区别缓存版本，防止传递给客户端的缓存不正确。
-2. Date 和 Age
-   HTTP 并没有提供某种方法来帮用户区分其收到的资源是否命中了代理服务器的缓存，但在客户端我们可以通过计算响应报文中的 Date 和 Age 字段来得到答案。
-   Date 理所当然是原服务器发送该资源响应报文的时间（GMT 格式），如果你发现 Date 的时间与“当前时间”差别较大，或者连续 F5 刷新发现 Date 的值都没变化，则说明你当前请求是命中了代理服务器的缓存。
+1.  Vary
+    “vary”本身是“变化”的意思，而在 http 报文中更趋于是“vary from”（与。。。不同）的含义，它表示服务端会以什么基准字段来区分、筛选缓存版本。
+    Vary: User-Agent 便能知会代理服务器需要以 User-Agent 这个请求首部字段来区别缓存版本，防止传递给客户端的缓存不正确。
+2.  Date 和 Age
+    HTTP 并没有提供某种方法来帮用户区分其收到的资源是否命中了代理服务器的缓存，但在客户端我们可以通过计算响应报文中的 Date 和 Age 字段来得到答案。
+    Date 理所当然是原服务器发送该资源响应报文的时间（GMT 格式），如果你发现 Date 的时间与“当前时间”差别较大，或者连续 F5 刷新发现 Date 的值都没变化，则说明你当前请求是命中了代理服务器的缓存。
 
 百度首页的资源在刷新后实际没有发送任何请求，因为 Cache-Control 定义的缓存时间段还没到期。在 Chrome 中即使没发送请求，但只要从本地的缓存中取，都会在 Network 面板显示一条状态为 200 且注明“from cache”的伪请求，其 Response 内容只是上一次回包留下的数据。
 
@@ -758,14 +758,14 @@ http://www.alloyteam.com/2012/03/web-cache-2-browser-cache/
 
 ### 缓存控制：
 
-1. 使用 HTML Meta 标签
-2. 使用缓存有关的 HTTP 消息报头
+1.  使用 HTML Meta 标签
+2.  使用缓存有关的 HTTP 消息报头
     ### 如何构建可缓存站点
     减少对 Cookie 的依赖过多的使用 Cookie 会大大增加 HTTP 请求的负担，每次 GET 或 POST 请求，都会把 Cookie 都带上，增加网络传输流量，导致增长交互时间；同时 Cache 是很难被缓存的，应该尽量少使用，或者这在动态页面上使用。
 
 ### 状态码
 
-1 1xx 消息
+1 1xx 消息，接到请求，继续处理。
 2 2xx 成功
 3 3xx 重定向
 4 4xx 客户端错误

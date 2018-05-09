@@ -38,7 +38,7 @@ string.lastIndexOf(searchValue[,fromIndex])
 1.  如果 initialValue 没有初始设置，则函数将会从下标 1 开始执行数组，accumulator 等于数组第一个值，如果有初始值，从下标 0 开始执行。
 2.  如果传入的数组是空，也没有设置初始值，会抛出 TypeError.
 3.  如果数组只有一个值不管位置在哪，没有设置初始值，这唯一的值将会返回。
-4.  如果初始值提供，但是数组是空。将会返回初始值。
+4.  如果初始值
 
 > callback(accumulator,currentValue,currentIndex[Optional]){}
 
