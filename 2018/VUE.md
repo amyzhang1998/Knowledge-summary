@@ -20,6 +20,9 @@ destoryed：当前组件已被删除，清空相关内容
 ## 选项/数据
 1. data
 2. props
+3. methods
+4. computed
+5. watch
 类型：array<string>|object
 ## 实例属性
 1. vm.$data() object
@@ -31,3 +34,4 @@ destoryed：当前组件已被删除，清空相关内容
 用法：监听当前实例上的自定义事件，事件可以由 vm.$emit触发。
 3. vm.$off([])
 4. vm.$once(event,callback)//监听一个自定义事件，在第一次触发之后移除监听器
+# vue 服务端渲染 nuxt.js
