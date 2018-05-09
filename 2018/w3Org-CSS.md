@@ -143,3 +143,10 @@ inline-block inline-table inline-grid inline-flex
 # GFC
 
 # IFC
+由于div包含块中只有行内级别的元素，就会生成一个IFC(块级格式化上下文)，来规定其中元素的渲染规则。
+# CSS Overflow Module Level 3
+当一个inline-block的元素被设置成overflow非visible得属性之后，其baseline 将被强行修改为元素下外边沿。（使用 vertical-align:bottom）
+### overflow-x,overflow-y,overflow...值：visible|hidden| clip| scroll|auto
+
+1. hidden:默认以 padding-box   切除
+### overflow值得传播
