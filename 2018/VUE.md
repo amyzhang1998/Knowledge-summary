@@ -35,3 +35,4 @@ destoryed：当前组件已被删除，清空相关内容
 3. vm.$off([])
 4. vm.$once(event,callback)//监听一个自定义事件，在第一次触发之后移除监听器
 # vue 服务端渲染 nuxt.js
+# vueX
