@@ -58,3 +58,5 @@ overflow可以剪裁超出块状元素之外的元素。除非超出元素的包
 2.  position:absolute;设置子元素的 bottom:0;top:0;使得子元素的高于父元素的高相同。实现等高。缺点一定要设置父元素的高的确定值。
 3.  flex: flex 中的伸缩项目默认都拉伸为父元素的高度，也实现了等高效果
 4.  grid:
+## flex布局
+## animate 和translate
