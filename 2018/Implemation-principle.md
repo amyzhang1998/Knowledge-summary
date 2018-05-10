@@ -584,9 +584,9 @@ export default class Modal extends Component {
 
 ## node 中 require 实现原理
 
-1. require 语句的内部逻辑。 require(X)
-   1）. 如果 X 是内部模块，a.返回该模块.b. 不再继续执行。
-   2）如果 X 以 "./" 或者 "/" 或者 "../" 开头
+1.  require 语句的内部逻辑。 require(X)
+    1）. 如果 X 是内部模块，a.返回该模块.b. 不再继续执行。
+    2）如果 X 以 "./" 或者 "/" 或者 "../" 开头
 
     > a. 根据 X 所在的父模块，确定 X 的绝对路径。
     > b. 将 X 当成文件，依次查找下面文件，只要其中有一个存在，就返回该文件，不再继续执行。
@@ -605,7 +605,7 @@ export default class Modal extends Component {
     > a. 根据 X 所在的父模块，确定 X 可能的安装目录。　　 b. 依次在每个目录中，将 X 当成文件名或目录名加载。
     > 4）. 抛出 "not found"
 
-2. 源码解读
+2.  源码解读
     > a. node 定义了一个构造函数 module。所有模块都是 module 的实例。每个实例都有自己的属性，id,parent,exports,loaded,filename
     > b. 每个模块实例有一个 require 方法。这是每个模块的内部方法。
     > c. require 内部调用 Module.\_load 方法。步骤是：（1）确定模块的绝对路径（2）如果有缓存，取出缓存（3）是否为内置模块（4）生成模块实例，存入缓存（5）加载模块。关键步骤是：1，4
@@ -808,7 +808,7 @@ http://www.live-share.com/files/300697/Cross_The_Site_Test_code.rar.html
 
 ## instance of 原理
 
-1. 常规用法
+1.  常规用法
 
 ```
 // 判断 foo 是否是 Foo 类的实例
@@ -817,7 +817,7 @@ var foo = new Foo();
 console.log(foo instanceof Foo)//true
 ```
 
-2. 继承用法
+2.  继承用法
 
 ```
 // 判断 foo 是否是 Foo 类的实例 , 并且是否是其父类型的实例
@@ -830,7 +830,7 @@ console.log(foo instanceof Foo)//true
 console.log(foo instanceof Aoo)//true
 ```
 
-3. 复杂用法
+3.  复杂用法
 
 ```
 清单 4. instanceof 复杂用法
@@ -845,7 +845,7 @@ console.log(Foo instanceof Function);//true
 console.log(Foo instanceof Foo);//false
 ```
 
-4. instance of 原理（代码）(不适用基本数据类型)
+4.  instance of 原理（代码）(不适用基本数据类型)
 
 ```
 function instance_of(L, R) {//L 表示左表达式，R 表示右表达式
@@ -865,7 +865,7 @@ function instance_of(L, R) {//L 表示左表达式，R 表示右表达式
 原型链图
 https://www.ibm.com/developerworks/cn/web/1306_jiangjj_jsinstanceof/figure1.jpg
 
-5. 讲解复杂用法
+5.  讲解复杂用法
 
 ```
 7 Object instanceof Object
@@ -924,19 +924,19 @@ String是一个构造函数对象，a的类型不是String，而是string，整�
 
 dtd 信息就是 doctype 声明。
 
-1. 是什么？
+1.  是什么？
     > DOCTYPE 是 document type 的简写。主要用来说明你用的 XHTML 或者 HTML 是什么版本。浏览器根据你 DOCTYPE 定义的 DTD(文档类型定义)来解释页面代码.
-2. 作用？ > doctype 声明指出阅读程序应该用什么规则集来解释文档中的标记。在 web 文档的情况下，“阅读程序”通常是浏览器或者校验器这样的一个程序，“规则”则是 w3c 所发布的一个文档类型定义（dtd）中包含的规则 > xhtml 1.0 strict：
-   <!doctype html public "-/w3c/dtd xhtml 1.0 strict/en"
-    "http://www.w3.org/tr/xhtml1/dtd/xhtml1-strict.dtd">
-   xhtml 1.0 transitional：
-   <!doctype html public "-/w3c/dtd xhtml 1.0 transitional/en"
-"http://www.w3.org/tr/xhtml1/dtd/xhtml1-transitional.dtd">
-   xhtml 1.0 frameset：
-   <!doctype html public "-/w3c/dtd xhtml 1.0 frameset/en"
-   Transitional 类型：是指一种过渡类型，使用这种类型浏览器对 XHTML 的解析比较宽松，允许使用 HTML4.01 中的标签，但必须符合 XHTML 的语法。这种是现在通用的方法，用 dreamweaver 创建网页时默认就是这种类型。
-   Strict 类型：严格类型，使用时浏览器将相对严格，不允许使用任何表现形式的标识和属性，如在元素中直接使用 bgcolor 背景色属性等。
-   Frameset 类型：框架页类型，如果网页使用了框架结构，就有必要使用这样的文档声明。
+2.  作用？ > doctype 声明指出阅读程序应该用什么规则集来解释文档中的标记。在 web 文档的情况下，“阅读程序”通常是浏览器或者校验器这样的一个程序，“规则”则是 w3c 所发布的一个文档类型定义（dtd）中包含的规则 > xhtml 1.0 strict：
+       <!doctype html public "-/w3c/dtd xhtml 1.0 strict/en"
+        "http://www.w3.org/tr/xhtml1/dtd/xhtml1-strict.dtd">
+    xhtml 1.0 transitional：
+       <!doctype html public "-/w3c/dtd xhtml 1.0 transitional/en"
+    "http://www.w3.org/tr/xhtml1/dtd/xhtml1-transitional.dtd">
+    xhtml 1.0 frameset：
+       <!doctype html public "-/w3c/dtd xhtml 1.0 frameset/en"
+       Transitional 类型：是指一种过渡类型，使用这种类型浏览器对 XHTML 的解析比较宽松，允许使用 HTML4.01 中的标签，但必须符合 XHTML 的语法。这种是现在通用的方法，用 dreamweaver 创建网页时默认就是这种类型。
+       Strict 类型：严格类型，使用时浏览器将相对严格，不允许使用任何表现形式的标识和属性，如在元素中直接使用 bgcolor 背景色属性等。
+       Frameset 类型：框架页类型，如果网页使用了框架结构，就有必要使用这样的文档声明。
 
 ## ES6 模块语法 --》 import export
 
@@ -951,23 +951,23 @@ import { stat,exists,readFile} from 'fs';
 
 > 好处：
 
-1. 由于 ES6 模块是编译时加载，所以可以静态分析。这样就能进一步拓宽 JavaScript 的语法，比如**引入宏(macro)和类型检验(type system)**这些只能靠静态分析实现的功能。
-2. 不再需要 UMD 模块格式了，服务器和浏览器现在已经大部分支持 ES6 模块格式。
-3. 将来浏览器的新 API 就能用模块格式提供，不再必要做成全局变量或者 navigator 对象的属性
-4. 不再需要对象作为命名空间(比如 Math 对象)，这将都可以通过模块提供。
+1.  由于 ES6 模块是编译时加载，所以可以静态分析。这样就能进一步拓宽 JavaScript 的语法，比如**引入宏(macro)和类型检验(type system)**这些只能靠静态分析实现的功能。
+2.  不再需要 UMD 模块格式了，服务器和浏览器现在已经大部分支持 ES6 模块格式。
+3.  将来浏览器的新 API 就能用模块格式提供，不再必要做成全局变量或者 navigator 对象的属性
+4.  不再需要对象作为命名空间(比如 Math 对象)，这将都可以通过模块提供。
 
 > 注意：
 > ES6 的模块自动采用严格模式，不管模块头部有没有 use strict；严格模式有以下限制：
 
-1. 变量必须声明后再使用
-2. 函数的参数不能有同名属性，否则报错
-3. 不能使用 with 语句
-4. 不能对只读属性赋值，否则报错
-5. 不能使用前缀 0 表示八进制数，否则报错
-6. 不能删除不可删除的属性，否则报错
-7. 不能使用 delete prop 删除变量，会报错，只能删除属性 delete global[prop]
-8. eval 不会在它的外层作用域引入变量
-9. eval 和 arguments 不能被重新赋值
+1.  变量必须声明后再使用
+2.  函数的参数不能有同名属性，否则报错
+3.  不能使用 with 语句
+4.  不能对只读属性赋值，否则报错
+5.  不能使用前缀 0 表示八进制数，否则报错
+6.  不能删除不可删除的属性，否则报错
+7.  不能使用 delete prop 删除变量，会报错，只能删除属性 delete global[prop]
+8.  eval 不会在它的外层作用域引入变量
+9.  eval 和 arguments 不能被重新赋值
 10. arguments 不会自动反映函数参数的变化
 11. 不能使用 arguments.callee
 12. 不能使用 arguments.caller
@@ -1026,8 +1026,8 @@ import customer from './export-default';
 
 > export default 和 export 输出时候，使用 import 的区别：
 
-1. export default 对应的 import 语句不需要使用大括号，而 export 对应的 import 需要大括号
-2. export default 对应的 import 不需要知道加载的模块里的变量名。而 export 对应的 import 必须和 export 的变量一样。
+1.  export default 对应的 import 语句不需要使用大括号，而 export 对应的 import 需要大括号
+2.  export default 对应的 import 不需要知道加载的模块里的变量名。而 export 对应的 import 必须和 export 的变量一样。
 
 #### 模块的继承
 
@@ -1127,9 +1127,9 @@ https://juejin.im/post/5a102e656fb9a044fd1158c6
 
 ### 隐藏类 (Hidden class)
 
-1. 首次优化就是尽可能的提前嵌入更多的代码。代码嵌入就是将使用函数的地方(调用函数的那一行)替换成调用函数的本体。这简单的一步就会使接下来的优化更加有用。
-2. JavaScript 是一门基于原型的语言: 没有类和对象是通过克隆来创建的。同时 JavaScript 也是一门动态语言，这意味着在实例化之后也能够方便的从对象中添加或者删除属性。
-3. 由于采用字典的方式去内存中查找对象属性的位置效率很低，因此 V8 就采用了一种不一样的方法：隐藏类。
+1.  首次优化就是尽可能的提前嵌入更多的代码。代码嵌入就是将使用函数的地方(调用函数的那一行)替换成调用函数的本体。这简单的一步就会使接下来的优化更加有用。
+2.  JavaScript 是一门基于原型的语言: 没有类和对象是通过克隆来创建的。同时 JavaScript 也是一门动态语言，这意味着在实例化之后也能够方便的从对象中添加或者删除属性。
+3.  由于采用字典的方式去内存中查找对象属性的位置效率很低，因此 V8 就采用了一种不一样的方法：隐藏类。
     ### 内联缓存 (Inline caching)
 
 ### 编译成机器代码、
