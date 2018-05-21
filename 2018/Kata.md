@@ -58,6 +58,35 @@ callback(element,index)
 ## Array.some(callback[,thisArg]) 如果有符合的元素就返回 true,否则返回 false;
 
 ## Array.incluedes(searchElement[,fromIndex])如果有符合的元素就返回 true,否则返回 false;
+## Array.fill(value[,start[,end]]) 填充新值，会修改原数组。
+## Array.from (arrayLike[,mapFn[,thisArg]])从类数组或可迭代对象中创建一个新的 数组实例
+
+```
+Array.from('foo') // ['f','o','o']
+Array.from(new Set(['foo',window]))  // ['foo',window]
+var m = new Map([[1, 2], [2, 4], [4, 8]]);
+Array.from(m); 
+// [[1, 2], [2, 4], [4, 8]]
+Array.from({length: 5}, (v, i) => i);
+// [0, 1, 2, 3, 4]
+```
+> 
+## Array.of() 创建新的数组
+
+```
+Array.of(7) //[7]
+Array(7) //[empty * 7]
+
+Array.of(1, 2, 3); // [1, 2, 3]
+Array(1, 2, 3);    // [1, 2, 3]
+
+if(!Array.of){
+    Array.of = function(){
+        return Array.proptotype.slice.call(arguments)
+    }
+}
+```
+
 
 # in 操作符
 

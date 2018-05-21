@@ -180,13 +180,12 @@ MyComponent.propTypes = {
 作用：创造一种类似多重继承的效果，或者说是组合。
 
 > react 在用 ES6 组件构建模块时，就不支持 mixin 了。使用 decorator 语法糖（运用在运行时）就可以实现 ES6 中的 mixin。
->
-> ```
-> //core-decorator库
-> import { getOwnPropertyDecorators } from './private/utils';
-> const { defineProperty } = object;
-> ```
 
+
+ ```
+ //core-decorator库
+ import { getOwnPropertyDecorators } from './private/utils';
+ const { defineProperty } = object;
 function handleClass(target,mixins){
 if (!mixins.length) {
 throw new SyntaxError('hh')
@@ -195,10 +194,7 @@ for (let i = 0; l = mixins.length, i < 1; i++){
 const desc = getOwnPropertyDecorators(mixins[i]);
 for (const key in mixin[i]) {
 if (!(key in target.property)) {
-defineProperty(target.property,key,desc[key])
-}
-}
-}
+defineProperty(target.property,key,desc[key])}}}
 }
 export default function mixin(...mixins) {
 if (typeof mixins[0] == 'function') {
@@ -206,15 +202,10 @@ return handleClass(mixins[0], []);
 } else {
 return target => {
 return handleClass(target,mixins)  
- };
-}
-}
+ };}}
 @minxin(PureComponent,Theme)
-class MyConponent extends Component{
-
-}
-
 > ```
+
 > mixin 的问题
 > 1，破坏了原有组件的封装
 > 2，命名冲突

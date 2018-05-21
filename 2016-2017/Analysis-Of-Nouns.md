@@ -288,6 +288,22 @@ window.location = "http://www.example.com/";
 
 set 是有唯一的
 map:key-value 格式，
+## 动态继承类
+动态原型模式将多有信息都封装在了构造函数中，初始化的时候，通过检测某个应该存在的方法时候有效。来巨鼎是否需要初始化原型。
+
+```
+ function Person(name,job){
+   //属性
+   this.name = name;
+   this.job = jobl
+
+   if(typeof this.sayName !== function){
+     Person.prototype.sayName = function(){
+       console.log(this.name)
+     }
+   }
+ }
+```
 
 ## window.requestAnimationFrame() 方法 js 实现连续动画。css 实现连续动画 animation
 

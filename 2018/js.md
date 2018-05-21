@@ -10,3 +10,6 @@
 
 >所以可以知道 为什么 getElementsByTagName的查询速度较快？
 因为getElementsByTagName方法我们得到的是一个对象的引用，另一个则是得到一个对象的克隆。显然克隆对象的事件消费更高。
+## DFS 和BFS的优势有哪些？
+一般来说，能用DFS解决的问题，都能用BFS。
+稀疏图bfs会快于dfs，稠密图差不多。dfs写比较简单，bfs没有栈溢出风险
