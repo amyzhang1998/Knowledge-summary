@@ -31,20 +31,20 @@ ES6 规定，默认的 Iterator 接口部署在数据结构的 Symbol.iterator �
 
 > 原生具备 Iterator 接口的数据结构如下。
 
-1. Array
-2. Map
-3. Set
-4. String
-5. TypedArray
-6. 函数的 arguments 对象
-7. NodeList 对象
+1.  Array
+2.  Map
+3.  Set
+4.  String
+5.  TypedArray
+6.  函数的 arguments 对象
+7.  NodeList 对象
 
 ### 调用 Iterator 接口的场合
 
 有一些场合会默认调用 Iterator 接口（即 Symbol.iterator 方法），除了下文会介绍的 for...of 循环，还有几个别的场合。
 
-8. 解构赋值对数组和 Set 结构进行解构赋值时，会默认调用 Symbol.iterator 方法。
-9. 扩展运算符扩展运算符（...）也会调用默认的 Iterator 接口。实际上，这提供了一种简便机制，可以将任何部署了 Iterator 接口的数据结构，转为数组。也就是说，只要某个数据结构部署了 Iterator 接口，就可以对它使用扩展运算符，将其转为数组。
+8.  解构赋值对数组和 Set 结构进行解构赋值时，会默认调用 Symbol.iterator 方法。
+9.  扩展运算符扩展运算符（...）也会调用默认的 Iterator 接口。实际上，这提供了一种简便机制，可以将任何部署了 Iterator 接口的数据结构，转为数组。也就是说，只要某个数据结构部署了 Iterator 接口，就可以对它使用扩展运算符，将其转为数组。
 10. yield*
     yield*后面跟的是一个可遍历的结构，它会调用该结构的遍历器接口。
 11. 其他场合由于数组的遍历会调用遍历器接口，所以任何接受数组作为参数的场合，其实都调用了遍历器接口。
@@ -141,24 +141,18 @@ for (let x of obj) {
 
 ### 返回新值
 
-1. Array.from()创建一个新的 array 实例从一个类数组或遍历器对象中；<font color='red'>**>[ES6]**</font>
-   > Array.from(arrayLike[,MapFn[,thisArg]])
-2. Array.isArray()
-   > Array.isArray(obj)
-3. Array.of(element[n]);创建了一个新数组
-4. Array.length()
-
-   ---
-
-5. array.concat()
-
-   > var new_array = old_array.concat(value1[,value2[,...[,valueN]]])
-
-6. array.toLocalString()
-7. array.toString()
-8. array.slice(begin,end)
-9. array.join(separator)
-
+1.  Array.from()创建一个新的 array 实例从一个类数组或遍历器对象中；<font color='red'>**>[ES6]**</font>
+    > Array.from(arrayLike[,MapFn[,thisArg]])
+2.  Array.isArray()
+    > Array.isArray(obj)
+3.  Array.of(element[n]);创建了一个新数组
+4.  ## Array.length()
+5.  array.concat()
+    > var new_array = old_array.concat(value1[,value2[,...[,valueN]]])
+6.  array.toLocalString()
+7.  array.toString()
+8.  array.slice(begin,end)
+9.  array.join(separator)
 10. array.find()<font color='red'>**>[ES6]**</font>
     > arr.find(callback[,thisArg]):返回数组中找到的符合条件的第一个元素
 11. array.findIndex()<font color='red'>**>[ES6]**</font>
@@ -166,9 +160,7 @@ for (let x of obj) {
     > arr.findIndex(callback[,thisArg]):返回数组中找到的符合条件的第一个元素的下标
 
 12. array.includes()<font color='red'>**>[ES7]**</font>返回 true 或 false
-
     > arr.includes(searchElement,fromIndex)
-
 13. array.indexOf()
     > arr.indexOf(searchElement[,fromIndex])
 14. array.lastIndexOf()
@@ -198,23 +190,23 @@ for (let x of obj) {
 
 ### 就地更改数据
 
-1. array.copyWithin() <font color='red'>**>[ES6]**</font>
-   本数组内  克隆
-   > arr.copyWithin(target,[start],[end])
-2. array.fill() <font color='red'>**>[ES6]**</font>
-   填充数组内数据
+1.  array.copyWithin() <font color='red'>**>[ES6]**</font>
+    本数组内  克隆
+    > arr.copyWithin(target,[start],[end])
+2.  array.fill() <font color='red'>**>[ES6]**</font>
+    填充数组内数据
 
-   > arr.fill(value,[start],[end])
+    > arr.fill(value,[start],[end])
 
-   ---
+    ---
 
-3. array.pop();remove the last element.
-4. array.push()
-5. array.reverse()
-6. array.shift()
-7. array.unshift()
-8. array.sort([compareFunction])
-9. array.splice(start,deleteCount,item1,item2...):
+3.  array.pop();remove the last element.
+4.  array.push()
+5.  array.reverse()
+6.  array.shift()
+7.  array.unshift()
+8.  array.sort([compareFunction])
+9.  array.splice(start,deleteCount,item1,item2...):
 
 ## Object
 
@@ -222,25 +214,25 @@ for (let x of obj) {
 
 ### 返回新值
 
-1. Object.assign(target,...source)
-   2. Object.create()
-   3. Object.entries()：返回 array 类型的[key,value]
-   4. Object.keys()
-   5. Object.values()
-   6. Object.getOwnPropertyDescriptor()
-   7. Object.getOwnPropertyDescriptors()
-   8. Object.getOwnPropertyNames();返回 array 类型的属性名，包括不可枚举的属性
-   9. Object.getOwnPropertySymbols()
-   10. Object.getPrototypeOf()
-   11. Object.setPrototypeOf()
-   12. Object.isPrototypeOf()
-   13. Object.hasOwnProperty()
-   14. Object.is()
-   15. Object.isExtensible()
-   16. Object.preventExtensions()
-   17. Object.isFrozen()
-   18. Object.isSealed()
-   19. Object.seal()
+1.  Object.assign(target,...source)
+    2.  Object.create()
+    3.  Object.entries()：返回 array 类型的[key,value]
+    4.  Object.keys()
+    5.  Object.values()
+    6.  Object.getOwnPropertyDescriptor()
+    7.  Object.getOwnPropertyDescriptors()
+    8.  Object.getOwnPropertyNames();返回 array 类型的属性名，包括不可枚举的属性
+    9.  Object.getOwnPropertySymbols()
+    10. Object.getPrototypeOf()
+    11. Object.setPrototypeOf()
+    12. Object.isPrototypeOf()
+    13. Object.hasOwnProperty()
+    14. Object.is()
+    15. Object.isExtensible()
+    16. Object.preventExtensions()
+    17. Object.isFrozen()
+    18. Object.isSealed()
+    19. Object.seal()
 
 ### 就地更改数据
 
