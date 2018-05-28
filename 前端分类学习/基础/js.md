@@ -324,3 +324,35 @@ bar
     > c. require 内部调用 Module.\_load 方法。步骤是：（1）确定模块的绝对路径（2）如果有缓存，取出缓存（3）是否为内置模块（4）生成模块实例，存入缓存（5）加载模块。关键步骤是：1，4
     > d. 模块的绝对路径：1）如果是内置模块，不含路径返回。2）确定所有可能路径 3）确定哪一个路径是真
     > e.加载模块。确定模块的后缀名，然后根据不同的后缀名进行加载。模块加载的实质就是，注入 exports，require,module 三个全局变量，然后执行模块的源码，然后将模块的 exports 变量的值输出。
+
+## `深拷贝与浅拷贝是什么`
+
+参考文章：关于 JS 中的浅拷贝和深拷贝 , 进击 JavaScript 之（四）玩转递归与数列
+
+> 浅拷贝只复制指向某个对象的指针，而不复制对象本身，新旧对象还是共享同一块内存。但深拷贝会另外创造一个一模一样的对象，新对象跟原对象不共享内存，修改新对象不会改到原对象。
+
+* `深拷贝实现方式`
+
+1.  Object.assign，ES6 的新函数，可以帮助我们达成跟上面一样的功能。缺点 不能深拷贝嵌套层次很深的额对象。
+
+```
+  obj1 = { a: 10, b: 20, c: 30 }; obj2 = Object.assign({},
+obj1); obj2.b = 100; console.log(obj1); // { a: 10, b: 20, c: 30 } <-- 沒被改到
+console.log(obj2); // { a: 10, b: 100, c: 30 }
+```
+
+2.  转成 JSON 再转回来用 JSON.stringify 把对象转成字符串，再用 JSON.parse 把字符串转成新的对象。缺点：只有可以转成 JSON 格式的对象才可以这样用，像 function 没办法转成 JSON。
+
+3.  jquery ，有提供一个 $.extend 可以用来做 Deep Copy。 lodash ，也有提供
+    \_.cloneDeep 用来做 Deep Copy。递归实现深拷贝 .
+
+```
+function clone( o ) {
+   var temp ={};
+    for( var k in o ) {
+       if( typeof o[ k ] == 'object' ){
+          temp[ k ] = clone( o[ k] ); } else {
+             temp[ k ] = o[ k ];
+              } }
+              return temp; }
+```

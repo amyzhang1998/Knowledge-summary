@@ -231,33 +231,10 @@ ev.addEventListener(' 自定义事件名 ', function(){ console.log(' 自定义�
 
 21. 数组去重的方法参考：《 JavaScript 数组去重》
 
-22. 深拷贝与浅拷贝是什么浅拷贝只复制指向某个对象的指针，而不复制对象本身，新旧对象还是共享同一块内存。但深拷贝会另外创造一个一模一样的对象，新对象跟原对象不共享内存，修改新对象不会改到原对象。
-
-实现浅拷贝 var obj1 = { a: 10, b: 20, c: 30 }; var obj2 = obj1; obj2.b = 100;
-console.log(obj1); // { a: 10, b: 100, c: 30 } <-- b 被改到了 console.log(obj2);
-// { a: 10, b: 100, c: 30 }
-
-实现深拷贝 var obj1 = { a: 10, b: 20, c: 30 }; var obj2 = { a: obj1.a, b:
-obj1.b, c: obj1.c }; obj2.b = 100; console.log(obj1); // { a: 10, b: 20, c: 30 }
-<-- b 沒被改到 console.log(obj2); // { a: 10, b: 100, c: 30 }
-
-深拷贝实现方式
-
-手动复制方式，如上面的代码，缺点就是 Object.assign，ES6 的新函数，可以帮助我们达成跟上面一样的功能。 obj1 = { a: 10, b: 20, c: 30 }; obj2 = Object.assign({},
-obj1); obj2.b = 100; console.log(obj1); // { a: 10, b: 20, c: 30 } <-- 沒被改到
-console.log(obj2); // { a: 10, b: 100, c: 30 }
-
-转成 JSON 再转回来用 JSON.stringify 把对象转成字符串，再用 JSON.parse 把字符串转成新的对象。缺点：只有可以转成 JSON 格式的对象才可以这样用，像 function 没办法转成 JSON。
-
-jquery ，有提供一个 $.extend 可以用来做 Deep Copy。 lodash ，也有提供
-\_.cloneDeep 用来做 Deep Copy。递归实现深拷贝 function clone( o ) { var temp =
-{}; for( var k in o ) { if( typeof o[ k ] == 'object' ){ temp[ k ] = clone( o[ k
-] ); } else { temp[ k ] = o[ k ]; } } return temp; } 参考文章：关于 JS 中的浅拷贝和深拷贝 , 进击 JavaScript 之（四）玩转递归与数列
-
-23. 如何快速合并雪碧图 Gulp：gulp-css-spriter webpack ：
+23) 如何快速合并雪碧图 Gulp：gulp-css-spriter webpack ：
     optimize-css-assets-webpack-plugin Go！Png 在线工具
 
-24. 代码优化基本方法减少 HTTP 请求
+24) 代码优化基本方法减少 HTTP 请求
 
 HTML 优化： 1 、使用语义化标签 2、减少 iframe：iframe 是 SEO 的大忌，iframe 有好处也有弊端 3、避免重定向
 
@@ -671,7 +648,6 @@ https://github.com/jakesgordon/javascript-state-machine
 304 （from cache）是 http 重定向里返回的状态吗，页面没有更改，利用缓存
 
 ## 浏览器缓存 缓存原理 缓存机制 相关字段 cookie 服务端 cookie
-
 
 > javascript cookie 是由 document.cookie=''设置；注意：一旦 cookie 通过 JavaScript 设置后便不能提取它的选项，所以你将不能知道 domain，path，expires 日期或 secure 标记。
 > Web 服务器通过发送一个称为 Set-Cookie 的 HTTP 消息头来创建一个 cookie，Set-Cookie 消息头是一个字符串，其格式如下（中括号中的部分是可选的）：

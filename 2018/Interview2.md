@@ -16,11 +16,11 @@ xhtml 1.0 中有 3 种 dtd 声明可以选择，过渡性的(Transitional)、严
 
 ### json 是什么 该怎么使用，为什么使用？说出实现细节？
 
-1. 是一种用于数据交换的轻量级格式。
-2. （1）JSON 数据格式在前后端都能够被很好的支持。现在想想其实应该是后台有提供相应的 jar 包处理 JSON 格式，而前端 JSON 则是被原生 JavaScript 支持，不需要任何其他的辅助就可以解析。（2） JSON 数据格式的体量相对小，其实这个很好理解。对比其他的数据格式，比如说 xml 或者 html，都需要其他额外的标签，而 JSON 不需要，直接就是数据本身，所以说使用 JSON 作为传输体量相对小。（
-   3） 第三点理由其实在第一点有提及到一点，主要是因为 JavaScript 对于 JSON 的支持，如果使用 xml 格式，还需要额外进行解析。
-3. 使用 JavaScript 对 xml 数据格式进行解析；--》 DOMParser，domParser.parseFromString();ActiveXObject
-   (1),创建 xmlDoc 对象，；（2）解析 xmlDoc 对象 xmlDoc = domParser.parseFromString(xmlString, "text/xml");
+1.  是一种用于数据交换的轻量级格式。
+2.  （1）JSON 数据格式在前后端都能够被很好的支持。现在想想其实应该是后台有提供相应的 jar 包处理 JSON 格式，而前端 JSON 则是被原生 JavaScript 支持，不需要任何其他的辅助就可以解析。（2） JSON 数据格式的体量相对小，其实这个很好理解。对比其他的数据格式，比如说 xml 或者 html，都需要其他额外的标签，而 JSON 不需要，直接就是数据本身，所以说使用 JSON 作为传输体量相对小。（
+    3） 第三点理由其实在第一点有提及到一点，主要是因为 JavaScript 对于 JSON 的支持，如果使用 xml 格式，还需要额外进行解析。
+3.  使用 JavaScript 对 xml 数据格式进行解析；--》 DOMParser，domParser.parseFromString();ActiveXObject
+    (1),创建 xmlDoc 对象，；（2）解析 xmlDoc 对象 xmlDoc = domParser.parseFromString(xmlString, "text/xml");
 
 ### 1、谈谈你对 Ajax 的理解？(概念、特点、作用)
 
@@ -84,10 +84,10 @@ c、使用 addEventListener 等注册事件。此时 this 也是指向 input。
 
 ### 14、JavaScript 对象的几种创建方式?
 
-1. 工厂模式
-2. 构造函数方式；
-3. 原型模式
-4. 混合的构造函数，原型方式（推荐）
+1.  工厂模式
+2.  构造函数方式；
+3.  原型模式
+4.  混合的构造函数，原型方式（推荐）
 
 ### (1)、get 是从服务器上获取数据，post 是向服务器传送数据。 get 请求返回 request - URI 所指出的任意信息。
 
@@ -206,22 +206,22 @@ c、允许用户将自己编写的包或命令行程序上传到 NPM 服务器�
 
 ### react 防 XSS 攻击。
 
-1. 所有的用户输入都需要经过 HTML 实体编码，这里 React 已经帮我们做了很多，它会在运行时动态创建 DOM 节点然后填入文本内容（你也可以强制设置 HTML 内容，不过这样比较危险）
+1.  所有的用户输入都需要经过 HTML 实体编码，这里 React 已经帮我们做了很多，它会在运行时动态创建 DOM 节点然后填入文本内容（你也可以强制设置 HTML 内容，不过这样比较危险）
 
-2. 当你打算序列化某些状态并且传给客户端的时候，你同样需要进行 HTML 实体编码
+2.  当你打算序列化某些状态并且传给客户端的时候，你同样需要进行 HTML 实体编码
 
 （1）. 防范 XSS 攻击； 1.还是将前端输出数据都进行转义最为稳妥（2），保护 cookie 设置 http-only
 (3),CSRF 攻击，跨站伪造攻击。主要是针对 post 提交，我们平时开发要注意些什么？
 
-1. 开发时要提防用户产生的内容，要对用户输入的信息进行层层检测
+1.  开发时要提防用户产生的内容，要对用户输入的信息进行层层检测
 
-2. 要注意对用户的输出内容进行过滤(进行转义等)
+2.  要注意对用户的输出内容进行过滤(进行转义等)
 
-3. 重要的内容记得要加密传输(无论是利用 https 也好，自己加密也好)
+3.  重要的内容记得要加密传输(无论是利用 https 也好，自己加密也好)
 
-4. get 请求与 post 请求，要严格遵守规范，不要混用，不要将一些危险的提交使用 jsonp 完成。
+4.  get 请求与 post 请求，要严格遵守规范，不要混用，不要将一些危险的提交使用 jsonp 完成。
 
-5. 对于 URL 上携带的信息，要谨慎使用。
+5.  对于 URL 上携带的信息，要谨慎使用。
 
 ### 4.浏览器本地存储中 cookie 和 localStorage 有什么区别？ localStorage 如何存储删除数据。
 
@@ -234,9 +234,9 @@ localStorage 提供了几个方法: 1.存储:localStorage.setItem(key,value)如�
 
 ### object.create(prop),object.assign(target,props)
 
-1. Object.assign(target, ...sources) 1.不算是深拷贝，对嵌套对象不能做到深拷贝。
-2. 因为 assign 复制的事属性名，所以会产生覆盖和数据合并。可以复制 Symbol 类型数据,null，undefiend 会被忽略
-3. 继承属性和不可枚举属性是不能拷贝的
+1.  Object.assign(target, ...sources) 1.不算是深拷贝，对嵌套对象不能做到深拷贝。
+2.  因为 assign 复制的事属性名，所以会产生覆盖和数据合并。可以复制 Symbol 类型数据,null，undefiend 会被忽略
+3.  继承属性和不可枚举属性是不能拷贝的
 
 ### object.create(proptype)；
 
@@ -246,7 +246,7 @@ localStorage 提供了几个方法: 1.存储:localStorage.setItem(key,value)如�
 
 针对多次触发 resize 和 scroll 事件执行函数
 
-1. 防抖：防抖技术即是可以把多个顺序地调用合并成一次，也就是在一定时间内，规定事件被触发的次数。
+1.  防抖：防抖技术即是可以把多个顺序地调用合并成一次，也就是在一定时间内，规定事件被触发的次数。
 
 ```
 function debounce(func, wait, immediate) {
@@ -271,7 +271,7 @@ window.addEventListener('scroll',debounce(realFunc,500));
 window.addEventListener('scroll',realFunc);
 ```
 
-2. 节流：与防抖相比，节流函数最主要的不同在于它保证在 X 毫秒内至少执行一次我们希望触发的事件 handler
+2.  节流：与防抖相比，节流函数最主要的不同在于它保证在 X 毫秒内至少执行一次我们希望触发的事件 handler
 
 ```
 function throttle(func, wait, mustRun) {
@@ -306,7 +306,7 @@ window.addEventListener('scroll',throttle(realFunc,500,1000));
 
 当访问一个页面时，先把 img 元素或者其他元素的路径换成一个大小为 1px 的占位图片。只有图片出现在可是区域后，才设置图片真正的路径。
 
-1. 原理懒加载的原理就是先在页面中把所有的图片统一使用一张占位图进行占位，把正真的路径存在元素的“data-url”（自定义属性）属性里，当图片出现在可视区域内时，就取出来，再设置；
+1.  原理懒加载的原理就是先在页面中把所有的图片统一使用一张占位图进行占位，把正真的路径存在元素的“data-url”（自定义属性）属性里，当图片出现在可视区域内时，就取出来，再设置；
 
 ```
 function isVisible($node){
@@ -330,13 +330,13 @@ function isVisible($node){
 1.方法一：用 CSS 和 JavaScript 实现预加载
 background:url(./png)
 
-2. 方法二：用 javascript 实现
-   image = new Image()
-   image.src='./aaa'
-3. 用 ajax
-   var xhr = new XMLHttpRequest();  
-    xhr.open('GET', 'http://domain.tld/preload.js');  
-    xhr.send('');
+2.  方法二：用 javascript 实现
+    image = new Image()
+    image.src='./aaa'
+3.  用 ajax
+    var xhr = new XMLHttpRequest();  
+     xhr.open('GET', 'http://domain.tld/preload.js');  
+     xhr.send('');
 
 2)区别：两种技术的本质：两者的行为是相反的，一个是提前加载，一个是迟缓甚至不加载。懒加载对服务器前端有一定的缓解压力作用，预加载则会增加服务器前端压力。 3)懒加载的意义及实现方式有：意义：懒加载的主要目的是作为服务器前端的优化，减少请求数或延迟请求数。实现方式： 1.第一种是纯粹的延迟加载，使用 setTimeOut 或 setInterval 进行加载延迟. 2.第二种是条件加载，符合某些条件，或触发了某些事件才开始异步下载。 3.第三种是可视区加载，即仅加载用户可以看到的区域，这个主要由监控滚动条来实现，一般会在距用户看到某图片前一定距离遍开始加载，这样能保证用户拉下时正好能看到图片。
 
@@ -345,12 +345,12 @@ background:url(./png)
 
 ### 瀑布流布局
 
-1. 固定列宽的多列布局。
-   float:left
-2. css3 多列布局
-   column-count column-gap
-3. 绝对定位方式
-4. 流体布局
+1.  固定列宽的多列布局。
+    float:left
+2.  css3 多列布局
+    column-count column-gap
+3.  绝对定位方式
+4.  流体布局
     ### 12 行内元素有哪些？块级元素有哪些？ 空(void)元素有那些？
 
 答案解析：
@@ -371,78 +371,13 @@ src 是指向外部资源的位置，指向的内容将会嵌入到文档中当�
 
 当浏览器解析到该元素时，会暂停其他资源的下载和处理，直到将该资源加载、编译、执行完毕，图片和框架等元素也如此，类似于将所指向资源嵌入当前标签内。这也是为什么将 js 脚本放在底部而不是头部。
 
-### 硬件加速
-
-https://www.w3cplus.com/animation/animation-performance.html
-parse html --> 计算样式 ---> layout --->paint ---图片解码 ---图片大小设置（css 改变宽度，需要 resize ）--合并图层不触发浏览器的 repaint.
-影响 web 性能主要过程包括 layout（计算布局位置信息）/paint/composite
-
-#### layout 任何有可能改变元素位置或大小的样式都会触发 layout;
-
-float overflow padding position resize width text-align
-
-#### 导致新图层的重建。
-
-1. 进行 3D 或透视转换的 css 属性
-2. 使用硬件加速视频解码的 video 元素。
-3. 具有 3D(webGL)上下文或者硬件加速的 2D 上下文的 2D 上下文 canvas 元素。
-4. 组合型插件（flash）;
-5. 具有 css 透明度动画或者使用动画式 webkit 变换的元素。
-6. 具有硬件加速的 css 滤镜的元素。
-    
-#### 重排 reflow 是指浏览器计算页面的全部或部分布局，重排一定引起重会。
-    
-#### DOM 元素的“Paint Only”属性（比如背景图片、文字颜色或阴影等），不会触发 layout 事件，只会绘制和渲染层合并
-    
-#### 非样式且非绘制的 css 属性，那么浏览器会跳过布局和绘制过程，直接合并。这种是最理想的，对于动画和滚动这种负荷很重的渲染，我们要争取用这种。
-   
- ### 重排 和重回
-    回流：当渲染树中的一部分或（全部） 因为元素的尺寸/布局/隐藏等改变而需要重新构建。导致回流的状况：
-7. 调整窗口大小。
-8. 改变字体
-9. 增加或者移除样式表
-10. 内容变化
-11. 激活 css 伪类
-    6。 操作 css 样式
-12. 计算 offsetWidth 或 offsetHeight
-13. 设置 style 属性的值。
-14. css3 Animation 或 transition
-    #### 重会：只是影响元素的外观，风格，不会影响布局的。重回不一定会引起回流，但是回流一定引起重回。
-    以下情况引起重排和重回
-15. 页面首次加载，
-16. dom 元素添加修改和删除（reflow+repaint）
-17. 应用新的样式或修改任何影响元素外观的属性(repaint)
-18. resize 浏览器窗口和滚动页面
-19. 读取元素的某些属性（offsetLeft offetTop offsetHeight offsetWidth getComoutedStyle()）
-
-#### 总结
-
-消耗最低的是 transform 和 opacity;所以在制作动画时，建议使用 transform 的 translate 替代 margin 或 position 中的 top、right、bottom 和 left，同时使用 transform 中的 scaleX 或者 scaleY 来替代 width 和 height。页面滚动时，需要避免不必要的渲染及长时间渲染。其中不必要的渲染包括：
-
-1. position:fixed;。fixed 定位在滚动时会不停的进行渲染，特别是页面顶部有一个 fixed，页面底部有个类似返回顶部的 fixed，则在滚动时会对整个页面进行渲染，效率非常低。可以通过 transform: translateZ(0)或者 transform: translate3d(0,0,0)来解决
-2. overflow:scroll。前面说了，而在滚动也会触发 Repaint 和 Reflow。在调试过程中注意到一个有趣的现象，有时打开了页面并不会导致 crash，但快速滑动的时候却会。由于 crash 是页面本身内存占比过高，只要优化了页面的内存占用，滑动自然也不会是很大的问题。无论你在什么时候滑动页面，页面滚动都是一个不断重新组合重新绘制的过程。所以减少渲染区域在滚动里就显得非常重要。
-3. CSS 伪类触发。有些 CSS 伪类在页面滚动时会不小心触发到。比如:hover 效果有 box-shadow、border-radius 等比较耗时的 CSS 属性时，建议页面滚动时，先取消:hover 效果，滚动停止后再加上:hover 效果。这个可以通过在外层添加类名进行控制。但添加类名、删除类名也会改变元素时，浏览器就会要重新做一次计算和布局。所以千万要小心这种无意触发重新布局的操作，有的时候可能不是动画，但去付出的代价要比做一个动画更加昂贵。也就是说 classname 变化了，就一定会出现一次 rendering 计算，如果一定需要这么做，那可以使用 classlist 的方法。
-4. touch 事件的监听
-
 ## 图片加载的优化
-#### 浏览器加载一个html 页面后进行的操作   
-1. 解析html --》 构建dom 树；
-2. 加载样式--解析样式（遇到背景图片链接不加载）--构建样式规则树；
-3. 加载js --执行js 代码
-4. 把dom 树和样式规则树匹配构建渲染树（加载渲染树上的背景图片）
-5. 计算元素位置及空间
-6. 绘制（开始渲染图片）
-
-#### 设置了 display:none的元素，背景图片不会渲染出来，但是会加载。
-#### 设置了 display:none的子元素，css的background-image不会加载，而标签上的会加载。
-原理：构建渲染树时，会把可渲染元素产出到渲染树。
-
 
 ## 继承
-ES5 的继承，实质是先创造子类的实例对象this，然后再将父类的方法添加到this上面（Parent.apply(this)）。ES6 的继承机制完全不同，实质是先创造父类的实例对象this（所以必须先调用super方法），然后再用子类的构造函数修改this。
-## this 
-js中 this 是什么？
+
+ES5 的继承，实质是先创造子类的实例对象 this，然后再将父类的方法添加到 this 上面（Parent.apply(this)）。ES6 的继承机制完全不同，实质是先创造父类的实例对象 this（所以必须先调用 super 方法），然后再用子类的构造函数修改 this。
+
+## this
+
+js 中 this 是什么？
 this 是一个关键字，指向当前函数的运行环境，运行环境是动态的。
-
-
-
