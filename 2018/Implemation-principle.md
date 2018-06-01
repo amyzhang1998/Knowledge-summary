@@ -524,64 +524,6 @@ export default class Modal extends Component {
 }
 ```
 
-## jsonp 实现原理
-
-> jsonp 是一种跨域通信的手段，它的原理是：
-> 1）：首先是利用 script 标签的 src 属性来实现跨域；
-> 2）通过将前端方法作为参数传递到服务器，然后由服务器端注入参数之后再返回，实现服务端向客户端通信。
-> 3）由于使用 script 标签的 src 属性，因此只支持 get 方法。
->
-> ```
->   function jsonp(req){
-> var script = document.createElement('script');
-> var url = req.url + '?callback=' + req.callback.name;
-> script.src = url;
-> document.getElementByTagName('head')[0].appendChild(script)
-> }
-> 不足之处：1）传递的参数必须是一个全局方法，我们都知道应该尽可能的减少全局方法；
-> 2）需要加入一些参数校验，确保接口可以正常执行
-> ```
-
-```
-(function (global) {
-    var id = 0,
-        container = document.getElementsByTagName("head")[0];
-    function jsonp(options) {
-        if(!options || !options.url) return;
-        var scriptNode = document.createElement("script"),
-            data = options.data || {},
-            url = options.url,
-            callback = options.callback,
-            fnName = "jsonp" + id++;
-        // 添加回调函数
-        data["callback"] = fnName;
-        // 拼接url
-        var params = [];
-        for (var key in data) {
-            params.push(encodeURIComponent(key) + "=" + encodeURIComponent(data[key]));
-        }
-        url = url.indexOf("?") > 0 ? (url + "&") : (url + "?");
-        url += params.join("&");
-        scriptNode.src = url;
-        // 传递的是一个匿名的回调函数，要执行的话，暴露为一个全局方法
-        global[fnName] = function (ret) {
-            callback && callback(ret);
-            container.removeChild(scriptNode);
-            delete global[fnName];
-        }
-        // 出错处理
-        scriptNode.onerror = function () {
-            callback && callback({error:"error"});
-            container.removeChild(scriptNode);
-            global[fnName] && delete global[fnName];
-        }
-        scriptNode.type = "text/javascript";
-        container.appendChild(scriptNode)
-    }
-    global.jsonp = jsonp;
-})(this);
-```
-
 ## react-router 的实现原理
 
 > 1,react-router 赖以生存的 history
@@ -741,32 +683,6 @@ window.URL.revokeObjectURL(url);
 > window.URL 里面有两个方法：
 > createObjectURL 用 blob 对象来创建一个 object URL(它是一个 DOMString)，我们可以用这个 object URL 来表示某个 blob 对象，这个 object URL 可以用在 href 和 src 之类的属性上。
 > revokeObjectURL 释放由 createObjectURL 创建的 object URL，当该 object URL 不需要的时候，我们要主动调用这个方法来获取最佳性能和内存使用。知道了这两个方法之后，我们再回去看看上面的例子就很容易理解了吧！只是用 blob 对象来创建一条 URL，然后让 a 标签引用该 URL，然后触发个点击事件，就可以下载文件了！
-
-## 跨域问题
-
-> 1.什么引起了 ajax 跨域不能的问题
-> jsonp 本身实际上是通过 XMLHttpRequest 对象来进行数据的交互，而浏览器出于安全考虑，不允许 js 代码进行跨域操作，所以会警告。
-
-2.有什么完美的解决方案么？没有。解决方案有不少，但是只能是根据自己的实际情况来选择。
-
-具体情况有:
-一、本域和子域的相互访问: www.aa.com 和 book.aa.com
-二、本域和其他域的相互访问: www.aa.com 和 www.bb.com 用 iframe
-三、本域和其他域的相互访问: www.aa.com 和 www.bb.com 用 XMLHttpRequest 访问代理四、本域和其他域的相互访问: www.aa.com 和 www.bb.com 用 JS 创建动态脚本
-
-解决方法：一、如果想做到数据的交互，那么 www.aa.com 和 book.aa.com 必须由你来开发才可以。可以将 book.aa.com 用 iframe 添加到 www.aa.com 的某个页面下,在 www.aa.com 和 iframe 里面都加上 document.domain = "aa.com"，这样就可以统一域了，可以实现跨域访问。就和平时同一个域中镶嵌 iframe 一样，直接调用里面的 JS 就可以了。（这个办法我没有尝试，不过理论可行）
-
-二、当两个域不同时,如果想相互调用，那么同样需要两个域都是由你来开发才可以。用 iframe 可以实现数据的互相调用。解决方案就是用 window.location 对象的 hash 属性。hash 属性就是http://domian/web/a.htm#dshakjdhsjka 里面的#dshakjdhsjka。利用 JS 改变 hash 值网页不会刷新，可以这样实现通过 JS 访问 hash 值来做到通信。不过除了 IE 之外其他大部分浏览器只要改变 hash 就会记录历史，你在前进和后退时就需要处理，非常麻烦。不过再做简单的处理时还是可以用的，具体的代码我再下面有下载。大体的过程是页面 a 和页面 b 在不同域下,b 通过 iframe 添加到 a 里，a 通过 JS 修改 iframe 的 hash 值，b 里面做一个监听（因为 JS 只能修改 hash，数据是否改变只能由 b 自己来判断），检测到 b 的 hash 值被修改了，得到修改的值，经过处理返回 a 需要的值，再来修改 a 的 hash 值（这个地方要注意，如果 a 本身是那种查询页面的话比如http://domian/web/a.aspx?id=3,在b中直接parent.window.location是无法取得数据的，同样报没有权限的错误，需要a把这个传过来，所以也比较麻烦），同样a里面也要做监听，如果hash变化的话就取得返回的数据，再做相应的处理。
-
-三、这种情形是最经常遇到的，也是用的最多的了。就是 www.aa.com 和 www.bb.com 你只能修改一个，也就是另外一个是别人的，人家告诉你你要取得数据就访问某某连接参数是什么样子的，最后返回数据是什么格式的。而你需要做的就是在你的域下新建一个网页，让服务器去别人的网站上取得数据，再返回给你。domain1 下的 a 向同域下的 GetData.aspx 请求数据，GetData.aspx 向 domain2 下的 ResponseData.aspx 发送请求,ResponseData.aspx 返回数据给 GetData.aspx, GetData.aspx 再返回给 a,这样就完成了一次数据请求。GetData.aspx 在其中充当了代理的作用。具体可以看下我的代码。
-
-四、这个和上个的区别就是请求是使用 script 标签来请求的，这个要求也是两个域都是由你来开发才行。原理就是 JS 文件注入，在本域内的 a 内生成一个 JS 标签，它的 SRC 指向请求的另外一个域的某个页面 b，b 返回数据即可，可以直接返回 JS 的代码。因为 script 的 src 属性是可以跨域的。具体看代码，这个也比较简单。
-
-code:
-http://www.live-share.com/files/300697/Cross_The_Site_Test_code.rar.html
-(csdn 不能粘贴附件么？)
-
-总结：第一种情况：域和子域的问题，可以完全解决交互。第二种情况：跨域，实现过程非常麻烦，需要两个域开发者都能控制，适用于简单交互。第三种情况：跨域，开发者只控制一个域即可，实现过程需要增加代理取得数据，是常用的方式。第四种情况：跨域，两个域开发者都需要控制，返回一段 js 代码。
 
 ## redux principle
 

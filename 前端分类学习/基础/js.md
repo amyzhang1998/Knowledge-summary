@@ -356,3 +356,277 @@ function clone( o ) {
               } }
               return temp; }
 ```
+
+## 跨域问题 和 XMLHttpRequest 对象
+
+## 跨域问题
+
+> 1.什么引起了 ajax 跨域不能的问题
+> jsonp 本身实际上是通过 XMLHttpRequest 对象来进行数据的交互，而浏览器出于安全考虑，不允许 js 代码进行跨域操作，所以会警告。
+
+2.有什么完美的解决方案么？没有。解决方案有不少，但是只能是根据自己的实际情况来选择。
+
+具体情况有:
+一、本域和子域的相互访问: www.aa.com 和 book.aa.com
+二、本域和其他域的相互访问: www.aa.com 和 www.bb.com 用 iframe
+三、本域和其他域的相互访问: www.aa.com 和 www.bb.com 用 XMLHttpRequest 访问代理四、本域和其他域的相互访问: www.aa.com 和 www.bb.com 用 JS 创建动态脚本
+
+解决方法：一、如果想做到数据的交互，那么 www.aa.com 和 book.aa.com 必须由你来开发才可以。可以将 book.aa.com 用 iframe 添加到 www.aa.com 的某个页面下,在 www.aa.com 和 iframe 里面都加上 document.domain = "aa.com"，这样就可以统一域了，可以实现跨域访问。就和平时同一个域中镶嵌 iframe 一样，直接调用里面的 JS 就可以了。（这个办法我没有尝试，不过理论可行）
+
+二、当两个域不同时,如果想相互调用，那么同样需要两个域都是由你来开发才可以。用 iframe 可以实现数据的互相调用。解决方案就是用 window.location 对象的 hash 属性。hash 属性就是http://domian/web/a.htm#dshakjdhsjka 里面的#dshakjdhsjka。利用 JS 改变 hash 值网页不会刷新，可以这样实现通过 JS 访问 hash 值来做到通信。不过除了 IE 之外其他大部分浏览器只要改变 hash 就会记录历史，你在前进和后退时就需要处理，非常麻烦。不过再做简单的处理时还是可以用的，具体的代码我再下面有下载。大体的过程是页面 a 和页面 b 在不同域下,b 通过 iframe 添加到 a 里，a 通过 JS 修改 iframe 的 hash 值，b 里面做一个监听（因为 JS 只能修改 hash，数据是否改变只能由 b 自己来判断），检测到 b 的 hash 值被修改了，得到修改的值，经过处理返回 a 需要的值，再来修改 a 的 hash 值（这个地方要注意，如果 a 本身是那种查询页面的话比如http://domian/web/a.aspx?id=3,在b中直接parent.window.location是无法取得数据的，同样报没有权限的错误，需要a把这个传过来，所以也比较麻烦），同样a里面也要做监听，如果hash变化的话就取得返回的数据，再做相应的处理。
+
+三、这种情形是最经常遇到的，也是用的最多的了。就是 www.aa.com 和 www.bb.com 你只能修改一个，也就是另外一个是别人的，人家告诉你你要取得数据就访问某某连接参数是什么样子的，最后返回数据是什么格式的。而你需要做的就是在你的域下新建一个网页，让服务器去别人的网站上取得数据，再返回给你。domain1 下的 a 向同域下的 GetData.aspx 请求数据，GetData.aspx 向 domain2 下的 ResponseData.aspx 发送请求,ResponseData.aspx 返回数据给 GetData.aspx, GetData.aspx 再返回给 a,这样就完成了一次数据请求。GetData.aspx 在其中充当了代理的作用。具体可以看下我的代码。
+
+四、这个和上个的区别就是请求是使用 script 标签来请求的，这个要求也是两个域都是由你来开发才行。原理就是 JS 文件注入，在本域内的 a 内生成一个 JS 标签，它的 SRC 指向请求的另外一个域的某个页面 b，b 返回数据即可，可以直接返回 JS 的代码。因为 script 的 src 属性是可以跨域的。具体看代码，这个也比较简单。
+
+code:
+http://www.live-share.com/files/300697/Cross_The_Site_Test_code.rar.html
+(csdn 不能粘贴附件么？)
+
+总结：第一种情况：域和子域的问题，可以完全解决交互。第二种情况：跨域，实现过程非常麻烦，需要两个域开发者都能控制，适用于简单交互。第三种情况：跨域，开发者只控制一个域即可，实现过程需要增加代理取得数据，是常用的方式。第四种情况：跨域，两个域开发者都需要控制，返回一段 js 代码。
+
+### XmlHttpRequest 是什么？怎么完整执行一次 get 请求？怎么检测错误？
+
+https://segmentfault.com/a/1190000004322487
+用于在后台与服务器交换数据。对象事件: readyState 的值的改变会触发 readyStatechange 事件;错误会触发 error 事件；优缺点: 在不重新加载页面的情况下更新网页;
+使用 xmlHttpRequest 可以用来传 Formdata（新增 formData 对象，支持发送表单数据；）类型的数据。
+xhr.send()可以传的参数类型：ArrayBuffer，Blob，Document，DOMString，FormData，null;
+
+15. 同源与跨域
+
+什么是同源策略？限制从一个源加载的文档或脚本如何与来自另一个源的资源进行交互。一个源指的是主机名、协议和端口号的组合，必须相同
+
+跨域通信的几种方式 JSONP postMessage document.domain CORS
+
+1.  JSONP 原理基本原理：利用 script 标签的异步加载特性实现给服务端传一个回调函数，服务器返回一个传递过去的回调函数名称的 JS 代码
+    JSONP 的优点是：它不像 XMLHttpRequest 对象实现的 Ajax 请求那样受到同源策略的限制；它的兼容性更好，在更加古老的浏览器中都可以运行，不需要 XMLHttpRequest 或 ActiveX 的支持；并且在请求完毕后可以通过调用 callback 的方式回传结果。
+
+2.  JSONP 的缺点则是：它只支持 GET 请求而不支持 POST 等其它类型的 HTTP 请求；它只支持跨域 HTTP 请求这种情况，不能解决不同域的两个页面之间如何进行 JavaScript 调用的问题。
+    CORS（Cross-Origin Resource Sharing）跨域资源共享，定义了必须在访问跨域资源时，浏览器与服务器应该如何沟通。CORS 背后的基本思想就是使用自定义的 HTTP 头部让浏览器与服务器进行沟通，从而决定请求或响应是应该成功还是失败。服务器端对于 CORS 的支持，主要就是通过设置 Access-Control-Allow-Origin 来进行的。如果浏览器检测到相应的设置，就可以允许 Ajax 进行跨域的访问。
+
+CORS 与 JSONP 相比，无疑更为先进、方便和可靠。
+
+    1、 JSONP只能实现GET请求，而CORS支持所有类型的HTTP请求。
+
+    2、 使用CORS，开发者可以使用普通的XMLHttpRequest发起请求和获得数据，比起JSONP有更好的错误处理。
+
+    3、 JSONP主要被老的浏览器支持，它们往往不支持CORS，而绝大多数现代浏览器都已经支持了CORS）。
+
+3 通过修改 document.domain 来跨子域。修改 document.domain 的方法只适用于不同子域的框架间的交互。不同的框架之间是可以获取 window 对象的，但却无法获取相应的属性和方法。
+
+4.  使用 HTML5 的 window.postMessage（message, targetOrigin, [transfer]） 方法跨域
+
+## jsonp 实现原理
+
+> jsonp 是一种跨域通信的手段，它的原理是：
+> 1）：首先是利用 script 标签的 src 属性来实现跨域；
+> 2）通过将前端方法作为参数传递到服务器，然后由服务器端注入参数之后再返回，实现服务端向客户端通信。
+> 3）由于使用 script 标签的 src 属性，因此只支持 get 方法。
+>
+> ```
+>   function jsonp(req){
+> var script = document.createElement('script');
+> var url = req.url + '?callback=' + req.callback.name;
+> script.src = url;
+> document.getElementByTagName('head')[0].appendChild(script)
+> }
+> 不足之处：1）传递的参数必须是一个全局方法，我们都知道应该尽可能的减少全局方法；
+> 2）需要加入一些参数校验，确保接口可以正常执行
+> ```
+
+```
+(function (global) {
+    var id = 0,
+        container = document.getElementsByTagName("head")[0];
+    function jsonp(options) {
+        if(!options || !options.url) return;
+        var scriptNode = document.createElement("script"),
+            data = options.data || {},
+            url = options.url,
+            callback = options.callback,
+            fnName = "jsonp" + id++;
+        // 添加回调函数
+        data["callback"] = fnName;
+        // 拼接url
+        var params = [];
+        for (var key in data) {
+            params.push(encodeURIComponent(key) + "=" + encodeURIComponent(data[key]));
+        }
+        url = url.indexOf("?") > 0 ? (url + "&") : (url + "?");
+        url += params.join("&");
+        scriptNode.src = url;
+        // 传递的是一个匿名的回调函数，要执行的话，暴露为一个全局方法
+        global[fnName] = function (ret) {
+            callback && callback(ret);
+            container.removeChild(scriptNode);
+            delete global[fnName];
+        }
+        // 出错处理
+        scriptNode.onerror = function () {
+            callback && callback({error:"error"});
+            container.removeChild(scriptNode);
+            global[fnName] && delete global[fnName];
+        }
+        scriptNode.type = "text/javascript";
+        container.appendChild(scriptNode)
+    }
+    global.jsonp = jsonp;
+})(this);
+```
+
+延伸：跨域的 js 运行错误可以捕获吗，错误提示什么，应该怎么处理？可以。 Script
+error 1. 在 script 标签增加 crossorigin 属性
+
+7.  开发中，碰到跨域的问题是如何处理的？
+
+        > 通过 cors 跨域
+
+    7.1 . 如何进行 cors 跨域，需要什么条件？ >答：cors：跨域资源共享，必须在浏览器检测到服务端设置了 Access-Control-Allow-Origin ：
+
+
+            7.3 . 还有其他跨域方式吗？
+            > 1. jsonp、3 通过修改 document.domain 来跨子域。修改 document.domain 的方法只适用于不同子域的框架间的交互。不同的框架之间是可以获取 window 对象的，但却无法获取相应的属性和方法。
+
+7.  使用 HTML5 的 window.postMessage（message, targetOrigin, [transfer]） 方法跨域
+
+#### jsonp 和 cors
+
+两者优点与缺点大致互补，放在一块介绍：JSONP 的主要优势在于对浏览器的支持较好；虽然目前主流浏览器支持 CORS，但 IE10 以下不支持 CORS。JSONP 只能用于获取资源（即只读，类似于 GET 请求）；CORS 支持所有类型的 HTTP 请求，功能完善。（这点 JSONP 被玩虐，但大部分情况下 GET 已经能满足需求了）JSONP 的错误处理机制并不完善，我们没办法进行错误处理；而 CORS 可以通过 onerror 事件监听错误，并且浏览器控制台会看到报错信息，利于排查。JSONP 只会发一次请求；而对于复杂请求，CORS 会发两次请求。始终觉得安全性这个东西是相对的，没有绝对的安全，也做不到绝对的安全。毕竟 JSONP 并不是跨域规范，它存在很明显的安全问题：callback 参数注入和资源访问授权设置。CORS 好歹也算是个跨域规范，在资源访问授权方面进行了限制（Access-Control-Allow-Origin），而且标准浏览器都做了安全限制，比如拒绝手动设置 origin 字段，相对来说是安全了一点。但是回过头来看一下，就算是不安全的 JSONP，我们依然可以在服务端端进行一些权限的限制，服务端和客户端也都依然可以做一些注入的安全处理，哪怕被攻克，它也只能读一些东西。就算是比较安全的 CORS，同样可以在服务端设置出现漏洞或者不在浏览器的跨域限制环境下进行攻击，而且它不仅可以读，还可以写。
+
+#### 使用 cors 时，要携带 cookie 的情况 后端要设置什么 做相应？？
+
+# Promise 和 setTimeout 谁先执行
+
+# JS 的执行机制
+
+> 一个浏览器环境只能有一个事件循环，一个事件循环可以有多个任务队列，每个任务都有一个任务源。任务队列有优先级关系。
+
+同步和异步不同的执行过程
+
+> 1.  同步和异步任务分别进入不同的执行 " 场所 "，同步的进入主线程，异步的进入
+>     Event Table 并注册函数。
+> 2.  当指定的事情完成时，Event Table 会将这个函数移入 Event Queue。
+> 3.  **主线程内的任务执行完毕为空**，会去 Event Queue 读取对应的函数，进入主线程执行
+> 4.  上述过程会不断重复，也就是常说的 Event Loop( 事件循环 ),
+
+### 怎么判断主线程为空？
+
+> js 引擎存在 monitoring process 进程，会持续不断的检查主线程执行栈是否为空，一旦为空，就会去 Event Queue 那里检查是否有等待被调用的函数
+
+### setTimeOut(fn,ms) setInterval(fn,ms)
+
+> 对于 setInterval(fn,ms) 来说，我们已经知道不是每过 ms 秒会执行一次 fn，而是每过 ms 秒，会有 fn 进入 Event Queue
+
+### promise 和 process.nextTick()( 类似 node 的 setTimeOut)
+
+> 我们进入正题，除了广义的同步任务和异步任务，我们对任务有更精细的定义：首先在宏任务中取出第一个任务，执行完后再取出微任务的所有任务执行，循环，指导两个队列都执行完。
+> macro-task( 宏任务 )：包括整体代码 script，setTimeout ， setInterval
+> micro-task(
+> 微任务 )：Promise ， process.nextTick
+
+不同类型的任务会进入对应的 Event Queue，比如 setTimeout 和 setInterval 会进入相同的 Event Queue。事件循环的顺序，决定 js 代码的执行顺序。进入整体代码 ( 宏任务
+) 后，开始第一次循环。接着执行所有的微任务。然后再次从宏任务开始，找到其中一个任务队列执行完毕，再执行所有的微任务
+
+##
+
+```
+console.log('1');
+
+setTimeout(function() {
+    console.log('2');
+    process.nextTick(function() {
+        console.log('3');
+    })
+    new Promise(function(resolve) {
+        console.log('4');
+        resolve();
+    }).then(function() {
+        console.log('5')
+    })
+})
+process.nextTick(function() {
+    console.log('6');
+})
+new Promise(function(resolve) {
+    console.log('7');
+    resolve();
+}).then(function() {
+    console.log('8')
+})
+
+setTimeout(function() {
+    console.log('9');
+    process.nextTick(function() {
+        console.log('10');
+    })
+    new Promise(function(resolve) {
+        console.log('11');
+        resolve();
+    }).then(function() {
+        console.log('12')
+    })
+})
+```
+
+第一轮事件循环流程分析如下：
+
+整体 script 作为第一个宏任务进入主线程，遇到 console.log，输出 1。遇到
+setTimeout，其回调函数被分发到宏任务 Event Queue 中。我们暂且记为 setTimeout1。遇到 process.nextTick()，其回调函数被分发到微任务 Event Queue 中。我们记为
+process1。遇到 Promise，new Promise 直接执行，输出 7。then 被分发到微任务 Event
+Queue 中。我们记为 then1。又遇到了 setTimeout，其回调函数被分发到宏任务 Event
+Queue 中，我们记为 setTimeout2。
+
+宏任务 Event Queue 微任务 Event Queue
+
+setTimeout1 process1
+
+setTimeout2 then1
+
+上表是第一轮事件循环宏任务结束时各 Event Queue 的情况，此时已经输出了 1 和 7。
+
+我们发现了 process1 和 then1 两个微任务。
+
+执行 process1, 输出 6。执行 then1，输出 8。
+
+好了，第一轮事件循环正式结束，这一轮的结果是输出 1，7 ， 6，8 。那么第二轮时间循环从 setTimeout1 宏任务开始：
+
+首先输出 2。接下来遇到了 process.nextTick()，同样将其分发到微任务 Event Queue 中，记为 process2。new Promise 立即执行输出 4，then 也分发到微任务 Event Queue 中，记为 then2。
+
+宏任务 Event Queue 微任务 Event Queue
+
+setTimeout2 process2
+
+then2
+
+第二轮事件循环宏任务结束，我们发现有 process2 和 then2 两个微任务可以执行。输出
+3。输出 5。第二轮事件循环结束，第二轮输出 2，4 ， 3，5 。第三轮事件循环开始，此时只剩 setTimeout2 了，执行。直接输出 9。将 process.nextTick() 分发到微任务
+Event Queue 中。记为 process3。直接执行 new Promise，输出 11。将 then 分发到微任务 Event Queue 中，记为 then3。
+
+宏任务 Event Queue 微任务 Event Queue
+
+process3
+
+then3
+
+第三轮事件循环宏任务执行结束，执行两个微任务 process3 和 then3。输出 10。输出
+12。第三轮事件循环结束，第三轮输出 9，11 ， 10，12 。
+
+整段代码，共进行了三次事件循环，完整的输出为 1，7 ， 6，8 ， 2，4 ， 3，5 ，
+9，11 ， 10，12 。
+
+## `客户端存储`
+
+### cookie sessionStorage localStorage
+
+### 4.浏览器本地存储中 cookie 和 localStorage 有什么区别？ localStorage 如何存储删除数据。
+
+cookie :最大 4k,过期时间之前有效。在服务端与客户端来回传递，
+localStorage:5M，持久数据。不传到服务端，
+sessionStorage:5M,当前会话有效。
+localStorage 提供了几个方法: 1.存储:localStorage.setItem(key,value)如果 key 存在时，更新 value 2.获取 localStorage.getItem(key)如果 key 不存在返回 null 3.删除 localStorage.removeItem(key)一旦删除，key 对应的数据将会全部删除 4.全部清除 localStorage.clear() 使用 removeItem 逐个删除太麻烦，可以使用 clear,
+
+需要注意的是，不是什么数据都适合放在 Cookie、localStorage 和 sessionStorage 中的。使用它们的时候，需要时刻注意是否有代码存在 XSS 注入的风险。因为只要打开控制台，你就随意修改它们的值，也就是说如果你的网站中有 XSS 的风险，它们就能对你的 localStorage 肆意妄为。所以千万不要用它们存储你系统中的敏感数据。
+
+### indexDB
+
+### 本地离线存储

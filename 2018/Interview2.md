@@ -1,10 +1,3 @@
-### XmlHttpRequest 是什么？怎么完整执行一次 get 请求？怎么检测错误？
-
-https://segmentfault.com/a/1190000004322487
-用于在后台与服务器交换数据。对象事件: readyState 的值的改变会触发 readyStatechange 事件;错误会触发 error 事件；优缺点: 在不重新加载页面的情况下更新网页;
-使用 xmlHttpRequest 可以用来传 Formdata（新增 formData 对象，支持发送表单数据；）类型的数据。
-xhr.send()可以传的参数类型：ArrayBuffer，Blob，Document，DOMString，FormData，null;
-
 ### 严格模式与混杂模式，doctype ,区分他们有何意义？
 
 Doctype：(Document Type)文档类型，既然它是一种声明，它的责任就是告诉浏览器文档使用哪种 html 或者 xhtml 规范/。
@@ -222,15 +215,6 @@ c、允许用户将自己编写的包或命令行程序上传到 NPM 服务器�
 4.  get 请求与 post 请求，要严格遵守规范，不要混用，不要将一些危险的提交使用 jsonp 完成。
 
 5.  对于 URL 上携带的信息，要谨慎使用。
-
-### 4.浏览器本地存储中 cookie 和 localStorage 有什么区别？ localStorage 如何存储删除数据。
-
-cookie :最大 4k,过期时间之前有效。在服务端与客户端来回传递，
-localStorage:5M，持久数据。不传到服务端，
-sessionStorage:5M,当前会话有效。
-localStorage 提供了几个方法: 1.存储:localStorage.setItem(key,value)如果 key 存在时，更新 value 2.获取 localStorage.getItem(key)如果 key 不存在返回 null 3.删除 localStorage.removeItem(key)一旦删除，key 对应的数据将会全部删除 4.全部清除 localStorage.clear() 使用 removeItem 逐个删除太麻烦，可以使用 clear,
-
-需要注意的是，不是什么数据都适合放在 Cookie、localStorage 和 sessionStorage 中的。使用它们的时候，需要时刻注意是否有代码存在 XSS 注入的风险。因为只要打开控制台，你就随意修改它们的值，也就是说如果你的网站中有 XSS 的风险，它们就能对你的 localStorage 肆意妄为。所以千万不要用它们存储你系统中的敏感数据。
 
 ### object.create(prop),object.assign(target,props)
 

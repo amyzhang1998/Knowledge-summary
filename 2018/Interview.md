@@ -116,30 +116,6 @@ Restful API 一些具体实践：
 
 14.script 标签的 defer、async 的区别 defer 是在 HTML 解析完之后才会执行，如果是多个，按照加载的顺序依次执行 async 是在加载完成后立即执行，如果是多个，执行顺序和加载顺序无关
 
-15. 同源与跨域
-
-什么是同源策略？限制从一个源加载的文档或脚本如何与来自另一个源的资源进行交互。一个源指的是主机名、协议和端口号的组合，必须相同
-
-跨域通信的几种方式 JSONP postMessage document.domain CORS
-
-1.  JSONP 原理基本原理：利用 script 标签的异步加载特性实现给服务端传一个回调函数，服务器返回一个传递过去的回调函数名称的 JS 代码
-    JSONP 的优点是：它不像 XMLHttpRequest 对象实现的 Ajax 请求那样受到同源策略的限制；它的兼容性更好，在更加古老的浏览器中都可以运行，不需要 XMLHttpRequest 或 ActiveX 的支持；并且在请求完毕后可以通过调用 callback 的方式回传结果。
-
-2.  JSONP 的缺点则是：它只支持 GET 请求而不支持 POST 等其它类型的 HTTP 请求；它只支持跨域 HTTP 请求这种情况，不能解决不同域的两个页面之间如何进行 JavaScript 调用的问题。
-    CORS（Cross-Origin Resource Sharing）跨域资源共享，定义了必须在访问跨域资源时，浏览器与服务器应该如何沟通。CORS 背后的基本思想就是使用自定义的 HTTP 头部让浏览器与服务器进行沟通，从而决定请求或响应是应该成功还是失败。服务器端对于 CORS 的支持，主要就是通过设置 Access-Control-Allow-Origin 来进行的。如果浏览器检测到相应的设置，就可以允许 Ajax 进行跨域的访问。
-
-CORS 与 JSONP 相比，无疑更为先进、方便和可靠。
-
-    1、 JSONP只能实现GET请求，而CORS支持所有类型的HTTP请求。
-
-    2、 使用CORS，开发者可以使用普通的XMLHttpRequest发起请求和获得数据，比起JSONP有更好的错误处理。
-
-    3、 JSONP主要被老的浏览器支持，它们往往不支持CORS，而绝大多数现代浏览器都已经支持了CORS）。
-
-3 通过修改 document.domain 来跨子域。修改 document.domain 的方法只适用于不同子域的框架间的交互。不同的框架之间是可以获取 window 对象的，但却无法获取相应的属性和方法。
-
-4.  使用 HTML5 的 window.postMessage（message, targetOrigin, [transfer]） 方法跨域
-
 更多请查看：《前后端通信类知识》
 
 16. 原型与闭包相关问题原型是什么原型就是一个普通的对象，每个对象都有一个原型（Object 除外），原型能存储我们的方法，构造函数创建出来的实例对象能够引用原型中的方法。查看原型以前一般使用对象的**proto**属性，ES6 推出后，推荐用
@@ -286,125 +262,6 @@ BFC 的使用场景他的很常用的一个应用场景就是解决边距重叠�
 就是每次 8 个位传输数据，而 UTF-16 就是每次 16 个位。 ASCII --> 地区性编码（GBK
 ） --> Unicode --> UTF-8
 
-# Promise 和 setTimeout 谁先执行
-
-# JS 的执行机制
-
-> 一个浏览器环境只能有一个事件循环，一个事件循环可以有多个任务队列，每个任务都有一个任务源。任务队列有优先级关系。
-
-同步和异步不同的执行过程
-
-> 1.  同步和异步任务分别进入不同的执行 " 场所 "，同步的进入主线程，异步的进入
->     Event Table 并注册函数。
-> 2.  当指定的事情完成时，Event Table 会将这个函数移入 Event Queue。
-> 3.  **主线程内的任务执行完毕为空**，会去 Event Queue 读取对应的函数，进入主线程执行
-> 4.  上述过程会不断重复，也就是常说的 Event Loop( 事件循环 ),
-
-### 怎么判断主线程为空？
-
-> js 引擎存在 monitoring process 进程，会持续不断的检查主线程执行栈是否为空，一旦为空，就会去 Event Queue 那里检查是否有等待被调用的函数
-
-### setTimeOut(fn,ms) setInterval(fn,ms)
-
-> 对于 setInterval(fn,ms) 来说，我们已经知道不是每过 ms 秒会执行一次 fn，而是每过 ms 秒，会有 fn 进入 Event Queue
-
-### promise 和 process.nextTick()( 类似 node 的 setTimeOut)
-
-> 我们进入正题，除了广义的同步任务和异步任务，我们对任务有更精细的定义：首先在宏任务中取出第一个任务，执行完后再取出微任务的所有任务执行，循环，指导两个队列都执行完。
-> macro-task( 宏任务 )：包括整体代码 script，setTimeout ， setInterval
-> micro-task(
-> 微任务 )：Promise ， process.nextTick
-
-不同类型的任务会进入对应的 Event Queue，比如 setTimeout 和 setInterval 会进入相同的 Event Queue。事件循环的顺序，决定 js 代码的执行顺序。进入整体代码 ( 宏任务
-) 后，开始第一次循环。接着执行所有的微任务。然后再次从宏任务开始，找到其中一个任务队列执行完毕，再执行所有的微任务
-
-##
-
-```
-console.log('1');
-
-setTimeout(function() {
-    console.log('2');
-    process.nextTick(function() {
-        console.log('3');
-    })
-    new Promise(function(resolve) {
-        console.log('4');
-        resolve();
-    }).then(function() {
-        console.log('5')
-    })
-})
-process.nextTick(function() {
-    console.log('6');
-})
-new Promise(function(resolve) {
-    console.log('7');
-    resolve();
-}).then(function() {
-    console.log('8')
-})
-
-setTimeout(function() {
-    console.log('9');
-    process.nextTick(function() {
-        console.log('10');
-    })
-    new Promise(function(resolve) {
-        console.log('11');
-        resolve();
-    }).then(function() {
-        console.log('12')
-    })
-})
-```
-
-第一轮事件循环流程分析如下：
-
-整体 script 作为第一个宏任务进入主线程，遇到 console.log，输出 1。遇到
-setTimeout，其回调函数被分发到宏任务 Event Queue 中。我们暂且记为 setTimeout1。遇到 process.nextTick()，其回调函数被分发到微任务 Event Queue 中。我们记为
-process1。遇到 Promise，new Promise 直接执行，输出 7。then 被分发到微任务 Event
-Queue 中。我们记为 then1。又遇到了 setTimeout，其回调函数被分发到宏任务 Event
-Queue 中，我们记为 setTimeout2。
-
-宏任务 Event Queue 微任务 Event Queue
-
-setTimeout1 process1
-
-setTimeout2 then1
-
-上表是第一轮事件循环宏任务结束时各 Event Queue 的情况，此时已经输出了 1 和 7。
-
-我们发现了 process1 和 then1 两个微任务。
-
-执行 process1, 输出 6。执行 then1，输出 8。
-
-好了，第一轮事件循环正式结束，这一轮的结果是输出 1，7 ， 6，8 。那么第二轮时间循环从 setTimeout1 宏任务开始：
-
-首先输出 2。接下来遇到了 process.nextTick()，同样将其分发到微任务 Event Queue 中，记为 process2。new Promise 立即执行输出 4，then 也分发到微任务 Event Queue 中，记为 then2。
-
-宏任务 Event Queue 微任务 Event Queue
-
-setTimeout2 process2
-
-then2
-
-第二轮事件循环宏任务结束，我们发现有 process2 和 then2 两个微任务可以执行。输出
-3。输出 5。第二轮事件循环结束，第二轮输出 2，4 ， 3，5 。第三轮事件循环开始，此时只剩 setTimeout2 了，执行。直接输出 9。将 process.nextTick() 分发到微任务
-Event Queue 中。记为 process3。直接执行 new Promise，输出 11。将 then 分发到微任务 Event Queue 中，记为 then3。
-
-宏任务 Event Queue 微任务 Event Queue
-
-process3
-
-then3
-
-第三轮事件循环宏任务执行结束，执行两个微任务 process3 和 then3。输出 10。输出
-12。第三轮事件循环结束，第三轮输出 9，11 ， 10，12 。
-
-整段代码，共进行了三次事件循环，完整的输出为 1，7 ， 6，8 ， 2，4 ， 3，5 ，
-9，11 ， 10，12 。
-
 # 面试
 
 1.关于 this 的调用，以及 call apply bind 的影响，箭头函数中的 this
@@ -451,8 +308,6 @@ function foo() {
 }
 foo(1); // 2
 ```
-
-2.前端跨域怎么解决？ 参考 implemation-principle.md
 
 3.  闭包问题？由闭包引起的作用域链，以及闭包的优缺点
     https://github.com/dwqs/blog/issues/18
@@ -642,110 +497,6 @@ https://github.com/jakesgordon/javascript-state-machine
 
 　　};
 ```
-
-## http 状态吗 304
-
-304 （from cache）是 http 重定向里返回的状态吗，页面没有更改，利用缓存
-
-## 浏览器缓存 缓存原理 缓存机制 相关字段 cookie 服务端 cookie
-
-> javascript cookie 是由 document.cookie=''设置；注意：一旦 cookie 通过 JavaScript 设置后便不能提取它的选项，所以你将不能知道 domain，path，expires 日期或 secure 标记。
-> Web 服务器通过发送一个称为 Set-Cookie 的 HTTP 消息头来创建一个 cookie，Set-Cookie 消息头是一个字符串，其格式如下（中括号中的部分是可选的）：
-
-为什么不断刷新页面浏览器静态资源都是返回 200？？？而不是 304
-
-### 47 种 http 报文首部与 Cache 有关的
-
-1.  通用
-    cache-control:控制缓存的行为:max-age=0；:max-age=2628000
-
-pragma：禁止缓存的行为
-
-2.  实体首部
-    expires:实体主体过期时间，相对于服务器。
-    last-modified:
-3.  请求首部
-    if-match：比较 ETag 是否一致
-    if-none-match：比较 ETag 是否不一致
-    if-modified-last:比较资源最后更新时间是否一致
-    if-unmodified-last:比较资源最后更新时间是否不一致
-4.  响应首部
-    ETag:资源的匹配信息
-
-cache-control 优先级大于 pragma 和 expires 同时设置，pragma 优先级高
-
-### cache-control
-
-组合的形式还能做一些浏览器行为不一致的兼容处理。例如在 IE 我们可以使用 no-cache 来防止点击“后退”按钮时页面资源从缓存加载，但在 Firefox 中，需要使用 no-store 才能防止历史回退时浏览器不从缓存中去读取数据，故我们在响应报头加上如下组合值即可做兼容处理：
-
-Cache-Control: no-cache, no-store
-
-### 缓存校验字段
-
-为了让客户端与服务器之间能实现缓存文件是否更新的验证、提升缓存的复用率，Http1.1 新增了几个首部字段来做这件事情。
-
-1.  Last-Modified：客户端会为资源标记上该信息，下次再次请求时，会把该信息附带在请求报文中一并带给服务器去做检查，若传递的时间值与服务器上该资源最终修改时间是一致的，则说明该资源没有被修改过，直接返回 304 状态码即
-    ⑴ If-Modified-Since: Last-Modified-value：该请求首部告诉服务器如果客户端传来的最后修改时间与服务器上的一致，则直接回送 304 和响应报头即可。
-    ⑵ If-Unmodified-Since: Last-Modified-value
-    告诉服务器，若 Last-Modified 没有匹配上（资源在服务端的最后更新时间改变了），则应当返回 412(Precondition Failed) 状态码给客户端。
-    Last-Modified 说好却也不是特别好，因为如果在服务器上，一个资源被修改了，但其实际内容根本没发生改变，会因为 Last-Modified 时间匹配不上而返回了整个实体给客户端（即使客户端缓存里有个一模一样的资源）
-2.  ETag
-    为了解决上述 Last-Modified 可能存在的不准确的问题，Http1.1 还推出了 ETag 实体首部字段。
-    ⑴ If-None-Match: ETag-value
-    告诉服务端如果 ETag 没匹配上需要重发资源数据，否则直接回送 304 和响应报头即可
-    ⑵ If-Match: ETag-value
-
-告诉服务器如果没有匹配到 ETag，或者收到了“\*”值而当前并没有该资源实体，则应当返回 412(Precondition Failed) 状态码给客户端。否则服务器直接忽略该字段。
-If-Match 的一个应用场景是，客户端走 PUT 方法向服务端请求上传/更替资源，这时候可以通过 If-Match 传递资源的 ETag。如果 Last-Modified 和 ETag 同时被使用，则要求它们的验证都必须通过才会返回 304，若其中某个验证没通过，则服务器会按常规返回资源实体及 200 状态码。当我们在一个项目上做 http 缓存的应用时，我们还是会把上述提及的大多数首部字段均使用上，例如使用 Expires 来兼容旧的浏览器，使用 Cache-Control 来更精准地利用缓存，然后开启 ETag 跟 Last-Modified 功能进一步复用缓存减少流量。
-
-1.  Vary
-    “vary”本身是“变化”的意思，而在 http 报文中更趋于是“vary from”（与。。。不同）的含义，它表示服务端会以什么基准字段来区分、筛选缓存版本。
-    Vary: User-Agent 便能知会代理服务器需要以 User-Agent 这个请求首部字段来区别缓存版本，防止传递给客户端的缓存不正确。
-2.  Date 和 Age
-    HTTP 并没有提供某种方法来帮用户区分其收到的资源是否命中了代理服务器的缓存，但在客户端我们可以通过计算响应报文中的 Date 和 Age 字段来得到答案。
-    Date 理所当然是原服务器发送该资源响应报文的时间（GMT 格式），如果你发现 Date 的时间与“当前时间”差别较大，或者连续 F5 刷新发现 Date 的值都没变化，则说明你当前请求是命中了代理服务器的缓存。
-
-百度首页的资源在刷新后实际没有发送任何请求，因为 Cache-Control 定义的缓存时间段还没到期。在 Chrome 中即使没发送请求，但只要从本地的缓存中取，都会在 Network 面板显示一条状态为 200 且注明“from cache”的伪请求，其 Response 内容只是上一次回包留下的数据。
-
-## web 缓存
-
-### 浏览器端缓存
-
-浏览器缓存根据一套与服务器约定的规则进行工作，在同一个会话过程中会检查一次并确定缓存的副本足够新。如果你浏览过程中，比如前进或后退，访问到同一个图片，这些图片可以从浏览器缓存中调出而即时显现。
-
-### Web 应用层缓存
-
-http://www.alloyteam.com/2012/03/web-cache-2-browser-cache/
-应用层缓存指的是从代码层面上，通过代码逻辑和缓存策略，实现对数据，页面，图片等资源的缓存，可以根据实际情况选择将数据存在文件系统或者内存中，减少数据库查询或者读写瓶颈，提高响应效率。
-
-### Web 缓存的工作原理
-
-所有的缓存都是基于一套规则来帮助他们决定什么时候使用缓存中的副本提供服务（假设有副本可用的情况下，未被销毁回收或者未被删除修改）。这些规则有的在协议中有定义（如 HTTP 协议 1.0 和 1.1），有的则是由缓存的管理员设置（如 DBA、浏览器的用户、代理服务器管理员或者应用开发者）
-
-### 浏览器端的缓存规则
-
-对于浏览器端的缓存来讲，这些规则是在 HTTP 协议头和 HTML 页面的 Meta 标签中定义的。他们分别从新鲜度和校验值两个维度来规定浏览器是否可以直接使用缓存中的副本，还是需要去源服务器获取更新的版本。
-
-新鲜度（过期机制）：也就是缓存副本有效期。一个缓存副本必须满足以下条件，浏览器会认为它是有效的，足够新的：
-
-含有完整的过期时间控制头信息（HTTP 协议报头），并且仍在有效期内；浏览器已经使用过这个缓存副本，并且在一个会话中已经检查过新鲜度；满足以上两个情况的一种，浏览器会直接从缓存中获取副本并渲染。
-
-校验值（验证机制）：服务器返回资源的时候有时在控制头信息带上这个资源的实体标签 Etag（Entity Tag），它可以用来作为浏览器再次请求过程的校验标识。如过发现校验标识不匹配，说明资源已经被修改或过期，浏览器需求重新获取资源内容。
-
-### 缓存控制：
-
-1.  使用 HTML Meta 标签
-2.  使用缓存有关的 HTTP 消息报头
-    ### 如何构建可缓存站点
-    减少对 Cookie 的依赖过多的使用 Cookie 会大大增加 HTTP 请求的负担，每次 GET 或 POST 请求，都会把 Cookie 都带上，增加网络传输流量，导致增长交互时间；同时 Cache 是很难被缓存的，应该尽量少使用，或者这在动态页面上使用。
-
-### 状态码
-
-1 1xx 消息，接到请求，继续处理。
-2 2xx 成功
-3 3xx 重定向
-4 4xx 客户端错误
-5 5xx 服务器错误
 
 ## promise
 
