@@ -4,11 +4,11 @@
 
 需要设置 显示终止条件，要不然就会栈溢出。其实，对一些如树的递归结构，递归算法是又自然又好用
 
-* `本质`
+- `本质`
 
 > 递归的本质和栈数据的存取很相似了，都是先进去，但是往往最后处理！再者对于递归函数的局部变量的存储是按照栈的方式去存的，对于每一层的递归函数在栈中都保存了本层函数的局部变量，一边该层递归函数结束时能够保存原来该层的数据！
 
-* `原理`
+- `原理`
 
   1.　每一次函数调用都会有一次返回．当程序流执行到某一级递归的结尾处时，它会转移到前一级递归继续执行．
 
@@ -22,7 +22,7 @@
 
   6.　递归函数中必须包含可以终止递归调用的语句．
 
-* `使用尾递归优化 替代 递归算法`
+- `使用尾递归优化 替代 递归算法`
 
 ##### `尾递归优化(tail calls)`
 
@@ -159,7 +159,7 @@ function addOne(a){
 
 ## 对象序列化 JSON.stringify
 
-* 定义在函数的 prototype 上的属性不会被序列化,
+- 定义在函数的 prototype 上的属性不会被序列化,
 
 ## 模块
 
@@ -331,7 +331,7 @@ bar
 
 > 浅拷贝只复制指向某个对象的指针，而不复制对象本身，新旧对象还是共享同一块内存。但深拷贝会另外创造一个一模一样的对象，新对象跟原对象不共享内存，修改新对象不会改到原对象。
 
-* `深拷贝实现方式`
+- `深拷贝实现方式`
 
 1.  Object.assign，ES6 的新函数，可以帮助我们达成跟上面一样的功能。缺点 不能深拷贝嵌套层次很深的额对象。
 
@@ -495,6 +495,8 @@ error 1. 在 script 标签增加 crossorigin 属性
 
 #### 使用 cors 时，要携带 cookie 的情况 后端要设置什么 做相应？？
 
+> Access-Control-Allow-Credentials
+
 # Promise 和 setTimeout 谁先执行
 
 # JS 的执行机制
@@ -616,17 +618,22 @@ then3
 
 ## `客户端存储`
 
-### cookie sessionStorage localStorage
-
 ### 4.浏览器本地存储中 cookie 和 localStorage 有什么区别？ localStorage 如何存储删除数据。
 
 cookie :最大 4k,过期时间之前有效。在服务端与客户端来回传递，
+
+### Web Storage
+
 localStorage:5M，持久数据。不传到服务端，
 sessionStorage:5M,当前会话有效。
 localStorage 提供了几个方法: 1.存储:localStorage.setItem(key,value)如果 key 存在时，更新 value 2.获取 localStorage.getItem(key)如果 key 不存在返回 null 3.删除 localStorage.removeItem(key)一旦删除，key 对应的数据将会全部删除 4.全部清除 localStorage.clear() 使用 removeItem 逐个删除太麻烦，可以使用 clear,
 
 需要注意的是，不是什么数据都适合放在 Cookie、localStorage 和 sessionStorage 中的。使用它们的时候，需要时刻注意是否有代码存在 XSS 注入的风险。因为只要打开控制台，你就随意修改它们的值，也就是说如果你的网站中有 XSS 的风险，它们就能对你的 localStorage 肆意妄为。所以千万不要用它们存储你系统中的敏感数据。
 
-### indexDB
+### indexDB:存储大量结构化 数据
+
+```
+window.indexDB.open('name')
+```
 
 ### 本地离线存储

@@ -107,3 +107,5 @@ http://www.alloyteam.com/2012/03/web-cache-2-browser-cache/
 3 3xx 重定向
 4 4xx 客户端错误
 5 5xx 服务器错误
+
+## url 输入以后 经过的 过程？
