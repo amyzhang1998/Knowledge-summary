@@ -637,3 +637,15 @@ window.indexDB.open('name')
 ```
 
 ### 本地离线存储
+
+## prerender
+
+## 浏览器对象模型（BOM）
+
+2.1 window 对象
+2.2 DOM（document）相关对象
+2.3 frames 对象
+2.4 navigator 对象
+2.5 history 对象
+2.6 location 对象
+2.7 screen 对象
