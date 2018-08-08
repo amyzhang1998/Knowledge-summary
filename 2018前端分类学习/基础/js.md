@@ -649,3 +649,23 @@ window.indexDB.open('name')
 2.5 history 对象
 2.6 location 对象
 2.7 screen 对象
+
+# async await
+
+async 函数 可以被翻译成 Promise.resolve().then(function(){})
+
+```
+async function test(){
+    const a =1;
+    await this.asyncFun()
+}
+
+---> 翻译成
+
+function test(){
+    return Promise.resolve().then(function(){
+        const a =1;
+        return this.asyncFun().then()
+    })
+}
+```
