@@ -12,3 +12,10 @@
 ## tree-shaking
 
 ## scope-hoist(作用域提升 优化)
+
+## treeShaking
+
+如何判断一个库是不是 可以 treeShaking
+https://github.com/Rich-Harris/agadoo
+
+## rollup.js
