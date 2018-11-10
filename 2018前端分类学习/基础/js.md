@@ -165,7 +165,8 @@ function addOne(a){
 
 #### js 模块化 AMD CMD commonJs 规范以及 ES6 的模块化
 
-CommonJS 的核心思想就是通过 require 方法来同步加载所要依赖的其他模块，然后通过 exports 或者 module.exports 来导出需要暴露的接口。。AMD 规范则是非同步加载模块，允许指定回调函数。而 AMD 规范的实现，就是大名鼎鼎的 require.js 了
+CommonJS 的核心思想就是通过 require 方法来同步加载所要依赖的其他模块，然后通过 exports 或者 module.exports 来导出需要暴露的接口。。
+AMD 规范则是非同步加载模块，允许指定回调函数。而 AMD 规范的实现，就是大名鼎鼎的 require.js 了
 
 1.  require([module], callback)
 2.  define(id, [depends], callback)

@@ -49,6 +49,8 @@ callback(element,index)
 
 #### polyfill filter;
 
+## Array.splice(start[, deleteCount[, item1[, item2[, ...]]]])
+
 ## Array.every(callback[,thisArg])只要有一个值返回了 false ,后面的都不会执行。
 
 ## Array.findIndex(callback[,thisArg])返回第一个符合元素的下标，没有符合的就返回-1
@@ -58,19 +60,23 @@ callback(element,index)
 ## Array.some(callback[,thisArg]) 如果有符合的元素就返回 true,否则返回 false;
 
 ## Array.incluedes(searchElement[,fromIndex])如果有符合的元素就返回 true,否则返回 false;
+
 ## Array.fill(value[,start[,end]]) 填充新值，会修改原数组。
+
 ## Array.from (arrayLike[,mapFn[,thisArg]])从类数组或可迭代对象中创建一个新的 数组实例
 
 ```
 Array.from('foo') // ['f','o','o']
 Array.from(new Set(['foo',window]))  // ['foo',window]
 var m = new Map([[1, 2], [2, 4], [4, 8]]);
-Array.from(m); 
+Array.from(m);
 // [[1, 2], [2, 4], [4, 8]]
 Array.from({length: 5}, (v, i) => i);
 // [0, 1, 2, 3, 4]
 ```
-> 
+
+>
+
 ## Array.of() 创建新的数组
 
 ```
@@ -86,7 +92,6 @@ if(!Array.of){
     }
 }
 ```
-
 
 # in 操作符
 

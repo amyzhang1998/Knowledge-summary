@@ -204,7 +204,7 @@ if (typeof mixins[0] == 'function') {
 return handleClass(mixins[0], []);
 } else {
 return target => {
-return handleClass(target,mixins)  
+return handleClass(target,mixins)
 };}}
 @minxin(PureComponent,Theme)
 > ```
@@ -356,3 +356,12 @@ https://zhuanlan.zhihu.com/p/37095662
 ## react 合成事件
 
 DOM 事件代理系统：1）基于选择器的；2）基于 virtual-dom 的
+
+## React 新的 api
+
+### React.createContext(defaultValue) 16.3.0 (一个稳定好用的依赖注入官方 api)
+
+mycontext = React.createContext(defaultValue)
+1,mycontext.provide
+2, mycontext.consumer
+3,class.contextType = mycontext
