@@ -1,5 +1,8 @@
 ## webpack
 
+code-spliing
+https://segmentfault.com/a/1190000011435407
+
 1. webpack 打包的整个过程？
    http://taobaofed.org/blog/2016/09/09/webpack-flow/
 
@@ -69,10 +72,6 @@ webpack ,提供两个资源就是 compiler 和 compilation 对象
 2， 指定一个绑定到 webpack 事件钩子，compiler.hooks.compile.takpAsync
 3,使用 webpack 提供的 webpack api 操作构建结果。 compilation.addModule()
 
-### webpack 整个生命周期，loader 和 plugin 有什么区别
-
-webpack 和 gulp 的优缺点
-
 3. 如何实现分模块打包（多入口）？
    使用多入口配合 commonChunkPlugin
    { 'mian':'','user':['ddd']}
@@ -99,4 +98,10 @@ webpack 和 gulp 的优缺点
    compiler.hooks.emit.tapAsync('FileListPlugin', (compilation, callback) => {}
 
 打包时 Hash 码是怎么生成的
-随机值存在一样的情况，如何避免
+
+7. 随机值存在一样的情况，如何避免;
+   使用 chunkhash
+
+### webpack 整个生命周期，loader 和 plugin 有什么区别
+
+webpack 和 gulp 的优缺点

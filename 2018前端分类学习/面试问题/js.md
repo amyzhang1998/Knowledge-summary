@@ -36,3 +36,23 @@ without block the ui and making the browser unresponsive ,the solution is asynch
 1， react-router 怎么实现路由切换
 2， react-router 里的<Link>标签和<a>标签有什么区别
 3， <a>标签默认事件禁掉之后做了什么才实现了跳转
+
+https://github.com/stephentian/33-js-concepts
+https://juejin.im/post/5b002766518825429d1f90bc
+https://segmentfault.com/a/1190000014854793
+https://zhuanlan.zhihu.com/p/38793240
+https://zhuanlan.zhihu.com/p/38220426
+https://zhuanlan.zhihu.com/p/36810237
+https://zhuanlan.zhihu.com/p/36521539
+https://blog.csdn.net/qq_37746973/article/details/78662177
+https://juejin.im/entry/5b4d4721f265da0f926b78c8
+https://segmentfault.com/a/1190000008782645
+https://segmentfault.com/q/1010000000211442
+https://segmentfault.com/a/1190000007546512
+https://juejin.im/post/5b2a186cf265da596d04a648
+https://www.jianshu.com/p/208c02c9dd1d
+http://www.voidcn.com/article/p-dzfhuzar-bqu.html
+http://efe.baidu.com/blog/the-inner-workings-of-virtual-dom/
+https://oychao.github.io/2017/09/25/react/16_transaction/
+https://yanyinhong.github.io/2017/05/05/How-does-react-work-when-setState/
+https://juejin.im/entry/5912bb9544d904007b0384f1
