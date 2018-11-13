@@ -56,3 +56,5 @@ http://efe.baidu.com/blog/the-inner-workings-of-virtual-dom/
 https://oychao.github.io/2017/09/25/react/16_transaction/
 https://yanyinhong.github.io/2017/05/05/How-does-react-work-when-setState/
 https://juejin.im/entry/5912bb9544d904007b0384f1
+http://front-ender.me/react/react-source-code-render.html
+http://front-ender.me/react/react-transaction.html
