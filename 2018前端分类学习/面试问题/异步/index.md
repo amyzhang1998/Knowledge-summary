@@ -1,5 +1,12 @@
 ## js 异步解决方案
 
+1. async await 缺点：
+ 要区分 await的异步函数之前是否有 依赖，是否需要串行执行。要不然会引起 阻塞
+
+2. promise 缺点：
+1）、无法取消Promise，一旦新建它就会立即执行，无法中途取消。
+2）、如果不设置回调函数，Promise内部抛出的错误，不会反应到外部。
+
 1，JS 异步解决方案的发展历程以及优缺点
 2，对 async、await 的理解，内部原理
 3， 介绍下 Promise，内部实现
@@ -24,3 +31,7 @@ Promise 有没有解决异步的问题（promise 链是真正强大的地方）
 Promise 和 setTimeout 的区别（Event Loop）
 进程和线程的区别（一个 node 实例就是一个进程，node 是单线程，通过事件循环来实现异步
 ）
+
+异步请求，低版本 fetch 如何低版本适配
+1，pollyfil
+

@@ -103,7 +103,6 @@ import { Button } from 'antd'，打包的时候只打包 button，分模块加�
 
 使用 import 时，webpack 对 node_modules 里的依赖会做什么
 
-JS 异步解决方案的发展历程以及优缺点
 
 Http 报文的请求会有几个部分
 
@@ -128,9 +127,7 @@ WebView 和原生是如何通信
 跨域怎么解决，有没有使用过 Apache 等方案
 
 今日头条
-对 async、await 的理解，内部原理
 
-介绍下 Promise，内部实现
 
 清除浮动
 
@@ -193,7 +190,6 @@ RN 为什么能在原生中绘制成原生组件（bundle.js）
 
 如何设计一个 localStorage，保证数据的实效性
 
-如何设计 Promise.all()
 
 介绍高阶组件
 
@@ -212,7 +208,6 @@ call、apply、bind 的区别
 
 防抖和节流的区别
 
-介绍各种异步方案
 
 react 生命周期
 
@@ -259,12 +254,6 @@ Ajax 发生跨域要设置什么（前端）
 
 xsrf 跨域攻击的安全性问题怎么防范
 
-使用 Async 会注意哪些东西
-
-Async 里面有多个 await 请求，可以怎么优化（请求是否有依赖）
-
-Promise 和 Async 处理失败的时候有什么区别
-
 react 生命周期，常用的生命周期
 
 对应的生命周期做什么事
@@ -282,12 +271,16 @@ React 的事件机制（绑定一个事件到一个组件上）
 前端开发中用到哪些设计模式
 
 React/Redux 中哪些功能用到了哪些设计模式
+redux：中介者模式，观察者模式
+react : 策略模式，适配器模式
 
 JS 变量类型分为几种，区别是什么
 
 JS 里垃圾回收机制是什么，常用的是哪种，怎么处理的
+标记清除法---从根节点开始查找
 
 一般怎么组织 CSS（Webpack）
+用 Webpack 打包 CSS 相比使用 CSS 默认的 import 有明显的优势，这是因为它可以为客户端消除头部请求以及缓慢的加载时间。
 
 饿了么
 小程序里面开页面最多多少
@@ -319,16 +312,34 @@ div 垂直水平居中（flex、绝对定位）
 上下固定，中间滚动布局如何实现
 
 [1, 2, 3, 4, 5]变成[1, 2, 3, a, b, 5]
+a.splice(3,1,'a','b')
 
 取数组的最大值（ES5、ES6）
+Math.max.apply(null,[1,2,3])
+Math.max(...[1,2,3])
 
 apply 和 call 的区别
 
 ES5 和 ES6 有什么区别
 
 some、every、find、filter、map、forEach 有什么区别
+find:undefined;
+every/some:true,false
 
 上述数组随机取数，每次返回的值都不一样
+var arr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+var result = [];
+
+var ranNum = 5;
+
+for (var i = 0; i < ranNum; i++) {
+
+var ran = Math.floor(Math.random() * arr.length);
+
+result.push(arr.splice(ran, 1)[0]);
+
+};
 
 如何找 0-5 的随机数，95-99 呢
 
@@ -353,21 +364,12 @@ some、every、find、filter、map、forEach 有什么区别
 
 手写数组扁平化函数
 
-介绍下 Promise 的用途和性质
-
-Promise 和 Callback 有什么区别
-
 React 生命周期
 
 两道手写算法题
 
 喜马拉雅
 ES6 新的特性
-
-介绍 Promise
-
-Promise 有几个状态
-
 说一下闭包
 
 React 的生命周期
@@ -384,7 +386,6 @@ React16.3 对生命周期的改变
 
 父子组件之间如何通信
 
-Redux 怎么实现属性传递，介绍下原理
 
 React-Router 版本号
 
@@ -404,7 +405,6 @@ HTTPS 怎么建立安全通道
 
 用户体验做过什么优化
 
-对 PWA 有什么了解
 
 对安全有什么了解
 
@@ -467,9 +467,7 @@ base64 为什么能提升性能，缺点
 
 介绍 koa2
 
-Promise 如何实现的
 
-异步请求，低版本 fetch 如何低版本适配
 
 ajax 如何处理跨域
 
@@ -481,9 +479,6 @@ jsonp 为什么不支持 post 方法
 
 React 使用过的一些组件
 
-介绍 Immuable
-
-介绍下 redux 整个流程原理
 
 介绍原型链
 
@@ -799,16 +794,6 @@ react 的理念是什么（拿函数式编程来做页面渲染）
 
 JS 是什么范式语言(面向对象还是函数式编程)
 ES6 使用的语法
-
-Promise 和 async/await 和 callback 的区别
-
-Promise 有没有解决异步的问题（promise 链是真正强大的地方）
-
-Promise 和 setTimeout 的区别（Event Loop）
-
-进程和线程的区别（一个 node 实例就是一个进程，node 是单线程，通过事件循环来实现异步
-
-）
 
 介绍下 DFS 深度优先
 

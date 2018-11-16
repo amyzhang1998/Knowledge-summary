@@ -38,9 +38,18 @@ getSnapshotBeforeUpdate()
 
 ### 事件代理
 
-1，介绍事件代理以及优缺点
+1. 介绍事件代理以及优缺点
+    缺点：1.事件委托基于冒泡，对于onfoucs和onblur等事件不支持
+        2.层级过多，冒泡过程中，可能会被某层阻止掉（建议就近委托）
+
 2，React 组件中怎么做事件代理
-3， React 组件事件代理的原理
+3. React 组件事件代理的原理
+   ：在根节点document上为每种事件添加唯一的Listener，然后通过事件的target找到真实的触发元素。这样从触发元素到顶层节点之间的所有节点如果有绑定这个事件，React都会触发对应的事件处理函数。这就是所谓的React模拟事件系统。
+
+    （1）使用事件委托技术进行事件代理，React 组件上声明的事件最终都转化为 DOM 原生事件，绑定到了 document 这个 DOM 节点上。从而减少了内存开销。
+  （2）自身实现了一套事件冒泡机制，以队列形式，从触发事件的组件向父组件回溯，调用在 JSX 中绑定的 callback。因此我们也没法用     event.stopPropagation() 来停止事件传播，应该使用 React 定义的 event.preventDefault()。
+  （3）React 有一套自己的合成事件 SyntheticEvent，而不是单纯的使用 DOM 原生事件，但二者可以平滑转化。
+  （4）React 使用对象池来管理合成事件对象的创建和销毁，这样减少了垃圾的生成和新对象内存的分配，大大提高了性能。
 
 ### vdom
 
@@ -76,7 +85,6 @@ Emit 事件怎么发，需要引入什么
 其中有几个 name 不存在，通过异步接口获取，如何做
 渲染的时候 key 给什么值，可以使用 index 吗，用 id 好还是 index 好
 对 React 看法，有没有遇到一些坑
-对闭包的看法，为什么要用闭包
 React 生命周期
 React 的生命周期
 componentWillReceiveProps 的触发条件是什么
